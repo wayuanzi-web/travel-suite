@@ -1,0 +1,560 @@
+[
+ {
+  "z": "琉森",
+  "days": [
+   1,
+   2
+  ],
+  "lat": 47.0517,
+  "lon": 8.3059,
+  "list": [
+   {
+    "n": "Bündnerland",
+    "r": 4.6,
+    "ct": 1409,
+    "pl": 2,
+    "lat": 47.05283,
+    "lon": 8.30611,
+    "pid": "ChIJ3a_NlF37j0cRzbBke_rRnVk",
+    "note": "Capuns恩加丁菜,在地人推"
+   },
+   {
+    "n": "Mill'Feuille",
+    "r": 4.4,
+    "ct": 2483,
+    "pl": 2,
+    "lat": 47.05182,
+    "lon": 8.30319,
+    "pid": "ChIJt0dBxp_7j0cRhd8rR_lGDwg",
+    "note": "河畔早午餐鬆餅"
+   },
+   {
+    "n": "Stadtkeller(民俗秀)",
+    "r": 4.4,
+    "ct": 1693,
+    "pl": 2,
+    "lat": 47.05295,
+    "lon": 8.30721,
+    "pid": "ChIJCST1xJ77j0cR9NplzOObXuI",
+    "note": "晚餐配瑞士民俗表演,需訂位"
+   },
+   {
+    "n": "Restaurant Wey",
+    "r": 4.9,
+    "ct": 328,
+    "pl": 2,
+    "lat": 47.05647,
+    "lon": 8.31275,
+    "pid": "ChIJh6QMRtT7j0cRXcduWQKIPgI",
+    "note": "石板燒牛排,家族經營"
+   },
+   {
+    "n": "Old Swiss House",
+    "r": 4.5,
+    "ct": 1504,
+    "pl": 4,
+    "lat": 47.05734,
+    "lon": 8.31113,
+    "pid": "ChIJL0QkDZv7j0cRanuGVuNd_dY",
+    "note": "1860年老屋,桌邊現做炸肉排,高價"
+   }
+  ]
+ },
+ {
+  "z": "因特拉肯",
+  "days": [
+   3,
+   4
+  ],
+  "lat": 46.687,
+  "lon": 7.86,
+  "list": [
+   {
+    "n": "Hüsi Bierhaus",
+    "r": 4.5,
+    "ct": 2637,
+    "pl": 2,
+    "lat": 46.68617,
+    "lon": 7.85462,
+    "pid": "ChIJbb-8EJqkj0cRaTZzUz6bnsY",
+    "note": "豬腳肋排啤酒,⚠️週二休"
+   },
+   {
+    "n": "Hopplá Bistro(匈牙利)",
+    "r": 4.8,
+    "ct": 696,
+    "pl": 2,
+    "lat": 46.68287,
+    "lon": 7.85962,
+    "pid": "ChIJhRz9zYSlj0cR7q0E7IkD7Qg",
+    "note": "家庭式牛肉燉,小店建議訂位,⚠️週二休"
+   },
+   {
+    "n": "Afghan Central(清真)",
+    "r": 4.8,
+    "ct": 291,
+    "pl": 2,
+    "lat": 46.68384,
+    "lon": 7.85711,
+    "pid": "ChIJfwIk0k6lj0cR625RVIYRuag",
+    "note": "咖哩米食,長輩友善"
+   },
+   {
+    "n": "Radius(米其林)",
+    "r": 4.7,
+    "ct": 116,
+    "pl": 4,
+    "lat": 46.6869,
+    "lon": 7.85785,
+    "pid": "ChIJT3zLn5Glj0cRmwdNmQhKYe8",
+    "note": "50km食材圈概念,⚠️週日一休,晚餐限定"
+   },
+   {
+    "n": "Des Alpes",
+    "r": 4.1,
+    "ct": 557,
+    "pl": 2,
+    "lat": 46.68792,
+    "lon": 7.86078,
+    "pid": "ChIJt_1y6-elj0cRY9Wgao31t_4",
+    "note": "少女峰 Jungfraujoch夕陽景觀座"
+   }
+  ]
+ },
+ {
+  "z": "瀑布鎮Lauterbrunnen",
+  "days": [
+   4
+  ],
+  "lat": 46.5936,
+  "lon": 7.9081,
+  "list": [
+   {
+    "n": "Weidstübli",
+    "r": 4.5,
+    "ct": 1384,
+    "pl": 2,
+    "lat": 46.58874,
+    "lon": 7.90889,
+    "pid": "ChIJF3zsgUqgj0cRucbMgnQGHUg",
+    "note": "阿爾卑斯通心麵神店,⚠️週一二休(7/28二不開!)"
+   },
+   {
+    "n": "Oberland",
+    "r": 4.3,
+    "ct": 931,
+    "pl": 2,
+    "lat": 46.59562,
+    "lon": 7.90721,
+    "pid": "ChIJkUTSKbShj0cRHOIJKHKzwkc",
+    "note": "Rösti好評,每日營業"
+   },
+   {
+    "n": "Schützen",
+    "r": 4,
+    "ct": 961,
+    "pl": 2,
+    "lat": 46.59489,
+    "lon": 7.90732,
+    "pid": "ChIJ23Mg_5Ohj0cRXvQ-2cmvhEU",
+    "note": "每日07:30-22:00最保險"
+   },
+   {
+    "n": "The Deck(Wengen)",
+    "r": 4.7,
+    "ct": 237,
+    "pl": 3,
+    "lat": 46.60821,
+    "lon": 7.92098,
+    "pid": "ChIJJzT-aXShj0cRhprzkvW6CYM",
+    "note": "下山經Wengen時的景觀選擇"
+   }
+  ]
+ },
+ {
+  "z": "格林德瓦",
+  "days": [
+   5
+  ],
+  "lat": 46.6244,
+  "lon": 8.039,
+  "list": [
+   {
+    "n": "BaseCamp",
+    "r": 4.6,
+    "ct": 567,
+    "pl": 2,
+    "lat": 46.6235,
+    "lon": 8.04081,
+    "pid": "ChIJndN-yYObj0cRn7TJZP2WN-0",
+    "note": "漢堡bao飽足,上菜快,艾格峰露台"
+   },
+   {
+    "n": "Barrys",
+    "r": 4.2,
+    "ct": 2646,
+    "pl": 3,
+    "lat": 46.62348,
+    "lon": 8.03811,
+    "pid": "ChIJN4PJJ_6bj0cRP9y69-gMsTM",
+    "note": "Rösti巨量,建議訂位"
+   },
+   {
+    "n": "Belvedere",
+    "r": 4.6,
+    "ct": 195,
+    "pl": 3,
+    "lat": 46.62519,
+    "lon": 8.02949,
+    "pid": "ChIJOcSSC1SZj0cRARREk9XjS2w",
+    "note": "僅18:30-21:00晚餐"
+   },
+   {
+    "n": "Fiescherblick",
+    "r": 4.9,
+    "ct": 553,
+    "pl": 3,
+    "lat": 46.62532,
+    "lon": 8.04599,
+    "pid": "ChIJ89MgKfqbj0cRW9mn5EUQ0U4",
+    "note": "米其林一星水準,犒賞級"
+   },
+   {
+    "n": "C&M Café",
+    "r": 4.4,
+    "ct": 900,
+    "pl": 2,
+    "lat": 46.6241,
+    "lon": 8.0412,
+    "pid": "",
+    "note": "艾格峰景觀咖啡簡餐"
+   }
+  ]
+ },
+ {
+  "z": "策馬特",
+  "days": [
+   6,
+   7,
+   8,
+   9
+  ],
+  "lat": 46.022,
+  "lon": 7.747,
+  "list": [
+   {
+    "n": "Santa Lucia",
+    "r": 4.7,
+    "ct": 111,
+    "pl": 2,
+    "lat": 46.02423,
+    "lon": 7.74874,
+    "pid": "ChIJ16-oHkA3j0cRNBwSyP990Lo",
+    "note": "站旁義式,兒童10CHF任點"
+   },
+   {
+    "n": "Osteria Bella Italia",
+    "r": 4.6,
+    "ct": 506,
+    "pl": 2,
+    "lat": 46.02064,
+    "lon": 7.74629,
+    "pid": "ChIJ9_b3z_01j0cRumXrgk8-G8s",
+    "note": "道地義式,⚠️週一休"
+   },
+   {
+    "n": "Bazaar by CERVO",
+    "r": 4.6,
+    "ct": 364,
+    "pl": 3,
+    "lat": 46.0219,
+    "lon": 7.7544,
+    "pid": "ChIJg7DKy5Y1j0cR6plnagH7gaY",
+    "note": "中東亞洲風,對小孩超友善"
+   },
+   {
+    "n": "Potato Fine Food",
+    "r": 4.7,
+    "ct": 279,
+    "pl": 4,
+    "lat": 46.02309,
+    "lon": 7.74757,
+    "pid": "ChIJQfAZwco1j0cR5TMB6pMR0sA",
+    "note": "精緻不做作,晚餐限定⚠️週日休"
+   },
+   {
+    "n": "Chez Vrony(山上)",
+    "r": 4.8,
+    "ct": 2172,
+    "pl": 3,
+    "lat": 46.01179,
+    "lon": 7.76748,
+    "pid": "ChIJaWVfgvA1j0cRCF-bwvLcgl8",
+    "note": "Findeln山腰名店,午餐限定至17:00,配Sunnegga行程"
+   }
+  ]
+ },
+ {
+  "z": "聖莫里茲",
+  "days": [
+   9,
+   10
+  ],
+  "lat": 46.498,
+  "lon": 9.842,
+  "list": [
+   {
+    "n": "Top of the Food",
+    "r": 4.8,
+    "ct": 208,
+    "pl": 3,
+    "lat": 46.49914,
+    "lon": 9.8393,
+    "pid": "ChIJ08JnPKx9g0cRMak8uS6PRG8",
+    "note": "夫妻店義式,像去朋友家吃飯,⚠️週一休"
+   },
+   {
+    "n": "Scala",
+    "r": 4.6,
+    "ct": 104,
+    "pl": 3,
+    "lat": 46.4995,
+    "lon": 9.84123,
+    "pid": "ChIJ0xSW98F9g0cRFjghFmkUASE",
+    "note": "tapas式瑞義混合"
+   },
+   {
+    "n": "Waldhaus自家餐廳",
+    "r": 4.5,
+    "ct": 31,
+    "pl": 3,
+    "lat": 46.49709,
+    "lon": 9.84877,
+    "pid": "ChIJLRHyMSl9g0cR0sBu2OQO8Po",
+    "note": "就在住宿飯店,湖景零移動"
+   },
+   {
+    "n": "Hauser",
+    "r": 4.1,
+    "ct": 740,
+    "pl": 2,
+    "lat": 46.49749,
+    "lon": 9.8379,
+    "pid": "ChIJSfMQSEd9g0cRMdnuTW00k4Y",
+    "note": "甜點名店,正餐評價普通"
+   }
+  ]
+ },
+ {
+  "z": "庫爾(8/2午餐)",
+  "days": [
+   9
+  ],
+  "lat": 46.85,
+  "lon": 9.532,
+  "list": [
+   {
+    "n": "Hofkellerei(瑞士最老餐廳)",
+    "r": 4.7,
+    "ct": 174,
+    "pl": 3,
+    "lat": 46.8478,
+    "lon": 9.53387,
+    "pid": "ChIJ_eGAkXrHhEcRKf8dA3LaMts",
+    "note": "哥德式酒窖,距站步行8分,行李可帶"
+   },
+   {
+    "n": "Calanda",
+    "r": 4.4,
+    "ct": 1849,
+    "pl": 2,
+    "lat": 46.85079,
+    "lon": 9.53224,
+    "pid": "ChIJbVUdyHDHhEcR6xLSfgeb6xA",
+    "note": "距站近,每日營業,座位多適合帶行李"
+   },
+   {
+    "n": "Arte Povera(義式)",
+    "r": 4.8,
+    "ct": 113,
+    "pl": 2,
+    "lat": 46.84869,
+    "lon": 9.53193,
+    "pid": "ChIJubMAVXrHhEcRuy0tHAVZCYM",
+    "note": "⚠️週日休(8/2正是週日!)→改Calanda"
+   }
+  ]
+ },
+ {
+  "z": "蘇黎世老城",
+  "days": [
+   11,
+   12,
+   13
+  ],
+  "lat": 47.3725,
+  "lon": 8.5435,
+  "list": [
+   {
+    "n": "Zum Königstuhl",
+    "r": 4.9,
+    "ct": 5285,
+    "pl": 3,
+    "lat": 47.37259,
+    "lon": 8.54327,
+    "pid": "ChIJrYEEnTWhmkcRi2tZ62J1Imw",
+    "note": "⭐4.9星5千評!起司鍋+Rösti,Niederdorf"
+   },
+   {
+    "n": "Trattoria Sempre",
+    "r": 4.6,
+    "ct": 2638,
+    "pl": 2,
+    "lat": 47.37299,
+    "lon": 8.54363,
+    "pid": "ChIJ9zpt266hmkcRMtrazHLMiGE",
+    "note": "tapas式義大利,適合多人分食"
+   },
+   {
+    "n": "Santa Lucia Niederdorf",
+    "r": 4.5,
+    "ct": 3727,
+    "pl": 2,
+    "lat": 47.37218,
+    "lon": 8.54372,
+    "pid": "ChIJi7Jik6mgmkcRZeF32YkNNKc",
+    "note": "披薩義麵,不訂位也友善"
+   },
+   {
+    "n": "Swiss Chuchi",
+    "r": 4.3,
+    "ct": 7977,
+    "pl": 2,
+    "lat": 47.37316,
+    "lon": 8.54366,
+    "pid": "ChIJTfaDxqmgmkcRN_HnS0olahk",
+    "note": "起司鍋觀光名店,份量大"
+   },
+   {
+    "n": "Raclette Factory",
+    "r": 4.4,
+    "ct": 3952,
+    "pl": 2,
+    "lat": 47.37238,
+    "lon": 8.54397,
+    "pid": "ChIJV7Ch2MB0kEcRj4n140fI-_s",
+    "note": "烤起司客製,輕鬆快速"
+   },
+   {
+    "n": "Steakhouse Old Town",
+    "r": 4.3,
+    "ct": 1796,
+    "pl": 3,
+    "lat": 47.37368,
+    "lon": 8.54358,
+    "pid": "ChIJfUFnzKmgmkcRPid1nsdzKDk",
+    "note": "石板自煎牛排,青少年愛"
+   }
+  ]
+ },
+ {
+  "z": "史坦因鎮(8/5)",
+  "days": [
+   12
+  ],
+  "lat": 47.6595,
+  "lon": 8.859,
+  "list": [
+   {
+    "n": "Burg Hohenklingen(城堡)",
+    "r": 4.7,
+    "ct": 1267,
+    "pl": 2,
+    "lat": 47.66698,
+    "lon": 8.85824,
+    "pid": "ChIJ33Om28iImkcRJ7XMqqYWKFs",
+    "note": "山上城堡俯瞰萊茵河,有電梯,⚠️週一二休(8/5三OK)"
+   },
+   {
+    "n": "Rheinfels",
+    "r": 4.5,
+    "ct": 457,
+    "pl": 2,
+    "lat": 47.65883,
+    "lon": 8.85919,
+    "pid": "ChIJUY4SycqImkcRjtvjEfOkzPg",
+    "note": "河畔大魚桌邊分切"
+   },
+   {
+    "n": "Uferlos",
+    "r": 4.4,
+    "ct": 722,
+    "pl": 2,
+    "lat": 47.65991,
+    "lon": 8.85732,
+    "pid": "ChIJ46s8ocyImkcRJfhEePXpf5M",
+    "note": "河畔地中海菜+甜點強"
+   },
+   {
+    "n": "Rheingerbe",
+    "r": 4.3,
+    "ct": 537,
+    "pl": 2,
+    "lat": 47.6596,
+    "lon": 8.85775,
+    "pid": "ChIJ49eHr8yImkcRUgUb03OZIwQ",
+    "note": "河景午餐"
+   }
+  ]
+ },
+ {
+  "z": "杜拜",
+  "days": [
+   14
+  ],
+  "lat": 25.1972,
+  "lon": 55.279,
+  "list": [
+   {
+    "n": "Social House(噴泉景)",
+    "r": 4.9,
+    "ct": 16980,
+    "pl": 2,
+    "lat": 25.19615,
+    "lon": 55.27754,
+    "pid": "ChIJD5UHfYJCXz4RnIU14kEZeY4",
+    "note": "⭐4.9星1.7萬評,戶外座看哈里發塔 Burj Khalifa噴泉"
+   },
+   {
+    "n": "Table Otto",
+    "r": 4.8,
+    "ct": 1374,
+    "pl": 2,
+    "lat": 25.19787,
+    "lon": 55.27564,
+    "pid": "ChIJQV0NtXJDXz4R7Eobg75gJZI",
+    "note": "Fashion Ave,松露系"
+   },
+   {
+    "n": "Rang(印度)",
+    "r": 4.8,
+    "ct": 12194,
+    "pl": 2,
+    "lat": 25.19662,
+    "lon": 55.2781,
+    "pid": "ChIJ37P4zNBpXz4Rt-71GhjBVk4",
+    "note": "Mall 2F,烤餅咖哩"
+   },
+   {
+    "n": "FRNDS",
+    "r": 4.7,
+    "ct": 1279,
+    "pl": 3,
+    "lat": 25.19573,
+    "lon": 55.28276,
+    "pid": "ChIJf7FzoeppXz4RG-jlwrJM8DQ",
+    "note": "Mall外街邊露台"
+   }
+  ]
+ }
+]

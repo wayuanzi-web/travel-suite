@@ -1,0 +1,342 @@
+{
+ "app": {
+  "fontFamily": "'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif",
+  "background": "#EEF2F6",
+  "minHeight": "100vh",
+  "maxWidth": 520,
+  "margin": "0 auto",
+  "display": "flex",
+  "flexDirection": "column"
+ },
+ "lineBanner": {
+  "background": "#C8102E",
+  "color": "#fff",
+  "padding": "10px 14px",
+  "fontSize": 13,
+  "fontWeight": 700,
+  "lineHeight": 1.5
+ },
+ "quickBar": {
+  "display": "flex",
+  "gap": 8,
+  "padding": "10px 12px",
+  "background": "#fff",
+  "borderBottom": "1px solid #E0E7EF",
+  "position": "sticky",
+  "top": 56,
+  "zIndex": 9
+ },
+ "ttsBtn": {
+  "border": "1px solid #C9D6E4",
+  "background": "#F0F5FB",
+  "color": "#1F3864",
+  "borderRadius": 8,
+  "padding": "6px 8px",
+  "fontSize": 12,
+  "fontWeight": 800,
+  "cursor": "pointer",
+  "whiteSpace": "nowrap"
+ },
+ "quickBtn": {
+  "flex": 1,
+  "display": "flex",
+  "flexDirection": "column",
+  "alignItems": "center",
+  "justifyContent": "center",
+  "padding": "10px 0",
+  "border": "none",
+  "borderRadius": 12,
+  "background": "#F0F5FB",
+  "color": "#1F3864",
+  "cursor": "pointer",
+  "boxShadow": "0 1px 2px rgba(31,56,100,0.06)"
+ },
+ "header": {
+  "background": "linear-gradient(rgba(31,56,100,0.82), rgba(31,56,100,0.82)), url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Matterhorn_from_Domh%C3%BCtte_-_2.jpg/640px-Matterhorn_from_Domh%C3%BCtte_-_2.jpg') center 35%/cover no-repeat",
+  "color": "#fff",
+  "padding": "14px 16px 12px",
+  "position": "sticky",
+  "top": 0,
+  "zIndex": 10
+ },
+ "headerTitle": {
+  "fontSize": 17,
+  "fontWeight": 800,
+  "letterSpacing": 0.5
+ },
+ "headerSub": {
+  "fontSize": 13,
+  "opacity": 0.85,
+  "marginTop": 2,
+  "fontVariantNumeric": "tabular-nums"
+ },
+ "main": {
+  "flex": 1,
+  "padding": "12px 12px 90px"
+ },
+ "nav": {
+  "position": "fixed",
+  "bottom": 0,
+  "left": 0,
+  "right": 0,
+  "maxWidth": 520,
+  "margin": "0 auto",
+  "background": "#fff",
+  "borderTop": "1px solid #D5DDE6",
+  "display": "flex",
+  "zIndex": 20
+ },
+ "navBtn": {
+  "flex": 1,
+  "padding": "8px 0 10px",
+  "border": "none",
+  "background": "transparent",
+  "color": "#5A6B7E",
+  "cursor": "pointer"
+ },
+ "navActive": {
+  "color": "#C8102E",
+  "fontWeight": 700,
+  "borderTop": "3px solid #C8102E",
+  "marginTop": -1
+ },
+ "card": {
+  "background": "#fff",
+  "borderRadius": 10,
+  "padding": 14,
+  "marginBottom": 12,
+  "boxShadow": "0 1px 3px rgba(31,56,100,0.08)"
+ },
+ "dayNav": {
+  "display": "flex",
+  "gap": 8,
+  "marginBottom": 10
+ },
+ "arrowBtn": {
+  "flex": 1,
+  "padding": "10px 0",
+  "border": "1px solid #D5DDE6",
+  "borderRadius": 8,
+  "background": "#fff",
+  "fontSize": 14,
+  "cursor": "pointer"
+ },
+ "todayBtn": {
+  "flex": 1,
+  "padding": "10px 0",
+  "border": "none",
+  "borderRadius": 8,
+  "background": "#1F3864",
+  "color": "#fff",
+  "fontSize": 14,
+  "fontWeight": 700,
+  "cursor": "pointer"
+ },
+ "dayTitle": {
+  "borderBottom": "2px solid #C8102E",
+  "paddingBottom": 6,
+  "marginBottom": 6,
+  "fontSize": 20,
+  "fontWeight": 800,
+  "color": "#1F3864"
+ },
+ "hotel": {
+  "fontSize": 13,
+  "color": "#5A6B7E",
+  "marginTop": 4
+ },
+ "warnBox": {
+  "background": "#FFF3CD",
+  "color": "#7A5C00",
+  "padding": "8px 10px",
+  "borderRadius": 8,
+  "fontSize": 13,
+  "fontWeight": 600,
+  "marginTop": 8
+ },
+ "webcamLink": {
+  "display": "block",
+  "background": "#E7F0FA",
+  "color": "#1F3864",
+  "padding": "9px 10px",
+  "borderRadius": 8,
+  "fontSize": 14,
+  "fontWeight": 700,
+  "marginTop": 8,
+  "textDecoration": "none"
+ },
+ "timeCell": {
+  "padding": "8px 8px 8px 0",
+  "fontWeight": 800,
+  "fontSize": 14,
+  "color": "#C8102E",
+  "whiteSpace": "nowrap",
+  "verticalAlign": "top",
+  "fontVariantNumeric": "tabular-nums",
+  "width": 70
+ },
+ "planCell": {
+  "padding": "8px 0",
+  "fontSize": 14.5,
+  "lineHeight": 1.5
+ },
+ "secTitle": {
+  "fontSize": 16,
+  "fontWeight": 800,
+  "color": "#1F3864",
+  "marginBottom": 8
+ },
+ "primaryBtn": {
+  "background": "#C8102E",
+  "color": "#fff",
+  "border": "none",
+  "borderRadius": 8,
+  "padding": "10px 16px",
+  "fontSize": 15,
+  "fontWeight": 700,
+  "cursor": "pointer"
+ },
+ "ghostBtn": {
+  "background": "transparent",
+  "color": "#5A6B7E",
+  "border": "1px solid #D5DDE6",
+  "borderRadius": 8,
+  "padding": "8px 12px",
+  "fontSize": 13,
+  "cursor": "pointer",
+  "marginTop": 6
+ },
+ "input": {
+  "flex": 1,
+  "border": "1px solid #D5DDE6",
+  "borderRadius": 8,
+  "padding": "9px 10px",
+  "fontSize": 14
+ },
+ "select": {
+  "border": "1px solid #D5DDE6",
+  "borderRadius": 8,
+  "padding": "8px",
+  "fontSize": 14,
+  "background": "#fff"
+ },
+ "msgCard": {
+  "background": "#fff",
+  "borderRadius": 10,
+  "padding": "10px 14px",
+  "marginBottom": 8,
+  "boxShadow": "0 1px 2px rgba(31,56,100,0.06)"
+ },
+ "msgWho": {
+  "fontWeight": 800,
+  "color": "#1F3864",
+  "fontSize": 14
+ },
+ "msgTime": {
+  "fontSize": 12,
+  "color": "#8A97A6",
+  "marginLeft": 8
+ },
+ "ticketGrid": {
+  "display": "grid",
+  "gridTemplateColumns": "1fr 1fr",
+  "gap": 10,
+  "marginBottom": 12
+ },
+ "ticketCard": {
+  "background": "#fff",
+  "borderRadius": 10,
+  "padding": 8,
+  "textAlign": "center",
+  "boxShadow": "0 1px 3px rgba(31,56,100,0.08)"
+ },
+ "ticketImg": {
+  "width": "100%",
+  "height": 120,
+  "objectFit": "cover",
+  "borderRadius": 6,
+  "cursor": "pointer",
+  "background": "#F2F5F8"
+ },
+ "delBtn": {
+  "marginTop": 4,
+  "fontSize": 11,
+  "color": "#C8102E",
+  "background": "none",
+  "border": "none",
+  "cursor": "pointer"
+ },
+ "fullscreen": {
+  "position": "fixed",
+  "inset": 0,
+  "background": "rgba(10,20,40,0.96)",
+  "zIndex": 100,
+  "display": "flex",
+  "flexDirection": "column",
+  "alignItems": "center",
+  "justifyContent": "center",
+  "padding": 16
+ },
+ "bigPhrase": {
+  "background": "#fff",
+  "borderRadius": 14,
+  "padding": "28px 22px",
+  "textAlign": "center",
+  "maxWidth": 460
+ },
+ "phraseRow": {
+  "padding": "9px 0",
+  "borderBottom": "1px solid #E8EDF3",
+  "cursor": "pointer"
+ },
+ "wpCard": {
+  "border": "1px solid #D5DDE6",
+  "borderRadius": 8,
+  "padding": "9px 11px",
+  "marginBottom": 8,
+  "cursor": "pointer"
+ },
+ "wpActive": {
+  "border": "2px solid #C8102E",
+  "background": "#FFF7F7"
+ },
+ "wrongWay": {
+  "background": "#C8102E",
+  "color": "#fff",
+  "padding": "10px",
+  "borderRadius": 8,
+  "fontWeight": 800,
+  "fontSize": 15,
+  "marginTop": 10,
+  "animation": "pulse 1s infinite"
+ },
+ "mapsBtn": {
+  "display": "inline-block",
+  "marginTop": 12,
+  "background": "#1F3864",
+  "color": "#fff",
+  "padding": "10px 18px",
+  "borderRadius": 8,
+  "fontSize": 14,
+  "fontWeight": 700,
+  "textDecoration": "none"
+ },
+ "chipBtn": {
+  "background": "#C8102E",
+  "color": "#fff",
+  "padding": "4px 10px",
+  "borderRadius": 12,
+  "fontSize": 12.5,
+  "fontWeight": 700,
+  "textDecoration": "none"
+ },
+ "callRow": {
+  "display": "flex",
+  "justifyContent": "space-between",
+  "padding": "10px 0",
+  "borderBottom": "1px solid #E8EDF3",
+  "fontSize": 15,
+  "textDecoration": "none",
+  "color": "#1F3864"
+ }
+}

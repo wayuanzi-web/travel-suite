@@ -1,0 +1,9 @@
+{
+ "app": "swiss",
+ "version": "1.5.1",
+ "dataVersion": "1.0",
+ "build": "2026-08-03",
+ "base": "travel-hub v1 skeleton + v3.12 restored data",
+ "storage": "wang.swiss.*",
+ "note": "st2607 未動;8/8 後才加唯讀搬遷"
+}

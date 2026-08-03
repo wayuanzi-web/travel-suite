@@ -1,0 +1,67 @@
+{
+ "dataVersion": "1.0",
+ "source": "v3.12 線上版反向還原（交接文件附錄①–⑩）",
+ "extracted": "2026-08-02",
+ "files": {
+  "trip.json": {
+   "label": "TRIP 主行程16天",
+   "bytes": 31315,
+   "rawBytes": 22562
+  },
+  "navstep.json": {
+   "label": "NAVSTEP 逐步導航",
+   "bytes": 21572,
+   "rawBytes": 21099
+  },
+  "guide.json": {
+   "label": "GUIDE 逐日防呆",
+   "bytes": 6295,
+   "rawBytes": 5686
+  },
+  "sights.json": {
+   "label": "SIGHTS 景點導覽",
+   "bytes": 6374,
+   "rawBytes": 5907
+  },
+  "bk_zones.json": {
+   "label": "BK_ZONES 九城市備選餐廳",
+   "bytes": 10642,
+   "rawBytes": 6929
+  },
+  "places.json": {
+   "label": "PLACES 主要餐廳",
+   "bytes": 3849,
+   "rawBytes": 2917
+  },
+  "help.json": {
+   "label": "HELP 使用說明",
+   "bytes": 2159,
+   "rawBytes": 2058
+  },
+  "highlight.json": {
+   "label": "HIGHLIGHT 亮點標語",
+   "bytes": 1329,
+   "rawBytes": 1225
+  },
+  "styles.json": {
+   "label": "S 設計系統",
+   "bytes": 6902,
+   "rawBytes": 5074
+  }
+ },
+ "dataFixes": [
+  "help: 公告頁→天氣頁(v3.12 實況)",
+  "help: 新增工具卡條目",
+  "trip: Day13 spruengli→sprungli(線上版即有的斷鍵)",
+  "places: 補 rheinfels(線上版即有的斷鍵)",
+  "trip: 8/6 離境退稅提醒",
+  "trip: 8/8 台灣海關提醒"
+ ],
+ "merged": {
+  "from": "family-hub v2.3 資料考古(8個模組)",
+  "files": [
+   "shop.json(48伴手禮/48品牌/15TOP3/4城10店/5指南)",
+   "depart.json(退稅CH+AE/台灣海關/打包/緊急電話)"
+  ]
+ }
+}

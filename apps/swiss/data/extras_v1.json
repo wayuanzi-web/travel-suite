@@ -1,0 +1,71 @@
+{
+ "RISK3": [
+  "①7/28上山:BOB列車前後分編,只有前段去格林德瓦——上車前看車廂側電子牌",
+  "②8/2 Brig轉車只有8分鐘:下車先看藍色看板找Andermatt月台,5人跟緊不拍照",
+  "③8/8杜拜清晨:前晚沒約到大車=最大風險,睡前要到預約確認單"
+ ],
+ "WCRULE": "🚻 廁所口訣:瑞士火車上100%免費→上車先上,下車不找。車站多收費CHF1-2。免費:蘇黎世機場、多數纜車山頂站、杜拜全部。",
+ "DOCS": {
+  "driveRoot": "https://drive.google.com/drive/folders/1X3xU3-lXNQQgUIHrD-gCgMLAdD222x_m",
+  "passports": [
+   {
+    "who": "遠志",
+    "exp": "填效期"
+   },
+   {
+    "who": "妃霏",
+    "exp": "填效期"
+   },
+   {
+    "who": "紹懷",
+    "exp": "填效期"
+   },
+   {
+    "who": "熙妍",
+    "exp": "填效期"
+   },
+   {
+    "who": "奶奶",
+    "exp": "填效期"
+   }
+  ],
+  "files": [
+   {
+    "name": "🛂 護照資料夾",
+    "note": "5本(點開需登入Google)",
+    "url": "https://drive.google.com/drive/folders/1fTLaHzlzR_zTiPyqVvoDivG0WUgJy1Yy"
+   },
+   {
+    "name": "✈️ 機票資料夾",
+    "note": "MAK✱✱✱ + ES✱✱✱✱",
+    "url": "https://drive.google.com/drive/folders/1DJuB2g1WP4eH9XITdBDPHB_oork6xudo"
+   },
+   {
+    "name": "🛂 阿聯簽證資料夾",
+    "note": "UAE簽證",
+    "url": "https://drive.google.com/drive/folders/11TfD7mRII_I-i1fP2iQXmGQOtTwB9FxX"
+   },
+   {
+    "name": "🏨 飯店訂房資料夾",
+    "note": "6間確認信",
+    "url": "https://drive.google.com/drive/folders/14kC7Z0j5vLqRmxgaDgiWJQWgkdgHfe4i"
+   },
+   {
+    "name": "🚄 冰河列車資料夾",
+    "note": "292✱✱✱✱-1",
+    "url": "https://drive.google.com/drive/folders/1RHSK-GHw_i5usiC14B8Pcaey29kgKJjg"
+   },
+   {
+    "name": "🚄 黃金列車資料夾",
+    "note": "8/4蒙特勒段",
+    "url": "https://drive.google.com/drive/folders/1G8nmm5bV8xQynRR58fWUe183svfqLlsM"
+   }
+  ]
+ },
+ "PL_TXT": {
+  "1": "$ 約CHF15-25",
+  "2": "$$ 約CHF25-45",
+  "3": "$$$ 約CHF45-70",
+  "4": "$$$$ CHF70+"
+ }
+}

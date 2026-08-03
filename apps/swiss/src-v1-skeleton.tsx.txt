@@ -1,0 +1,1117 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+/* ==========================================================================
+   王家瑞士旅遊資訊站 Travel Hub v1
+   設計語彙：瑞士鐵路風格 — SBB藍白紅、時刻表字體、月台看板美學
+   資料驅動：TRIP物件 = 一次旅行；換TRIP = 換旅程（日後擴充）
+   ========================================================================== */
+
+const TRIP = {
+  name: "瑞士＋杜拜家族旅遊",
+  tz: "Europe/Zurich",
+  members: ["遠志(爸)", "妃霏(媽)", "紹懷", "熙妍", "奶奶"],
+  days: [
+    { d: "2026-07-24", title: "台北出發", city: "台北→機上", hotel: "機上過夜", plan: [
+      ["19:30","🚐 機場接送:專車到府接送往桃園機場"],["20:30","抵桃園機場，登機退稅"],["23:50","EK367起飛"]],
+      tickets: ["emirates"], webcam: null },
+    { d: "2026-07-25", eats: ["galliker","bachmann"], title: "抵達琉森", city: "蘇黎世→琉森", hotel: "歐式公園飯店 +41 41 228 90 50", plan: [
+      ["13:30","EK087抵蘇黎世，領行李"],["14:15","IR75直達琉森(62分)"],["15:30","飯店Check-in"],["16:30","舊城:卡貝爾橋、城牆"],["18:30","晚餐:Wirtshaus Galliker","galliker"],["20:00","獅子紀念碑夜景"]],
+      tickets: ["stp"], webcam: null,
+      nav: [
+        { name: "機場火車站", lat: 47.4503, lon: 8.5618, hint: "入境後跟綠色Bahn指標下2層" },
+        { name: "琉森車站", lat: 47.0502, lon: 8.3103, hint: "終點站,月台走到底出正門" },
+        { name: "歐式公園飯店", lat: 47.0489, lon: 8.3094, hint: "出正門左轉Zentralstrasse,接Murbacherstrasse,平路5-8分" },
+      ]},
+    { d: "2026-07-26", eats: ["schiff"], title: "皮拉圖斯山", city: "琉森", hotel: "歐式公園飯店", plan: [
+      ["08:00","飯店早餐(彈性日)"],["08:45","1號巴士往Kriens"],["09:30","纜車上Fräkmüntegg"],["10:00","★滑草橇2-3趟"],["11:45","Dragon Ride上山頂"],["12:00","山頂+午餐Bellevue"],["14:15","最陡齒軌下山"],["15:00","遊船回琉森"],["18:30","晚餐:Restaurant Schiff","schiff"]],
+      tickets: ["stp"], webcam: "https://www.pilatus.ch/en/discover/webcams",
+      nav: [
+        { name: "Kriens纜車站", lat: 47.0345, lon: 8.2780, hint: "巴士Kriens,Linde Pilatus站下,跟棕色指標上坡10分" },
+        { name: "Alpnachstad碼頭", lat: 46.9585, lon: 8.2705, hint: "齒軌下山出站,過馬路即碼頭" },
+      ]},
+    { d: "2026-07-27", eats: ["harderkulm","stadthaus"], title: "移動+滑翔傘", city: "琉森→因特拉肯", hotel: "Essential by Dorint +41 33 826 77 07", plan: [
+      ["07:45","早餐(固定班次日!)"],["08:30","退房拉行李赴站"],["09:06","LIX 2918次,車廂3(已訂位)"],["11:00","飯店寄放行李"],["12:30","峽谷冒險(選配)"],["15:00","圖恩湖遊船+鐘乳石洞"],["17:00","★★滑翔傘(Skywings 17:00班)"],["19:00","Harder Kulm山頂晚餐","harderkulm"]],
+      tickets: ["stp","lix"], webcam: null,
+      nav: [
+        { name: "琉森車站", lat: 47.0502, lon: 8.3103, hint: "Zentralbahn窄軌月台在大廳左側" },
+        { name: "因特拉肯東站", lat: 46.6906, lon: 7.8695, hint: "出站右轉往Rugenparkstrasse" },
+        { name: "Dorint飯店", lat: 46.6832, lon: 7.8520, hint: "步行10分平路" },
+        { name: "滑翔傘集合(Höhematte)", lat: 46.6857, lon: 7.8601, hint: "Skywings辦公室報到,詳確認信" },
+      ]},
+    { d: "2026-07-28", eats: ["taverne"], title: "少女峰+瀑布鎮", city: "因特拉肯", hotel: "Essential by Dorint", plan: [
+      ["08:00","早餐(前晚查攝影機!)"],["08:45","東站→格林德瓦Terminal"],["09:45","Eiger Express上山(訂位時段)"],["10:45","山頂:①Sphinx②冰宮③展區④雪地⑤Lindt⑥午餐"],["14:45","下山經Wengen→瀑布鎮"],["16:15","史陶巴赫+特呂梅爾巴赫瀑布"],["18:15","返因特拉肯"],["19:00","晚餐:Taverne","taverne"]],
+      tickets: ["stp","eiger"], webcam: "https://www.jungfrau.ch/en-gb/live/webcams/",
+      warn: "⚠️BOB列車前後分編:只有前段去格林德瓦,看車廂側電子牌!",
+      nav: [
+        { name: "格林德瓦Terminal", lat: 46.6234, lon: 8.0284, hint: "倒數第二站下車!纜車站直結" },
+        { name: "Lauterbrunnen瀑布鎮", lat: 46.5936, lon: 7.9081, hint: "出站沿主街直走,瀑布在正前方山壁" },
+      ]},
+    { d: "2026-07-29", eats: ["onkeltom"], title: "First冒險日", city: "因特拉肯→格林德瓦", hotel: "Bergwelt +41 33 854 88 88", plan: [
+      ["07:15","早餐(⚠️早起日)"],["08:00","東站辦SBB行李快遞→策馬特"],["09:00","火車至格林德瓦總站"],["09:45","First纜車"],["10:15","Cliff Walk→Flyer→Glider"],["13:30","山上午餐"],["14:30","Mountain Cart下山"],["17:00","Bergwelt Check-in"],["19:00","晚餐:Barry's(Onkel Tom's週三公休!)"]],
+      tickets: ["stp","first"], webcam: "https://www.jungfrau.ch/en-gb/live/webcams/",
+      warn: "⚠️行李快遞07:00-09:00收件,07:45前到櫃台",
+      nav: [
+        { name: "格林德瓦總站", lat: 46.6244, lon: 8.0343, hint: "坐到底站(非Terminal)" },
+        { name: "First纜車站", lat: 46.6260, lon: 8.0392, hint: "出站左轉主街上坡8分" },
+        { name: "Bergwelt飯店", lat: 46.6252, lon: 8.0425, hint: "主街往東,上坡車道5-7分" },
+      ]},
+    { d: "2026-07-30", eats: ["oeschinen"], title: "厄辛湖→策馬特", city: "格林德瓦→策馬特", hotel: "Colosseo公寓 +41 27 966 06 50", plan: [
+      ["07:45","早餐(輕裝日)"],["08:30","退房,火車經Spiez"],["10:30","Kandersteg纜車上厄辛湖"],["11:00","環湖+滑車+湖畔午餐","oeschinen"],["14:15","經Visp至策馬特"],["16:30","車站領快遞行李"],["17:00","公寓Check-in,Coop採買"],["18:45","公寓自炊(起司火鍋)"]],
+      tickets: ["stp"], webcam: null,
+      nav: [
+        { name: "Kandersteg站", lat: 46.4989, lon: 7.6718, hint: "跟棕色Oeschinensee指標步行12-15分" },
+        { name: "策馬特車站", lat: 46.0245, lon: 7.7491, hint: "先在站內領行李再出站!" },
+        { name: "Colosseo公寓", lat: 46.0210, lon: 7.7513, hint: "上坡10-15分,行李多搭E-taxi(站前排班)" },
+      ]},
+    { d: "2026-07-31", eats: ["whymper","walliserkanne","browncow"], title: "Gornergrat+五湖", city: "策馬特", hotel: "Colosseo公寓", plan: [
+      ["08:00","公寓早餐"],["08:45","GGB登山鐵道(站斜對面,坐右側)"],["09:30","Rotenboden下車→Riffelsee倒影"],["10:00","登頂觀景台"],["12:00","午餐:Brown Cow Pub(⚠️Walliserkanne僅3.8星已換)","browncow"],["13:45","Sunnegga纜車"],["14:15","五湖步道(長輩走一段即回)"],["18:30","📅Whymper-Stube起司火鍋","whymper"]],
+      tickets: ["stp"], webcam: "https://www.gornergrat.ch/en/pages/webcam.aspx" },
+    { d: "2026-08-01", title: "冰川天堂🇨🇭國慶", city: "策馬特", hotel: "Colosseo公寓", plan: [
+      ["08:00","早餐"],["09:00","冰川天堂纜車(村南端)"],["10:30","冰宮+Skywalk(3883m,慢行多喝水)"],["13:00","返村午餐"],["14:00","Gorner峽谷木棧道"],["17:00","SPA或休息"],["17:30","國慶日晚餐(早入座!)或自炊"]],
+      tickets: ["stp"], webcam: "https://www.matterhornparadise.ch/en/Live-Info/Webcams",
+      warn: "🇨🇭國慶日:餐廳一位難求,17:30前入座或自炊" },
+    { d: "2026-08-02", eats: ["chesaveglia"], title: "冰河列車日", city: "策馬特→聖莫里茲", hotel: "Waldhaus am See +41 81 836 60 00", plan: [
+      ["06:45","早餐盒(公寓提早退房已約)"],["07:52","MGB往安德馬特(⚠️Brig轉車09:06-09:14只有8分)"],["11:00","★冰河列車900,車廂42(已訂位)"],["13:25","抵庫爾:行李拉著逛老城午餐"],["15:00","RhB續行聖莫里茲"],["17:00","抵達,飯店接駁"],["19:00","📅Chesa Veglia晚餐","chesaveglia"]],
+      tickets: ["stp","glacier"], webcam: null,
+      warn: "⚠️全程最硬一天:Brig轉車8分鐘,5人跟緊不拍照!",
+      nav: [
+        { name: "策馬特車站", lat: 46.0245, lon: 7.7491, hint: "07:30抵站,大行李隨行" },
+        { name: "庫爾車站", lat: 46.8530, lon: 9.5290, hint: "出正門直走Bahnhofstrasse 5分入老城" },
+        { name: "Waldhaus am See", lat: 46.4936, lon: 9.8455, hint: "沿湖步行5-10分或飯店接駁" },
+      ]},
+    { d: "2026-08-03", eats: ["engiadina"], title: "聖莫里茲雙峰", city: "聖莫里茲", hotel: "Waldhaus am See", plan: [
+      ["08:00","飯店早餐"],["09:30","魔女峰Diavolezza"],["12:30","山頂午餐"],["14:30","Muottas Muragl全景"],["16:30","湖畔踏板船/精品街"],["18:30","晚餐:Engiadina恩加丁菜","engiadina"]],
+      tickets: ["stp"], webcam: "https://www.engadin.ch/en/webcams/" },
+    { d: "2026-08-04", eats: ["hiltl","zeughaus"], title: "直達蘇黎世", city: "聖莫里茲→蘇黎世", hotel: "Ruby Mimi +41 44 244 10 60", plan: [
+      ["08:00","早餐,行李請飯店送站"],["09:30","阿爾布拉遺產鐵道(車上賞景)"],["11:40","庫爾轉IC直達蘇黎世"],["13:00","飯店寄放行李,老城午餐Hiltl","hiltl"],["14:30","Uetliberg後花園"],["17:15","老城:班霍夫大道、雙教堂"],["19:00","📅Zeughauskeller晚餐","zeughaus"]],
+      tickets: ["stp"], webcam: null,
+      nav: [
+        { name: "蘇黎世HB", lat: 47.3779, lon: 8.5403, hint: "認Bahnhofstrasse出口,過橋8分" },
+        { name: "Ruby Mimi", lat: 47.3757, lon: 8.5432, hint: "Beatenplatz 4,老城平路" },
+      ]},
+    { d: "2026-08-05", eats: ["sprungli","kronenhalle"], title: "萊茵瀑布+壓軸宴", city: "蘇黎世", hotel: "Ruby Mimi", plan: [
+      ["08:00","早餐"],["08:45","火車往沙夫豪森"],["09:45","萊茵瀑布搭船登礁岩"],["12:00","史坦因鎮彩繪古鎮+午餐","rheinfels"],["15:00","返蘇黎世,Sprüngli甜點","spruengli"],["19:00","📅Kronenhalle百年名店壓軸","kronenhalle"]],
+      tickets: ["stp"], webcam: null },
+    { d: "2026-08-06", eats: ["schober"], title: "回程日", city: "蘇黎世→機上", hotel: "機上(EK086)", plan: [
+      ["08:30","悠閒早餐"],["10:00","退房寄行李,老城散步Café Schober"],["12:00","午餐Frau Gerolds"],["13:30","Lindt巧克力博物館"],["17:00","赴機場:先退稅再托運!"],["22:00","EK086起飛"]],
+      tickets: ["stp","emirates"], webcam: null,
+      warn: "退稅櫃台在Check-in 1與2之間,先蓋章再托運" },
+    { d: "2026-08-07", eats: ["arabiantea"], title: "杜拜24小時", city: "杜拜", hotel: "JW Marriott Marquis +971 4 414 0000", plan: [
+      ["06:10","抵杜拜,飯店Check-in(3房)"],["06:30","補眠"],["09:30","飯店buffet早餐"],["10:30","Dubai Marina"],["13:30","Dubai Frame"],["14:30","哈里發塔(已預約時段)"],["16:00","Dubai Mall+噴泉"],["18:30","舊城市集+晚餐:Arabian Tea House","arabiantea"],["20:00","⚠️收工回飯店:①約明晨Van②早餐盒③打包"]],
+      tickets: ["emirates","burj"], webcam: null,
+      warn: "⚠️今晚三件事:約05:15大型車(要確認單)/早餐盒/行李打包" },
+    { d: "2026-08-08", title: "返抵台北", city: "杜拜→台北", hotel: "—", plan: [
+      ["05:15","🚐 機場接送:大型Van到府接(前晚已約),往DXB"],["05:45","DXB Terminal 3報到"],["08:45","EK386起飛"],["21:20","抵桃園🏠"]],
+      tickets: ["emirates"], webcam: null },
+  ],
+  ticketMeta: {
+    stp: { name: "Swiss Travel Pass", note: "15天1等艙×5人" },
+    lix: { name: "LIX 2918次訂位", note: "7/27 車廂3 座位125,131-134" },
+    eiger: { name: "Eiger Express", note: "7/28 時段票" },
+    first: { name: "First Flyer/Glider", note: "7/29 時段票" },
+    glacier: { name: "冰河列車900", note: "8/2 車廂42 座位33-36+51" },
+    emirates: { name: "阿聯酋機票", note: "PNR: MAK✱✱✱ + ES✱✱✱✱" },
+    burj: { name: "哈里發塔", note: "8/7 14:30時段" },
+  },
+  lost: {
+    rule: "走散SOP:①原地等5分鐘②回「該城市集合點」③打電話④都不通→回飯店",
+    points: [
+      ["琉森","車站大廳售票機前"],["因特拉肯","東站大廳售票機前"],["格林德瓦","總站出口"],
+      ["策馬特","主火車站大廳"],["聖莫里茲","車站大廳"],["蘇黎世","HB大廳中央天使雕像下"],
+      ["少女峰山頂","Sphinx觀景台入口"],["杜拜","飯店大廳"],
+    ],
+    emergency: [["歐洲緊急","112"],["山難救援Rega","1414"],["駐瑞士代表處急難","+41 79 345 2919"],["杜拜緊急","999"],["駐杜拜急難","+971 50 645 0303"]],
+  },
+  phrases: [
+    { cat: "🚉 車站交通", items: [
+      ["這班車去___嗎?","Geht dieser Zug nach ___?","Does this train go to ___?"],
+      ["月台在哪裡?","Wo ist das Gleis?","Where is the platform?"],
+      ["我有Swiss Travel Pass","Ich habe einen Swiss Travel Pass","I have a Swiss Travel Pass"],
+      ["行李寄放處在哪?","Wo ist die Gepäckaufbewahrung?","Where is luggage storage?"],
+      ["出口","Ausgang","Exit"],
+      ["轉車","Umsteigen","Transfer/Change"],
+    ]},
+    { cat: "🏨 飯店", items: [
+      ["我們有訂房,姓王","Wir haben reserviert, Name Wang","We have a reservation, name Wang"],
+      ["可以寄放行李嗎?","Können wir das Gepäck lassen?","Can we leave our luggage?"],
+      ["早餐幾點開始?","Ab wann gibt es Frühstück?","What time does breakfast start?"],
+      ["可以準備早餐盒嗎?","Können Sie ein Lunchpaket vorbereiten?","Could you prepare a breakfast box?"],
+      ["請幫我叫計程車","Bitte rufen Sie ein Taxi","Please call a taxi"],
+    ]},
+    { cat: "🍽️ 餐廳", items: [
+      ["5位,謝謝","Fünf Personen, bitte","Table for five, please"],
+      ["有英文菜單嗎?","Haben Sie eine englische Karte?","Do you have an English menu?"],
+      ["不要太鹹","Nicht zu salzig, bitte","Not too salty, please"],
+      ["自來水就好(免費)","Leitungswasser, bitte","Tap water, please"],
+      ["買單","Die Rechnung, bitte","The bill, please"],
+      ["可以刷卡嗎?","Kann ich mit Karte zahlen?","Can I pay by card?"],
+    ]},
+    { cat: "🆘 緊急醫療", items: [
+      ["請幫幫我","Bitte helfen Sie mir","Please help me"],
+      ["需要醫生","Wir brauchen einen Arzt","We need a doctor"],
+      ["藥局在哪?","Wo ist die Apotheke?","Where is the pharmacy?"],
+      ["他有高血壓","Er/Sie hat Bluthochdruck","He/She has high blood pressure"],
+      ["頭痛/頭暈(高山症)","Kopfschmerzen / Schwindel","Headache / Dizziness"],
+      ["我走失了家人","Ich habe meine Familie verloren","I lost my family"],
+    ]},
+    { cat: "🛍️ 購物識別", items: [
+      ["超市","Supermarkt (Coop/Migros)","Supermarket"],
+      ["麵包店","Bäckerei","Bakery"],
+      ["藥局(綠十字)","Apotheke","Pharmacy"],
+      ["廁所","Toilette / WC","Toilet"],
+      ["免費/收費","Gratis / Kostenpflichtig","Free / Paid"],
+      ["營業中/休息","Offen / Geschlossen","Open / Closed"],
+      ["退稅","Steuerrückerstattung (Tax Free)","Tax refund"],
+    ]},
+  ],
+};
+
+
+/* ---------- 地點註冊表:實查星等@2026/7/20,含Google Maps深層連結 ---------- */
+const PLACES = {
+  galliker:   { n:"Wirtshaus Galliker", r:4.3, ct:297,  lat:47.05095, lon:8.3008,  pid:"ChIJOUEQRXX7j0cRqMZCd6BhTOc", note:"週日一公休;7/25(六)OK" },
+  schiff:     { n:"Restaurant Schiff", r:4.3, ct:1737, lat:47.05167, lon:8.30529, pid:"ChIJ58X9CJ_7j0cRIutsTtrm_PM", note:"每日營業,河畔座熱門" },
+  bachmann:   { n:"Bachmann烘焙(車站店)", r:4.0, ct:503, lat:47.05030, lon:8.30931, pid:"ChIJT_OzY6L7j0cRfezOVvkoXKs", note:"05:45起,買早餐好用" },
+  harderkulm: { n:"Harder Kulm山頂餐廳", r:4.6, ct:8530, lat:46.69738, lon:7.85178, pid:"ChIJ85Cdrbukj0cRMTlaqhD6rCI", note:"評論:景觀無敵,餐點普通——衝景色去" },
+  taverne:    { n:"Restaurant Taverne", r:4.5, ct:1210, lat:46.68854, lon:7.86342, pid:"ChIJi0-RVJ6kj0cRAAsaqfctbMw", note:"建議訂位" },
+  stadthaus:  { n:"Restaurant Stadthaus(備選)", r:4.3, ct:1339, lat:46.68694, lon:7.84967, pid:"ChIJt2kTNJGkj0cRuIedAnvuPSw", note:"Unterseen老城區" },
+  onkeltom:   { n:"Onkel Tom's披薩", r:4.2, ct:1099, lat:46.62435, lon:8.04337, pid:"ChIJOcSSC1SZj0cR5NvpmUOSkGQ", note:"⚠️週三四公休!7/29(三)不開→改Barry's" },
+  whymper:    { n:"Whymper-Stube", r:4.4, ct:1137, lat:46.02031, lon:7.74615, pid:"ChIJ2_CCMdk1j0cR2c3DOnUoFH0", note:"📅務必訂位,評論一致推起司/肉鍋" },
+  walliserkanne:{ n:"Walliserkanne", r:3.8, ct:2330, lat:46.02184, lon:7.74693, pid:"ChIJt3tPy9g1j0cRfj66-rJIkZ4", note:"⚠️星等偏低(觀光店),可改Brown Cow" },
+  browncow:   { n:"Brown Cow Pub", r:4.4, ct:1367, lat:46.02081, lon:7.74656, pid:"ChIJHwtPK9k1j0cRj9UFpAwoOg8", note:"漢堡評價佳,美式輕鬆" },
+  chesaveglia:{ n:"Chesa Veglia(Pizzeria Heuboden)", r:4.4, ct:318, lat:46.49806, lon:9.84028, pid:"ChIJP0KwBcB9g0cRuxtuii8c9Ng", note:"📅18:30開,價位高,氣氛滿分" },
+  engiadina:  { n:"Restaurant Engiadina", r:4.5, ct:712, lat:46.49793, lon:9.84916, pid:"ChIJoc5eebh9g0cRr3ZFpP9aYcY", note:"評論:像義大利奶奶的家,CP高" },
+  oeschinen:  { n:"Berghotel Oeschinensee", r:4.5, ct:1662, lat:46.49756, lon:7.71401, pid:"ChIJq4seL34Gj0cRfPeRezx9Gj8", note:"自助式,湖景第一排,11:30-17:00" },
+  zeughaus:   { n:"Zeughauskeller", r:4.5, ct:14460, lat:47.37042, lon:8.53997, pid:"ChIJX7fB6wAKkEcRhpTedk8sztg", note:"1.4萬則好評;無訂位排隊約10分,共桌文化" },
+  kronenhalle:{ n:"Kronenhalle", r:4.6, ct:2426, lat:47.36762, lon:8.54581, pid:"ChIJxye0aaugmkcRti36D04xmFo", note:"📅務必訂位;藝術真跡+招牌小牛肉絲" },
+  hiltl:      { n:"Haus Hiltl", r:4.6, ct:10084, lat:47.37330, lon:8.53668, pid:"ChIJtwgunwYKkEcRhBQ0vi_9kHo", note:"1898年全球最老素食,秤重自助" },
+  sprungli:   { n:"Sprüngli本店", r:4.4, ct:4877, lat:47.36951, lon:8.53916, pid:"ChIJNQjv9gAKkEcRtWzpHgCaijI", note:"週日公休;8/5(三)OK;熱可可+馬卡龍" },
+  schober:    { n:"Café 1842(Schober老店)", r:4.3, ct:2538, lat:47.37149, lon:8.54433, pid:"ChIJ_cDNKaqgmkcRdF1mxGt04iE", note:"蘇黎世最老咖啡館,熱可可名物" },
+  arabiantea: { n:"Arabian Tea House(Al Fahidi)", r:4.8, ct:19873, lat:25.26331, lon:55.29974, pid:"ChIJsSfTxjlDXz4RDIGbnFqsAlo", note:"星4.8近2萬評!老宅庭院,Luqaimat甜點必點" },
+};
+const gNav = (p) => "https://www.google.com/maps/dir/?api=1&destination=" + p.lat + "," + p.lon + "&travelmode=walking";
+const gPage = (p) => "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(p.n) + "&query_place_id=" + p.pid;
+const Stars = ({r}) => <span style={{color:"#E8A400", fontWeight:800}}>★{r.toFixed(1)}</span>;
+function PlaceChip({ id }) {
+  const p = PLACES[id];
+  if (!p) return null;
+  return (
+    <div style={{border:"1px solid #E0E7EF", borderRadius:8, padding:"8px 10px", marginTop:6, background:"#FAFCFF"}}>
+      <div style={{display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:4}}>
+        <div style={{fontWeight:700, fontSize:14}}>{p.n} <Stars r={p.r}/> <span style={{color:"#8A97A6", fontSize:12}}>({p.ct.toLocaleString()}則)</span></div>
+        <div style={{display:"flex", gap:6}}>
+          <a href={gNav(p)} target="_blank" rel="noreferrer" style={SS.chipBtn}>🧭導航</a>
+          <a href={gPage(p)} target="_blank" rel="noreferrer" style={{...SS.chipBtn, background:"#1F3864"}}>⭐評論</a>
+        </div>
+      </div>
+      {p.note && <div style={{fontSize:12, color: p.note.indexOf("⚠️")===0 ? "#C8102E" : "#5A6B7E", marginTop:3}}>{p.note}</div>}
+    </div>
+  );
+}
+const SS = { chipBtn: { background:"#C8102E", color:"#fff", borderRadius:6, padding:"5px 10px", fontSize:12, fontWeight:700, textDecoration:"none", whiteSpace:"nowrap" } };
+
+
+
+
+/* ---------- 每日防呆指南(整合自交通/餐食/應變手冊) ---------- */
+const GUIDE = {
+  1: { transit:["機場火車站在地下2層,跟綠色Bahn指標;推行李找Lift電梯","IR75直達琉森62分,免買票出示STP","琉森=終點站,月台走到底出正門;出門左轉Zentralstrasse接Murbacherstrasse,平路5-8分"],
+      foodBak:"備選:河畔Rathaus Brauerei自釀啤酒餐廳;甜點Bachmann車站店(05:45開)", wc:"機場入境大廳免費;火車上免費" },
+  2: { transit:["1號巴士往Kriens,在Linde Pilatus站下,棕色指標上坡10分","下山齒軌坐面山側長輩不暈;Alpnachstad出站過馬路即碼頭","遊船STP免費,船上有免費廁所"],
+      foodBak:"山頂備選:Steinbockbar香腸堡CHF12-18;自帶三明治野餐最省", wx:"滑軌雨天停駛→改交通博物館(全室內)+湖遊船" },
+  3: { transit:["⚠️09:06已訂位班次不可錯過!08:45前抵站","LIX找車廂3(月台柱有編組圖先站對位置)","因特拉肯東站出站右轉,平路10分到飯店;先寄行李再玩"],
+      foodBak:"午餐備選:My Little Thai(長輩吃米食);Coop野餐Höhematte草坪", wx:"滑翔傘天候不佳→業者主動改期,備援7/28傍晚;峽谷活動小雨照開" },
+  4: { transit:["⚠️BOB前後分編:只有前段去格林德瓦!看車廂側電子牌","在Grindelwald Terminal下車(倒數第2站,纜車直結)","下山Kleine Scheidegg換月台搭WAB往Lauterbrunnen(對面月台1-2分)","瀑布鎮出站沿主街直走;特呂梅爾巴赫搭Post巴士10分"],
+      foodBak:"山頂僅Aletsch/Bollywood兩選擇,背包帶零食;⚠️Airtime咖啡週二休→改車站旁", wx:"⭐黃金法則:山頂攝影機白牆就別上(票貴)!改瀑布鎮全日(洞內瀑布雨天照玩),少女峰挪隔日早上" },
+  5: { transit:["⚠️SBB行李快遞07:00-09:00收件,07:45前到東站櫃台(售票中心內Gepäck)","這次BOB坐到底站Grindelwald總站(非Terminal!)","出站左轉主街上坡8分到First纜車","Bergwelt飯店:主街往東上坡車道5-7分"],
+      foodBak:"⚠️Onkel Toms週三休→Barry\u0027s;備選C&M咖啡(艾格峰景)", wx:"Flyer/Glider強風停駛→改冰河峽谷(有遮蔽)+Pfingstegg;行李快遞不受天氣影響照辦" },
+  6: { transit:["三段轉車:格林德瓦→Interlaken Ost→Spiez→Kandersteg,每段車上先上廁所","Kandersteg出站跟棕色Oeschinensee指標步行12-15分","湖畔還要步行15-20分緩下坡(長輩可搭付費接駁小車CHF8)","策馬特:先在站內領快遞行李再出站!公寓上坡,搭E-taxi(站前排班CHF15-25)"],
+      foodBak:"厄辛湖餐廳僅到17:00;晚餐自炊,懶得煮:Stefanie\u0027s可麗餅外帶", wx:"天氣差直接跳過厄辛湖,直達策馬特" },
+  7: { transit:["GGB站在主火車站斜對面過馬路1分","上山坐右側看馬特洪峰;車上無廁所(33分),上車前解決","Rotenboden下車步行10分緩下坡至Riffelsee"],
+      foodBak:"⚠️Walliserkanne僅3.8星→改Brown Cow;晚餐Whymper務必訂位,沒訂到→自炊", wx:"攝影機看不到馬特洪峰尖頂→改馬特洪峰博物館+SPA;半遮照上(雲繞峰更美)" },
+  8: { transit:["冰川天堂纜車站在村南端,公寓步行15-20分或村內電動巴士綠線","三段纜車連續轉乘跟指標即可;山頂有電梯直達觀景台","⚠️3883m:長輩慢行多喝水"],
+      foodBak:"🇨🇭國慶日餐廳爆滿:17:30前入座或自炊清冰箱最穩", wx:"3883m常在雲海之上,山下陰天先看攝影機再決定;真不行→Gorner峽谷(有遮蔽段)" },
+  9: { transit:["⚠️全程最硬!07:30抵站,大行李隨行","Brig轉車只有8分(09:06-09:14):下車先看藍色看板找Andermatt方向,5人跟緊不拍照","錯過Brig→下一班1小時後仍趕得上11:00(有緩衝別大意)","庫爾:行李直接拉去老城(步行5分),不用寄物","車廂42號在車身門邊;行李放車廂端行李架"],
+      foodBak:"車上僅含2份主餐(已Email加訂3份);庫爾備選:站旁Migros自助(帶行李方便)", wx:"冰河列車全程車內,雨天照走,訂位完全不可改" },
+  10: { transit:["Diavolezza方向:巴士/火車往Bernina約30分","Muottas Muragl傍晚有末班注意時間"],
+      foodBak:"山頂備選:下山Pontresina村內;自帶野餐", wx:"整天雨→Segantini美術館+湖畔撐傘散步" },
+  11: { transit:["行李請飯店送站(前晚約定);聖莫里茲站小而單純","庫爾轉IC有電梯,推行李找Lift","蘇黎世HB出口多:認Bahnhofstrasse方向,過橋8分平路"],
+      foodBak:"Hiltl秤重自助小心秤爆預算;Zeughauskeller沒訂位排隊約10分(共桌文化)", wx:"移動日不受影響;Uetliberg雨天改FIFA博物館或Lindt提前" },
+  12: { transit:["沙夫豪森火車45分;萊茵瀑布遊船現場買票約CHF20","史坦因鎮轉車25分"],
+      foodBak:"Sprüngli週日休(8/5週三OK);Kronenhalle沒訂到→Bindella義式老店", wx:"雨天水量更大更壯觀照去(帶雨衣);史坦因鎮改快閃" },
+  13: { transit:["蘇黎世HB→機場列車10-15分一班,車程10-12分","⚠️退稅櫃台在Check-in 1與2之間:先蓋章再托運!18:30前抵機場留緩衝"],
+      foodBak:"機場Marché市集餐廳;貴賓室", wx:"Lindt本來就室內,雨天最佳" },
+  14: { transit:["06:10抵杜拜,Terminal 3出關;3間房2間相連","杜拜地鐵紅線Business Bay站距飯店步行約10分(炎熱建議計程車)","⚠️今晚三件事:①櫃台預約明晨05:15大型車Van要確認單②早餐盒③打包"],
+      foodBak:"備選:Dubai Mall美食街看噴泉;Al Ustad烤肉老店", wx:"全室內動線(商場+塔),不受天氣影響;戶外正午極熱避開" },
+  15: { transit:["05:15上車,Business Bay→DXB約15km,清晨15-20分,AED50-70可刷卡","跟司機說DXB Terminal 3, Emirates","05:45抵=起飛前3小時,出境安檢常需1.5-2小時"],
+      foodBak:"飯店早餐盒(前晚索取);機場出境後Costa/McD", wc:"杜拜機場、商場廁所全部免費" },
+};
+const RISK3 = [
+  "①7/28上山:BOB列車前後分編,只有前段去格林德瓦——上車前看車廂側電子牌",
+  "②8/2 Brig轉車只有8分鐘:下車先看藍色看板找Andermatt月台,5人跟緊不拍照",
+  "③8/8杜拜清晨:前晚沒約到大車=最大風險,睡前要到預約確認單",
+];
+const WCRULE = "🚻 廁所口訣:瑞士火車上100%免費→上車先上,下車不找。車站多收費CHF1-2。免費:蘇黎世機場、多數纜車山頂站、杜拜全部。";
+
+
+/* ---------- 備選餐廳庫:九城市實查@2026/7/20 (r星等/ct評論數/pl價位1-4) ---------- */
+const BK_ZONES = [
+  { z:"琉森", days:[1,2], lat:47.0517, lon:8.3059, list:[
+    {n:"Bündnerland",r:4.6,ct:1409,pl:2,lat:47.05283,lon:8.30611,pid:"ChIJ3a_NlF37j0cRzbBke_rRnVk",note:"Capuns恩加丁菜,在地人推"},
+    {n:"Mill'Feuille",r:4.4,ct:2483,pl:2,lat:47.05182,lon:8.30319,pid:"ChIJt0dBxp_7j0cRhd8rR_lGDwg",note:"河畔早午餐鬆餅"},
+    {n:"Stadtkeller(民俗秀)",r:4.4,ct:1693,pl:2,lat:47.05295,lon:8.30721,pid:"ChIJCST1xJ77j0cR9NplzOObXuI",note:"晚餐配瑞士民俗表演,需訂位"},
+    {n:"Restaurant Wey",r:4.9,ct:328,pl:2,lat:47.05647,lon:8.31275,pid:"ChIJh6QMRtT7j0cRXcduWQKIPgI",note:"石板燒牛排,家族經營"},
+    {n:"Old Swiss House",r:4.5,ct:1504,pl:4,lat:47.05734,lon:8.31113,pid:"ChIJL0QkDZv7j0cRanuGVuNd_dY",note:"1860年老屋,桌邊現做炸肉排,高價"},
+  ]},
+  { z:"因特拉肯", days:[3,4],lat:46.6870,lon:7.8600, list:[
+    {n:"Hüsi Bierhaus",r:4.5,ct:2637,pl:2,lat:46.68617,lon:7.85462,pid:"ChIJbb-8EJqkj0cRaTZzUz6bnsY",note:"豬腳肋排啤酒,⚠️週二休"},
+    {n:"Hopplá Bistro(匈牙利)",r:4.8,ct:696,pl:2,lat:46.68287,lon:7.85962,pid:"ChIJhRz9zYSlj0cR7q0E7IkD7Qg",note:"家庭式牛肉燉,小店建議訂位,⚠️週二休"},
+    {n:"Afghan Central(清真)",r:4.8,ct:291,pl:2,lat:46.68384,lon:7.85711,pid:"ChIJfwIk0k6lj0cR625RVIYRuag",note:"咖哩米食,長輩友善"},
+    {n:"Radius(米其林)",r:4.7,ct:116,pl:4,lat:46.68690,lon:7.85785,pid:"ChIJT3zLn5Glj0cRmwdNmQhKYe8",note:"50km食材圈概念,⚠️週日一休,晚餐限定"},
+    {n:"Des Alpes",r:4.1,ct:557,pl:2,lat:46.68792,lon:7.86078,pid:"ChIJt_1y6-elj0cRY9Wgao31t_4",note:"少女峰夕陽景觀座"},
+  ]},
+  { z:"瀑布鎮Lauterbrunnen", days:[4],lat:46.5936,lon:7.9081, list:[
+    {n:"Weidstübli",r:4.5,ct:1384,pl:2,lat:46.58874,lon:7.90889,pid:"ChIJF3zsgUqgj0cRucbMgnQGHUg",note:"阿爾卑斯通心麵神店,⚠️週一二休(7/28二不開!)"},
+    {n:"Oberland",r:4.3,ct:931,pl:2,lat:46.59562,lon:7.90721,pid:"ChIJkUTSKbShj0cRHOIJKHKzwkc",note:"Rösti好評,每日營業"},
+    {n:"Schützen",r:4.0,ct:961,pl:2,lat:46.59489,lon:7.90732,pid:"ChIJ23Mg_5Ohj0cRXvQ-2cmvhEU",note:"每日07:30-22:00最保險"},
+    {n:"The Deck(Wengen)",r:4.7,ct:237,pl:3,lat:46.60821,lon:7.92098,pid:"ChIJJzT-aXShj0cRhprzkvW6CYM",note:"下山經Wengen時的景觀選擇"},
+  ]},
+  { z:"格林德瓦", days:[5],lat:46.6244,lon:8.0390, list:[
+    {n:"BaseCamp",r:4.6,ct:567,pl:2,lat:46.62350,lon:8.04081,pid:"ChIJndN-yYObj0cRn7TJZP2WN-0",note:"漢堡bao飽足,上菜快,艾格峰露台"},
+    {n:"Barrys",r:4.2,ct:2646,pl:3,lat:46.62348,lon:8.03811,pid:"ChIJN4PJJ_6bj0cRP9y69-gMsTM",note:"Rösti巨量,建議訂位"},
+    {n:"Belvedere",r:4.6,ct:195,pl:3,lat:46.62519,lon:8.02949,pid:"ChIJOcSSC1SZj0cRARREk9XjS2w",note:"僅18:30-21:00晚餐"},
+    {n:"Fiescherblick",r:4.9,ct:553,pl:3,lat:46.62532,lon:8.04599,pid:"ChIJ89MgKfqbj0cRW9mn5EUQ0U4",note:"米其林一星水準,犒賞級"},
+    {n:"C&M Café",r:4.4,ct:900,pl:2,lat:46.62410,lon:8.04120,pid:"",note:"艾格峰景觀咖啡簡餐"},
+  ]},
+  { z:"策馬特", days:[6,7,8,9],lat:46.0220,lon:7.7470, list:[
+    {n:"Santa Lucia",r:4.7,ct:111,pl:2,lat:46.02423,lon:7.74874,pid:"ChIJ16-oHkA3j0cRNBwSyP990Lo",note:"站旁義式,兒童10CHF任點"},
+    {n:"Osteria Bella Italia",r:4.6,ct:506,pl:2,lat:46.02064,lon:7.74629,pid:"ChIJ9_b3z_01j0cRumXrgk8-G8s",note:"道地義式,⚠️週一休"},
+    {n:"Bazaar by CERVO",r:4.6,ct:364,pl:3,lat:46.02190,lon:7.75440,pid:"ChIJg7DKy5Y1j0cR6plnagH7gaY",note:"中東亞洲風,對小孩超友善"},
+    {n:"Potato Fine Food",r:4.7,ct:279,pl:4,lat:46.02309,lon:7.74757,pid:"ChIJQfAZwco1j0cR5TMB6pMR0sA",note:"精緻不做作,晚餐限定⚠️週日休"},
+    {n:"Chez Vrony(山上)",r:4.8,ct:2172,pl:3,lat:46.01179,lon:7.76748,pid:"ChIJaWVfgvA1j0cRCF-bwvLcgl8",note:"Findeln山腰名店,午餐限定至17:00,配Sunnegga行程"},
+  ]},
+  { z:"聖莫里茲", days:[9,10],lat:46.4980,lon:9.8420, list:[
+    {n:"Top of the Food",r:4.8,ct:208,pl:3,lat:46.49914,lon:9.83930,pid:"ChIJ08JnPKx9g0cRMak8uS6PRG8",note:"夫妻店義式,像去朋友家吃飯,⚠️週一休"},
+    {n:"Scala",r:4.6,ct:104,pl:3,lat:46.49950,lon:9.84123,pid:"ChIJ0xSW98F9g0cRFjghFmkUASE",note:"tapas式瑞義混合"},
+    {n:"Waldhaus自家餐廳",r:4.5,ct:31,pl:3,lat:46.49709,lon:9.84877,pid:"ChIJLRHyMSl9g0cR0sBu2OQO8Po",note:"就在住宿飯店,湖景零移動"},
+    {n:"Hauser",r:4.1,ct:740,pl:2,lat:46.49749,lon:9.83790,pid:"ChIJSfMQSEd9g0cRMdnuTW00k4Y",note:"甜點名店,正餐評價普通"},
+  ]},
+  { z:"庫爾(8/2午餐)", days:[9],lat:46.8500,lon:9.5320, list:[
+    {n:"Hofkellerei(瑞士最老餐廳)",r:4.7,ct:174,pl:3,lat:46.84780,lon:9.53387,pid:"ChIJ_eGAkXrHhEcRKf8dA3LaMts",note:"哥德式酒窖,距站步行8分,行李可帶"},
+    {n:"Calanda",r:4.4,ct:1849,pl:2,lat:46.85079,lon:9.53224,pid:"ChIJbVUdyHDHhEcR6xLSfgeb6xA",note:"距站近,每日營業,座位多適合帶行李"},
+    {n:"Arte Povera(義式)",r:4.8,ct:113,pl:2,lat:46.84869,lon:9.53193,pid:"ChIJubMAVXrHhEcRuy0tHAVZCYM",note:"⚠️週日休(8/2正是週日!)→改Calanda"},
+  ]},
+  { z:"蘇黎世老城", days:[11,12,13],lat:47.3725,lon:8.5435, list:[
+    {n:"Zum Königstuhl",r:4.9,ct:5285,pl:3,lat:47.37259,lon:8.54327,pid:"ChIJrYEEnTWhmkcRi2tZ62J1Imw",note:"⭐4.9星5千評!起司鍋+Rösti,Niederdorf"},
+    {n:"Trattoria Sempre",r:4.6,ct:2638,pl:2,lat:47.37299,lon:8.54363,pid:"ChIJ9zpt266hmkcRMtrazHLMiGE",note:"tapas式義大利,適合多人分食"},
+    {n:"Santa Lucia Niederdorf",r:4.5,ct:3727,pl:2,lat:47.37218,lon:8.54372,pid:"ChIJi7Jik6mgmkcRZeF32YkNNKc",note:"披薩義麵,不訂位也友善"},
+    {n:"Swiss Chuchi",r:4.3,ct:7977,pl:2,lat:47.37316,lon:8.54366,pid:"ChIJTfaDxqmgmkcRN_HnS0olahk",note:"起司鍋觀光名店,份量大"},
+    {n:"Raclette Factory",r:4.4,ct:3952,pl:2,lat:47.37238,lon:8.54397,pid:"ChIJV7Ch2MB0kEcRj4n140fI-_s",note:"烤起司客製,輕鬆快速"},
+    {n:"Steakhouse Old Town",r:4.3,ct:1796,pl:3,lat:47.37368,lon:8.54358,pid:"ChIJfUFnzKmgmkcRPid1nsdzKDk",note:"石板自煎牛排,青少年愛"},
+  ]},
+  { z:"史坦因鎮(8/5)", days:[12],lat:47.6595,lon:8.8590, list:[
+    {n:"Burg Hohenklingen(城堡)",r:4.7,ct:1267,pl:2,lat:47.66698,lon:8.85824,pid:"ChIJ33Om28iImkcRJ7XMqqYWKFs",note:"山上城堡俯瞰萊茵河,有電梯,⚠️週一二休(8/5三OK)"},
+    {n:"Rheinfels",r:4.5,ct:457,pl:2,lat:47.65883,lon:8.85919,pid:"ChIJUY4SycqImkcRjtvjEfOkzPg",note:"河畔大魚桌邊分切"},
+    {n:"Uferlos",r:4.4,ct:722,pl:2,lat:47.65991,lon:8.85732,pid:"ChIJ46s8ocyImkcRJfhEePXpf5M",note:"河畔地中海菜+甜點強"},
+    {n:"Rheingerbe",r:4.3,ct:537,pl:2,lat:47.65960,lon:8.85775,pid:"ChIJ49eHr8yImkcRUgUb03OZIwQ",note:"河景午餐"},
+  ]},
+  { z:"杜拜", days:[14],lat:25.1972,lon:55.2790, list:[
+    {n:"Social House(噴泉景)",r:4.9,ct:16980,pl:2,lat:25.19615,lon:55.27754,pid:"ChIJD5UHfYJCXz4RnIU14kEZeY4",note:"⭐4.9星1.7萬評,戶外座看哈里發塔噴泉"},
+    {n:"Table Otto",r:4.8,ct:1374,pl:2,lat:25.19787,lon:55.27564,pid:"ChIJQV0NtXJDXz4R7Eobg75gJZI",note:"Fashion Ave,松露系"},
+    {n:"Rang(印度)",r:4.8,ct:12194,pl:2,lat:25.19662,lon:55.27810,pid:"ChIJ37P4zNBpXz4Rt-71GhjBVk4",note:"Mall 2F,烤餅咖哩"},
+    {n:"FRNDS",r:4.7,ct:1279,pl:3,lat:25.19573,lon:55.28276,pid:"ChIJf7FzoeppXz4RG-jlwrJM8DQ",note:"Mall外街邊露台"},
+  ]},
+];
+const PL_TXT = {1:"$ 約CHF15-25",2:"$$ 約CHF25-45",3:"$$$ 約CHF45-70",4:"$$$$ CHF70+"};
+const PL_TXT_AE = {1:"$ 約AED40-70",2:"$$ 約AED70-130",3:"$$$ 約AED130-220",4:"$$$$ AED220+"};
+
+
+/* ---------- 獨立版儲存層:無window.storage時改用localStorage(單機) ---------- */
+const IS_STANDALONE = typeof window !== "undefined" && !window.storage;
+if (typeof window !== "undefined" && !window.storage) {
+  window.storage = {
+    get: async (k) => { const v = localStorage.getItem("hub:"+k); if (v == null) throw new Error("nokey"); return { value: v }; },
+    set: async (k, v) => { localStorage.setItem("hub:"+k, v); return {}; },
+    delete: async (k) => { localStorage.removeItem("hub:"+k); return {}; },
+    list: async () => ({ keys: [] }),
+  };
+}
+
+/* ---------- utilities ---------- */
+const dist = (a, b) => { // haversine meters
+  const R = 6371000, r = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * r, dLon = (b.lon - a.lon) * r;
+  const x = Math.sin(dLat/2)**2 + Math.cos(a.lat*r)*Math.cos(b.lat*r)*Math.sin(dLon/2)**2;
+  return 2 * R * Math.asin(Math.sqrt(x));
+};
+const bearing = (a, b) => {
+  const r = Math.PI/180;
+  const y = Math.sin((b.lon-a.lon)*r)*Math.cos(b.lat*r);
+  const x = Math.cos(a.lat*r)*Math.sin(b.lat*r)-Math.sin(a.lat*r)*Math.cos(b.lat*r)*Math.cos((b.lon-a.lon)*r);
+  return (Math.atan2(y,x)*180/Math.PI+360)%360;
+};
+const fmtDist = (m) => m > 1000 ? (m/1000).toFixed(1)+" km" : Math.round(m)+" m";
+const compass = (deg) => "北北東東東南南南西西西北北"[Math.round(deg/45)%8] ? ["北","東北","東","東南","南","西南","西","西北"][Math.round(deg/45)%8] : "北";
+
+function todayIdx() {
+  const now = new Date().toISOString().slice(0,10);
+  const i = TRIP.days.findIndex(d => d.d === now);
+  return i >= 0 ? i : 0;
+}
+
+/* ---------- shared storage helpers ---------- */
+async function loadBoard() {
+  try { const r = await window.storage.get("board:messages", true); return JSON.parse(r.value); }
+  catch { return []; }
+}
+async function saveBoard(msgs) {
+  try { await window.storage.set("board:messages", JSON.stringify(msgs.slice(-100)), true); } catch(e){ console.error(e); }
+}
+async function loadTickets() {
+  try { const r = await window.storage.get("tickets:index", true); return JSON.parse(r.value); }
+  catch { return []; }
+}
+
+/* ========================================================================== */
+export default function TravelHub() {
+  const [tab, setTab] = useState("today");
+  const [dayIdx, setDayIdx] = useState(todayIdx());
+  const day = TRIP.days[dayIdx];
+  const inLine = typeof navigator !== "undefined" && /Line\//i.test(navigator.userAgent);
+
+  return (
+    <div style={S.app}>
+      <header style={S.header}>
+        <div style={S.headerTitle}>🇨🇭 {TRIP.name}</div>
+        <div style={S.headerSub}>Day {dayIdx+1}・{day.d.slice(5).replace("-","/")}・{day.city}</div>
+      </header>
+      {inLine && (
+        <div style={S.lineBanner}>
+          ⚠️ 您正用LINE內建瀏覽器開啟——定位、票券儲存可能失效。請點右下角「⋯」→「用預設瀏覽器開啟(Safari)」,再加入主畫面。
+        </div>
+      )}
+      <div style={S.quickBar}>
+        {[["tickets","🎫","票券"],["nav","🧭","導航"],["loc","📍","我在哪"],["lost","🆘","走散"]].map(([k,ic,lb])=>(
+          <button key={k} style={S.quickBtn} onClick={()=>{
+            if(k==="loc"){ shareMyLocation(); }
+            else if(k==="lost"){ setTab("more"); setTimeout(()=>{ const ev=new CustomEvent("gotoLost"); window.dispatchEvent(ev); },50); }
+            else { setTab(k); }
+          }}>
+            <div style={{fontSize:22}}>{ic}</div>
+            <div style={{fontSize:12,fontWeight:800,marginTop:2}}>{lb}</div>
+          </button>
+        ))}
+      </div>
+      <main style={S.main}>
+        {tab==="today" && <Itinerary dayIdx={dayIdx} setDayIdx={setDayIdx} />}
+        {tab==="tickets" && <Tickets />}
+        {tab==="board" && <Board />}
+        {tab==="nav" && <Navigate day={day} />}
+        {tab==="eat" && <Backups dayIdx={dayIdx} />}
+        {tab==="phrases" && <Phrases />}
+        {tab==="more" && <More />}
+      </main>
+      <nav style={S.nav}>
+        {[["today","🗓️","行程"],["nav","🧭","導航"],["eat","🍽️","餐廳"],["tickets","🎫","票券"],["board","📌","公告"],["phrases","🗣️","會話"],["more","☰","更多"]].map(([k,ic,lb]) => (
+          <button key={k} onClick={()=>setTab(k)} style={{...S.navBtn, ...(tab===k?S.navActive:{})}}>
+            <div style={{fontSize:20}}>{ic}</div><div style={{fontSize:11}}>{lb}</div>
+          </button>
+        ))}
+      </nav>
+    </div>
+  );
+}
+
+/* ---------- 行程 ---------- */
+function Itinerary({ dayIdx, setDayIdx }) {
+  const day = TRIP.days[dayIdx];
+  const g = GUIDE[dayIdx];
+  const [showGuide, setShowGuide] = useState(false);
+  return (
+    <div>
+      <div style={S.dayNav}>
+        <button style={S.arrowBtn} disabled={dayIdx===0} onClick={()=>setDayIdx(dayIdx-1)}>◀ 前一天</button>
+        <button style={S.todayBtn} onClick={()=>setDayIdx(todayIdx())}>今天</button>
+        <button style={S.arrowBtn} disabled={dayIdx===TRIP.days.length-1} onClick={()=>setDayIdx(dayIdx+1)}>後一天 ▶</button>
+      </div>
+      <div style={S.card}>
+        <div style={S.dayTitle}>{day.title}</div>
+        <div style={S.hotel}>🏨 {day.hotel}</div>
+        {day.warn && <div style={S.warnBox}>{day.warn}</div>}
+        {day.webcam && <a href={day.webcam} target="_blank" rel="noreferrer" style={S.webcamLink}>🌤️ 開啟山頂即時攝影機(上山前必看)</a>}
+        <table style={{width:"100%", borderCollapse:"collapse", marginTop:8}}>
+          <tbody>
+            {day.plan.map(([t, a, pk], i) => (
+              <tr key={i} style={{borderBottom:"1px solid #E8EDF3"}}>
+                <td style={S.timeCell}>{t}</td>
+                <td style={S.planCell}>{a}{pk && <PlaceChip pk={pk} />}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        {day.eats?.length > 0 && (
+          <div style={{marginTop:10}}>
+            <div style={{fontSize:13, fontWeight:800, color:"#1F3864"}}>🍽️ 今日餐廳(實查星等,點按導航/看評論)</div>
+            {day.eats.map(id => <PlaceChip key={id} id={id} />)}
+          </div>
+        )}
+        {day.nav?.length > 0 && (
+          <div style={{marginTop:10}}>
+            <div style={{fontSize:13, fontWeight:800, color:"#1F3864"}}>📍 今日路點快速導航</div>
+            <div style={{display:"flex", flexWrap:"wrap", gap:6, marginTop:6}}>
+              {day.nav.map((w,i)=>(
+                <a key={i} href={"https://www.google.com/maps/dir/?api=1&destination=" + w.lat + "," + w.lon + "&travelmode=walking"}
+                  target="_blank" rel="noreferrer"
+                  style={{background:"#E7F0FA", color:"#1F3864", borderRadius:16, padding:"6px 12px", fontSize:13, fontWeight:700, textDecoration:"none"}}>
+                  🧭 {w.name}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+        {g && (
+          <div style={{marginTop:10}}>
+            <button onClick={()=>setShowGuide(!showGuide)}
+              style={{width:"100%", padding:"10px", borderRadius:8, border:"none", background: showGuide?"#1F3864":"#E7F0FA", color: showGuide?"#fff":"#1F3864", fontSize:14, fontWeight:800, cursor:"pointer"}}>
+              🛡️ 今日防呆指南 {showGuide?"▲收起":"▼展開(交通/餐食備選/天氣備案)"}
+            </button>
+            {showGuide && (
+              <div style={{border:"1px solid #D5DDE6", borderRadius:8, padding:12, marginTop:6, background:"#FBFDFF"}}>
+                {g.transit && (<div style={{marginBottom:8}}>
+                  <div style={{fontSize:13, fontWeight:800, color:"#1F3864"}}>🚉 交通防呆</div>
+                  {g.transit.map((t,i)=>(<div key={i} style={{fontSize:13.5, lineHeight:1.6, padding:"3px 0", borderBottom:"1px dashed #E8EDF3", color: t.indexOf("⚠️")===0?"#C8102E":"#333"}}>• {t}</div>))}
+                </div>)}
+                {g.foodBak && (<div style={{marginBottom:8}}>
+                  <div style={{fontSize:13, fontWeight:800, color:"#2E7D32"}}>🍽️ 餐食備選</div>
+                  <div style={{fontSize:13.5, lineHeight:1.6}}>{g.foodBak}</div>
+                </div>)}
+                {g.wx && (<div style={{marginBottom:8}}>
+                  <div style={{fontSize:13, fontWeight:800, color:"#7A5C00"}}>🌧️ 天氣不佳改案</div>
+                  <div style={{fontSize:13.5, lineHeight:1.6, background:"#FFF8E5", padding:"6px 8px", borderRadius:6}}>{g.wx}</div>
+                </div>)}
+                {g.wc && (<div style={{fontSize:12.5, color:"#5A6B7E"}}>🚻 {g.wc}</div>)}
+              </div>
+            )}
+          </div>
+        )}
+        {day.tickets?.length > 0 && (
+          <div style={{marginTop:10, fontSize:13, color:"#5A6B7E"}}>
+            🎫 今日票券:{day.tickets.map(t=>TRIP.ticketMeta[t].name).join("、")}(至票券頁出示)
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 票券:QR照片庫 ---------- */
+function Tickets() {
+  const [items, setItems] = useState([]);
+  const [full, setFull] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const fileRef = useRef();
+
+  const refresh = useCallback(async () => {
+    const idx = await loadTickets();
+    const loaded = [];
+    for (const it of idx) {
+      try { const r = await window.storage.get("tickets:img:"+it.id, true); loaded.push({...it, img: r.value}); }
+      catch {}
+    }
+    setItems(loaded);
+  }, []);
+  useEffect(() => { refresh(); }, [refresh]);
+
+  const addPhoto = (e) => {
+    const f = e.target.files?.[0];
+    if (!f) return;
+    setBusy(true);
+    const rd = new FileReader();
+    rd.onload = () => {
+      const img = new Image();
+      img.onload = async () => {
+        const c = document.createElement("canvas");
+        const max = 1200, sc = Math.min(1, max/Math.max(img.width, img.height));
+        c.width = img.width*sc; c.height = img.height*sc;
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        const data = c.toDataURL("image/jpeg", 0.85);
+        const name = prompt("票券名稱?(例:少女峰QR-遠志)") || "未命名票券";
+        const id = Date.now().toString(36);
+        try {
+          await window.storage.set("tickets:img:"+id, data, true);
+          const idx = await loadTickets();
+          idx.push({ id, name, at: new Date().toISOString().slice(5,10) });
+          await window.storage.set("tickets:index", JSON.stringify(idx), true);
+          await refresh();
+        } catch(err) { alert("儲存失敗,照片可能過大,請截圖後再試"); }
+        setBusy(false);
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+    e.target.value = "";
+  };
+
+  const remove = async (id) => {
+    if (!confirm("刪除此票券照片?")) return;
+    try {
+      await window.storage.delete("tickets:img:"+id, true);
+      const idx = (await loadTickets()).filter(x=>x.id!==id);
+      await window.storage.set("tickets:index", JSON.stringify(idx), true);
+      await refresh();
+    } catch(e){ console.error(e); }
+  };
+
+  if (full) return (
+    <div style={S.fullscreen} onClick={()=>setFull(null)}>
+      <img src={full} alt="ticket" style={{maxWidth:"100%", maxHeight:"85vh", background:"#fff", padding:12, borderRadius:8}} />
+      <div style={{color:"#fff", marginTop:10, fontSize:14}}>點任意處返回・已調至最大亮度出示</div>
+    </div>
+  );
+
+  return (
+    <div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🎫 票券QR相簿(全家共享)</div>
+        <div style={{fontSize:13, color:"#5A6B7E", marginBottom:10}}>
+          拍下或截圖每張票的QR碼上傳{IS_STANDALONE ? "(存在自己手機裡,更私密;每人上傳自己需要的票)" : ",全家人都能開啟出示"}。⚠️正式閘門若拒收照片,備援:官方App或PDF原檔。
+        </div>
+        <button style={S.primaryBtn} disabled={busy} onClick={()=>fileRef.current.click()}>
+          {busy ? "處理中..." : "＋ 新增票券照片"}
+        </button>
+        <input ref={fileRef} type="file" accept="image/*" style={{display:"none"}} onChange={addPhoto} />
+      </div>
+      <div style={S.ticketGrid}>
+        {items.map(it => (
+          <div key={it.id} style={S.ticketCard}>
+            <img src={it.img} alt={it.name} style={S.ticketImg} onClick={()=>setFull(it.img)} />
+            <div style={{fontSize:13, fontWeight:600, marginTop:4}}>{it.name}</div>
+            <button style={S.delBtn} onClick={()=>remove(it.id)}>刪除</button>
+          </div>
+        ))}
+        {items.length===0 && <div style={{color:"#8A97A6", fontSize:14, padding:20}}>尚無票券,點上方新增</div>}
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📋 訂位資訊速查</div>
+        {Object.values(TRIP.ticketMeta).map((t,i)=>(
+          <div key={i} style={{padding:"6px 0", borderBottom:"1px solid #E8EDF3", fontSize:14}}>
+            <b>{t.name}</b> — {t.note}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 公告留言板 ---------- */
+function Board() {
+  const [msgs, setMsgs] = useState([]);
+  const [text, setText] = useState("");
+  const [who, setWho] = useState(TRIP.members[0]);
+
+  const refresh = useCallback(async () => setMsgs(await loadBoard()), []);
+  useEffect(() => {
+    refresh();
+    const t = setInterval(refresh, 15000); // 15秒輪詢
+    return () => clearInterval(t);
+  }, [refresh]);
+
+  const post = async () => {
+    if (!text.trim()) return;
+    const m = [...msgs, { who, text: text.trim(), at: new Date().toLocaleTimeString("zh-TW",{hour:"2-digit",minute:"2-digit"}) }];
+    setMsgs(m); setText("");
+    await saveBoard(m);
+  };
+
+  return (
+    <div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📌 家庭公告板{IS_STANDALONE ? "(單機備忘版)" : "(全員可見,15秒自動更新)"}</div>
+        {IS_STANDALONE && <div style={{fontSize:12.5, color:"#7A5C00", background:"#FFF8E5", padding:"6px 8px", borderRadius:6, marginBottom:8}}>此版本留言僅存於自己手機(當備忘錄用);全家即時溝通請用LINE群組</div>}
+        <div style={{display:"flex", gap:6, marginBottom:8}}>
+          <select value={who} onChange={e=>setWho(e.target.value)} style={S.select}>
+            {TRIP.members.map(m=><option key={m}>{m}</option>)}
+          </select>
+          <input value={text} onChange={e=>setText(e.target.value)} placeholder="留言:例如「我在Coop買水,月台3見」"
+            style={S.input} onKeyDown={e=>e.key==="Enter"&&post()} />
+          <button style={S.primaryBtn} onClick={post}>發布</button>
+        </div>
+        <button style={S.ghostBtn} onClick={refresh}>🔄 手動更新</button>
+      </div>
+      <div>
+        {[...msgs].reverse().map((m,i)=>(
+          <div key={i} style={S.msgCard}>
+            <span style={S.msgWho}>{m.who}</span>
+            <span style={S.msgTime}>{m.at}</span>
+            <div style={{marginTop:4, fontSize:15}}>{m.text}</div>
+          </div>
+        ))}
+        {msgs.length===0 && <div style={{color:"#8A97A6", fontSize:14, padding:20, textAlign:"center"}}>還沒有留言</div>}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 導航:下一站+方向+走錯提醒 ---------- */
+function Navigate({ day }) {
+  const [pos, setPos] = useState(null);
+  const [target, setTarget] = useState(null);
+  const [trend, setTrend] = useState([]); // recent distances for wrong-way detection
+  const [err, setErr] = useState(null);
+  const watchRef = useRef(null);
+
+  const waypoints = day.nav || [];
+
+  useEffect(() => {
+    if (!navigator.geolocation) { setErr("此裝置不支援定位"); return; }
+    watchRef.current = navigator.geolocation.watchPosition(
+      p => setPos({ lat: p.coords.latitude, lon: p.coords.longitude, acc: p.coords.accuracy }),
+      e => setErr("定位失敗:請允許位置權限(" + e.message + ")"),
+      { enableHighAccuracy: true, maximumAge: 5000 }
+    );
+    return () => watchRef.current && navigator.geolocation.clearWatch(watchRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!pos || !target) return;
+    const d = dist(pos, target);
+    setTrend(t => [...t.slice(-5), d]);
+  }, [pos, target]);
+
+  const d = pos && target ? dist(pos, target) : null;
+  const brg = pos && target ? bearing(pos, target) : null;
+  const wrongWay = trend.length >= 4 && trend[trend.length-1] > trend[0] + 30; // 越走越遠30m+
+
+  return (
+    <div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🧭 今日路點(點選設為目標)</div>
+        {waypoints.length===0 && <div style={{color:"#8A97A6", fontSize:14}}>今日無預設路點(移動少或全靠訂位班次)</div>}
+        {waypoints.map((w,i)=>(
+          <div key={i} style={{...S.wpCard, ...(target?.name===w.name?S.wpActive:{})}}>
+            <div onClick={()=>{setTarget(w); setTrend([]);}}>
+              <div style={{fontWeight:700, fontSize:15}}>{i+1}. {w.name}</div>
+              <div style={{fontSize:13, color:"#5A6B7E"}}>{w.hint}</div>
+              {pos && <div style={{fontSize:12, color:"#8A97A6"}}>直線 {fmtDist(dist(pos,w))}</div>}
+            </div>
+            <a href={`https://www.google.com/maps/dir/?api=1&destination=${w.lat},${w.lon}&travelmode=walking`}
+              target="_blank" rel="noreferrer" style={{...S.chipBtn, marginTop:6, display:"inline-block"}}>🧭 Google Maps導航</a>
+          </div>
+        ))}
+      </div>
+      {target && (
+        <div style={{...S.card, textAlign:"center"}}>
+          <div style={{fontSize:14, color:"#5A6B7E"}}>目標:{target.name}</div>
+          {pos ? (<>
+            <div style={{fontSize:42, fontWeight:800, color:"#C8102E", margin:"6px 0"}}>{fmtDist(d)}</div>
+            <div style={{fontSize:16}}>方向:{compass(brg)}({Math.round(brg)}°)</div>
+            <div style={{fontSize:12, color:"#8A97A6"}}>定位精度±{Math.round(pos.acc)}m・直線距離,實際路程依道路</div>
+            {wrongWay && <div style={S.wrongWay}>⚠️ 越走越遠了!停下確認方向或開Google Maps</div>}
+            <a href={`https://www.google.com/maps/dir/?api=1&destination=${target.lat},${target.lon}&travelmode=walking`}
+              target="_blank" rel="noreferrer" style={S.mapsBtn}>開Google Maps步行導航</a>
+          </>) : <div style={{color:"#C8102E", padding:10}}>{err || "等待定位..."}</div>}
+        </div>
+      )}
+      <div style={S.card}>
+        <div style={S.secTitle}>📍 我在哪?</div>
+        <div style={{display:"flex", gap:8}}>
+          <a href="https://www.google.com/maps" target="_blank" rel="noreferrer" style={{...S.mapsBtn, flex:1, textAlign:"center", marginTop:0}}>開地圖看位置</a>
+          <button style={{...S.primaryBtn, flex:1}} onClick={async()=>{
+            if(!pos){ alert("等待定位中"); return; }
+            const url = "https://www.google.com/maps?q=" + pos.lat + "," + pos.lon;
+            if(navigator.share){ try{ await navigator.share({title:"我的位置", url}); }catch(e){} }
+            else { try{ await navigator.clipboard.writeText(url); alert("位置連結已複製,貼到LINE"); }catch(e){ prompt("複製:",url); } }
+          }}>分享位置到LINE</button>
+        </div>
+      </div>
+      <div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>
+        💡 用法:出站後點目標→跟著方向與距離走→距離變小=走對。轉乘趕時間直接開Google Maps。山區隧道內無定位屬正常。
+      </div>
+    </div>
+  );
+}
+
+
+/* ---------- 備選餐廳頁:即時距離+篩選 ---------- */
+function Backups({ dayIdx }) {
+  const defZone = BK_ZONES.findIndex(z => z.days.includes(dayIdx));
+  const [zi, setZi] = useState(defZone >= 0 ? defZone : 0);
+  const [pos, setPos] = useState(null);
+  const [f4, setF4] = useState(false);   // ★4.4+
+  const [f500, setF500] = useState(false); // 500+評論
+  const [fCheap, setFCheap] = useState(false); // $$以下
+  const watchRef = useRef(null);
+
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    watchRef.current = navigator.geolocation.watchPosition(
+      p => setPos({ lat: p.coords.latitude, lon: p.coords.longitude }),
+      () => {}, { enableHighAccuracy: true, maximumAge: 10000 });
+    return () => watchRef.current && navigator.geolocation.clearWatch(watchRef.current);
+  }, []);
+
+  const zone = BK_ZONES[zi];
+  const isDXB = zone.z.indexOf("杜拜") === 0;
+  let list = zone.list.map(p => ({...p, d: pos ? dist(pos, p) : dist({lat:zone.lat,lon:zone.lon}, p)}));
+  if (f4) list = list.filter(p => p.r >= 4.4);
+  if (f500) list = list.filter(p => p.ct >= 500);
+  if (fCheap) list = list.filter(p => p.pl <= 2);
+  list.sort((a,b) => a.d - b.d);
+
+  const Toggle = ({on, set, label}) => (
+    <button onClick={()=>set(!on)} style={{padding:"6px 10px", borderRadius:14, fontSize:12.5, fontWeight:700, cursor:"pointer",
+      border: on ? "none" : "1px solid #D5DDE6", background: on ? "#1F3864" : "#fff", color: on ? "#fff" : "#5A6B7E"}}>{label}</button>
+  );
+
+  return (
+    <div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🍽️ 備選餐廳(路線上實查@7/20)</div>
+        <select value={zi} onChange={e=>setZi(+e.target.value)}
+          style={{...S.select, width:"100%", marginBottom:8, fontSize:15, fontWeight:700}}>
+          {BK_ZONES.map((z,i)=><option key={i} value={i}>{z.z}{z.days.includes(dayIdx)?"(今日)":""}</option>)}
+        </select>
+        <div style={{display:"flex", gap:6, flexWrap:"wrap"}}>
+          <Toggle on={f4} set={setF4} label="★4.4以上" />
+          <Toggle on={f500} set={setF500} label="500+評論" />
+          <Toggle on={fCheap} set={setFCheap} label="$$以下" />
+        </div>
+        <div style={{fontSize:12, color:"#8A97A6", marginTop:6}}>
+          {pos ? "📍依你目前位置排序(直線距離,步行約80m/分)" : "📍未定位:依市中心排序;允許位置權限可看即時距離"}
+        </div>
+      </div>
+      {list.map((p,i)=>{
+        const walkMin = Math.round(p.d/80);
+        return (
+        <div key={i} style={{...S.card, padding:"11px 13px", marginBottom:8}}>
+          <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:6}}>
+            <div style={{fontWeight:800, fontSize:15.5}}>{p.n}</div>
+            <div style={{fontSize:14, fontWeight:800, color:"#C8102E", whiteSpace:"nowrap"}}>{fmtDist(p.d)}<span style={{fontSize:11.5, color:"#8A97A6", fontWeight:400}}> 步行~{walkMin}分</span></div>
+          </div>
+          <div style={{fontSize:13, marginTop:3}}>
+            <span style={{color:"#E8A400", fontWeight:800}}>★{p.r}</span>
+            <span style={{color:"#8A97A6"}}> ({p.ct.toLocaleString()}則)</span>
+            <span style={{marginLeft:8, color:"#2E7D32", fontWeight:700}}>{(isDXB?PL_TXT_AE:PL_TXT)[p.pl]}/人</span>
+          </div>
+          {p.note && <div style={{fontSize:12.5, color: p.note.indexOf("⚠️")>=0 ? "#C8102E" : "#5A6B7E", marginTop:3}}>{p.note}</div>}
+          <div style={{display:"flex", gap:8, marginTop:7}}>
+            <a href={"https://www.google.com/maps/dir/?api=1&destination="+p.lat+","+p.lon+(p.pid?"&destination_place_id="+p.pid:"")+"&travelmode=walking"}
+              target="_blank" rel="noreferrer" style={{...S.chipBtn, flex:1, textAlign:"center", padding:"8px 0"}}>🧭 導航</a>
+            <a href={p.pid?"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.n)+"&query_place_id="+p.pid:"https://www.google.com/maps/search/?api=1&query="+encodeURIComponent(p.n+" "+zone.z)}
+              target="_blank" rel="noreferrer" style={{...S.chipBtn, flex:1, textAlign:"center", padding:"8px 0", background:"#1F3864"}}>💬 評論/營業時間</a>
+          </div>
+        </div>);
+      })}
+      {list.length===0 && <div style={{color:"#8A97A6", textAlign:"center", padding:20, fontSize:14}}>沒有符合篩選的餐廳,放寬條件試試</div>}
+      <div style={{...S.card, fontSize:12.5, color:"#5A6B7E"}}>
+        💡 距離為直線,實際路程略遠;人均為主菜+飲料估算;⭐星等為出發前查核值,點「評論」看最新。臨時想換餐廳:開篩選「★4.4以上」+看距離,3秒決定。
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 外語會話對照 ---------- */
+function Phrases() {
+  const [big, setBig] = useState(null);
+  if (big) return (
+    <div style={S.fullscreen} onClick={()=>setBig(null)}>
+      <div style={S.bigPhrase}>
+        <div style={{fontSize:20, color:"#5A6B7E", marginBottom:12}}>{big[0]}</div>
+        <div style={{fontSize:34, fontWeight:800, lineHeight:1.3}}>{big[1]}</div>
+        <div style={{fontSize:22, color:"#5A6B7E", marginTop:12}}>{big[2]}</div>
+      </div>
+      <div style={{color:"#fff", marginTop:12, fontSize:14}}>放大顯示中・直接拿給對方看・點任意處返回</div>
+    </div>
+  );
+  return (
+    <div>
+      <div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>
+        點任一句 → 全螢幕放大(德文+英文),直接拿給店員/站務員看。瑞士德語區英文普及,英文欄同樣好用。
+      </div>
+      {TRIP.phrases.map((g,gi)=>(
+        <div key={gi} style={S.card}>
+          <div style={S.secTitle}>{g.cat}</div>
+          {g.items.map((p,pi)=>(
+            <div key={pi} style={S.phraseRow} onClick={()=>setBig(p)}>
+              <div style={{fontSize:15, fontWeight:600}}>{p[0]}</div>
+              <div style={{fontSize:13, color:"#1F3864"}}>{p[1]}</div>
+              <div style={{fontSize:12, color:"#8A97A6"}}>{p[2]}</div>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ---------- 走散協議 ---------- */
+function Lost() {
+  return (
+    <div>
+      <div style={{...S.card, background:"#FFF3F3", border:"2px solid #C8102E"}}>
+        <div style={{...S.secTitle, color:"#C8102E"}}>🆘 走散SOP(全家背起來)</div>
+        <div style={{fontSize:16, fontWeight:700, lineHeight:1.8}}>{TRIP.lost.rule}</div>
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📍 各城市固定集合點</div>
+        {TRIP.lost.points.map(([c,p],i)=>(
+          <div key={i} style={{display:"flex", justifyContent:"space-between", padding:"7px 0", borderBottom:"1px solid #E8EDF3", fontSize:15}}>
+            <b>{c}</b><span>{p}</span>
+          </div>
+        ))}
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📞 緊急電話(點擊撥打)</div>
+        {TRIP.lost.emergency.map(([n,t],i)=>(
+          <a key={i} href={"tel:"+t.replace(/\s/g,"")} style={S.callRow}>
+            <span>{n}</span><b style={{color:"#C8102E"}}>{t}</b>
+          </a>
+        ))}
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📱 家人即時位置</div>
+        <div style={{fontSize:14, color:"#5A6B7E", marginBottom:8}}>
+          使用手機內建功能最省電可靠(出發前設定完成):
+        </div>
+        <div style={{fontSize:14, lineHeight:1.8}}>
+          iPhone:「尋找」App → 家人共享位置<br/>
+          Android:Google Maps → 位置資訊分享<br/>
+          走散時先開這個,再照上方SOP。
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+/* ---------- 更多:證件/走散/使用說明 ---------- */
+function More() {
+  const [sub, setSub] = useState("docs");
+  useEffect(()=>{
+    const h = ()=> setSub("lost");
+    window.addEventListener("gotoLost", h);
+    return ()=> window.removeEventListener("gotoLost", h);
+  }, []);
+  return (
+    <div>
+      <div style={{display:"flex", gap:6, marginBottom:10}}>
+        {[["docs","📁 證件"],["sos","🛡️ 應變"],["lost","🆘 走散"],["help","📱 說明"]].map(([k,lb])=>(
+          <button key={k} onClick={()=>setSub(k)}
+            style={{flex:1, padding:"9px 0", borderRadius:8, border:"1px solid #D5DDE6", fontSize:14, fontWeight:700, cursor:"pointer",
+              background: sub===k ? "#1F3864" : "#fff", color: sub===k ? "#fff" : "#5A6B7E"}}>{lb}</button>
+        ))}
+      </div>
+      {sub==="docs" && <Docs />}
+      {sub==="sos" && <Sos />}
+      {sub==="lost" && <Lost />}
+      {sub==="help" && <Help />}
+    </div>
+  );
+}
+
+/* ---------- 證件索引(本體在Drive,App只放索引與連結) ---------- */
+const DOCS = {
+  driveRoot: "https://drive.google.com/drive/folders/1X3xU3-lXNQQgUIHrD-gCgMLAdD222x_m",
+  passports: [
+    { who: "遠志", exp: "填效期" }, { who: "妃霏", exp: "填效期" },
+    { who: "紹懷", exp: "填效期" }, { who: "熙妍", exp: "填效期" }, { who: "奶奶", exp: "填效期" },
+  ],
+  files: [
+    { name: "🛂 護照資料夾", note: "5本(點開需登入Google)", url: "https://drive.google.com/drive/folders/1fTLaHzlzR_zTiPyqVvoDivG0WUgJy1Yy" },
+    { name: "✈️ 機票資料夾", note: "MAK✱✱✱ + ES✱✱✱✱", url: "https://drive.google.com/drive/folders/1DJuB2g1WP4eH9XITdBDPHB_oork6xudo" },
+    { name: "🛂 阿聯簽證資料夾", note: "UAE簽證", url: "https://drive.google.com/drive/folders/11TfD7mRII_I-i1fP2iQXmGQOtTwB9FxX" },
+    { name: "🏨 飯店訂房資料夾", note: "6間確認信", url: "https://drive.google.com/drive/folders/14kC7Z0j5vLqRmxgaDgiWJQWgkdgHfe4i" },
+    { name: "🚄 冰河列車資料夾", note: "292✱✱✱✱-1", url: "https://drive.google.com/drive/folders/1RHSK-GHw_i5usiC14B8Pcaey29kgKJjg" },
+    { name: "🚄 黃金列車資料夾", note: "8/4蒙特勒段", url: "https://drive.google.com/drive/folders/1G8nmm5bV8xQynRR58fWUe183svfqLlsM" },
+  ],
+};
+function Docs() {
+  const open = (url) => url ? window.open(url, "_blank") : alert("連結尚未設定:請遠志把Drive檔案連結填入App後重新發布");
+  return (
+    <div>
+      <div style={{...S.card, background:"#EAF3EA", fontSize:13, color:"#2E5A2E"}}>
+        🔐 本頁只放「索引」——證件本體存在Google Drive「00瑞士」(僅家人帳號可開)。點連結需登入自己的Google帳號,這是保護不是麻煩。出發前每人到Drive把重要檔案「設為離線可用」。
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🛂 護照效期速查</div>
+        {DOCS.passports.map((p,i)=>(
+          <div key={i} style={{display:"flex", justifyContent:"space-between", padding:"6px 0", borderBottom:"1px solid #E8EDF3", fontSize:15}}>
+            <b>{p.who}</b><span>{p.exp}</span>
+          </div>
+        ))}
+        <div style={{...S.warnBox, marginTop:10}}>
+          遺失SOP:①就近警局報案取報案單 ②聯絡駐瑞士代表處急難 +41 79 345 2919 ③申請入國證明書 ④影本在Drive可佐證身分
+        </div>
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📁 檔案一鍵開啟</div>
+        {DOCS.driveRoot ? (
+          <button style={{...S.primaryBtn, width:"100%", marginBottom:8}} onClick={()=>open(DOCS.driveRoot)}>開啟「00瑞士」總資料夾</button>
+        ) : (
+          <div style={{fontSize:13, color:"#8A97A6", marginBottom:8}}>（總資料夾連結待填入）</div>
+        )}
+        {DOCS.files.map((f,i)=>(
+          <div key={i} onClick={()=>open(f.url)} style={{...S.wpCard, cursor:"pointer"}}>
+            <div style={{fontWeight:700, fontSize:15}}>{f.name}</div>
+            <div style={{fontSize:13, color:"#5A6B7E"}}>{f.note}{!f.url && "・(連結待填)"}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>
+        💳 支付備忘:主卡尾號0612。🔐 資安設計:本App為公開網頁,機票PNR與票號皆已遮罩(✱)——完整代號在紙本文件與Drive確認信內,線上報到時對照使用。完整卡號、護照號碼永不放進任何App。
+      </div>
+    </div>
+  );
+}
+
+
+/* ---------- 應變:天氣SOP/三大風險/訂票時間軸/廁所口訣 ---------- */
+function Sos() {
+  const timeline = [
+    ["7/22 23:50","⏰去程線上報到開放(兩組PNR都要辦,選相鄰座)"],
+    ["7/22-23","取消聖莫里茲未付款重複訂單/處理Grindellodge/Ruby Mimi付款"],
+    ["7/23","致電策馬特公寓:8/2早退房+早餐盒;哈里發塔訂時段"],
+    ["7/28晚","二次確認7/29行李快遞預約成立"],
+    ["8/3","聖莫里茲櫃台約8/4行李接駁到站"],
+    ["8/4 22:00","⏰回程線上報到開放(蘇黎世時間,兩組PNR)"],
+    ["8/7晚","杜拜櫃台:①約05:15大型車拿確認單②早餐盒③Express Checkout"],
+  ];
+  return (
+    <div>
+      <div style={{...S.card, background:"#FFF3F3", border:"2px solid #C8102E"}}>
+        <div style={{...S.secTitle, color:"#C8102E"}}>⚠️ 全程三大風險轉乘(背起來)</div>
+        {RISK3.map((r,i)=>(<div key={i} style={{fontSize:14.5, lineHeight:1.7, padding:"4px 0"}}>{r}</div>))}
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🌤️ 上山前一晚2分鐘SOP</div>
+        <div style={{fontSize:14, lineHeight:1.8}}>
+          ①看山頂即時攝影機(行程頁有連結)——<b>比預報準</b>,白牆就別上<br/>
+          ②MeteoSwiss App查山頂站小時預報:雲量&lt;50%+無雨=上;雷雨=改案<br/>
+          ③半天雨→上下午對調;整天雨→用當日「防呆指南」的改案,別整天放棄
+        </div>
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🎫 旅途中提醒時間軸</div>
+        {timeline.map(([t,a],i)=>(
+          <div key={i} style={{display:"flex", gap:10, padding:"7px 0", borderBottom:"1px solid #E8EDF3"}}>
+            <b style={{color:"#C8102E", fontSize:13.5, whiteSpace:"nowrap"}}>{t}</b>
+            <span style={{fontSize:13.5}}>{a}</span>
+          </div>
+        ))}
+      </div>
+      <div style={{...S.card, fontSize:13.5, color:"#5A6B7E"}}>{WCRULE}</div>
+    </div>
+  );
+}
+
+/* ---------- 使用說明:LINE分享/加主畫面/疑難排解 ---------- */
+function Help() {
+  const share = async () => {
+    const url = window.location.href;
+    if (navigator.share) { try { await navigator.share({ title: TRIP.name, url }); } catch{} }
+    else { try { await navigator.clipboard.writeText(url); alert("連結已複製!貼到LINE群組即可"); } catch { prompt("手動複製此連結:", url); } }
+  };
+  const MANUAL = [
+    ["🚀 安裝(每人一次,30秒)", "①點LINE群組裡的連結 ②【最重要】點右下「⋯」→「用預設瀏覽器開啟」(留在LINE裡定位/票券會失效,App會跳紅色提醒) ③Safari:「分享⬆︎」→「加入主畫面」;Chrome:右上「⋯」→「加入主畫面」→桌面出現圖示 ④首次把7個分頁各點一次預載,導航頁按「允許」定位"],
+    ["🗓️ 行程頁", "打開就是今天,◀▶翻前後天。每天有時刻表/飯店電話/山頂攝影機連結(上山前必看)/餐廳星等卡(🧭導航💬評論)/🛡️今日防呆指南(展開看交通陷阱、餐食備選、天氣改案)"],
+    ["🧭 導航頁", "出站點目標→看距離方向,距離變小=走對,越走越遠跳紅色警告。趕時間按Google Maps。報位置用「分享位置到LINE」"],
+    ["🍽️ 餐廳頁", "臨時找吃的看這裡!自動顯示今日城市備選,依你位置由近到遠排,含步行分鐘/星等/人均價。篩選:★4.4以上/500+評論/$$以下。點💬看最新評論與營業中與否"],
+    ["🎫 票券頁", "全家共享QR相簿:截圖票券QR→「＋新增」上傳→任何人點開全螢幕出示。閘門不收照片就改官方App或PDF(證件頁有連結)"],
+    ["📌 公告頁", "家庭留言板:選自己名字→輸入→發布,15秒自動更新全員可見。例:「我在Coop買水,月台3見」"],
+    ["🗣️ 會話頁", "點任一句→全螢幕放大→拿給店員看。含點餐/問路/「他有高血壓」「我走失了家人」等關鍵句"],
+    ["☰ 更多", "📁證件(護照效期/PNR/Drive連結,要登入Google=保護層)｜🛡️應變(三大風險/天氣SOP/提醒時間軸)｜🆘走散(集合點+緊急電話一鍵撥)"],
+    ["🆘 走散SOP", "①原地等5分鐘→②回該城市集合點(走散頁有表)→③打電話→④都不通回飯店。家人位置用內建「尋找」App"],
+    ["⚠️ 三大提醒", "①7/28 BOB火車前後分編,前段才去格林德瓦,上車看車廂側螢幕 ②8/2 Brig轉車8分鐘跟緊不拍照 ③斷網時已開過的頁面照常看,留言等出隧道"],
+  ];
+  const [openIdx, setOpenIdx] = useState(-1);
+  return (
+    <div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📖 使用手冊(點標題展開)</div>
+        {MANUAL.map(([t,body],i)=>(
+          <div key={i} style={{borderBottom:"1px solid #E8EDF3"}}>
+            <div onClick={()=>setOpenIdx(openIdx===i?-1:i)}
+              style={{padding:"10px 2px", fontSize:14.5, fontWeight:800, color:"#1F3864", cursor:"pointer", display:"flex", justifyContent:"space-between"}}>
+              <span>{t}</span><span style={{color:"#8A97A6"}}>{openIdx===i?"▲":"▼"}</span>
+            </div>
+            {openIdx===i && <div style={{fontSize:13.5, lineHeight:1.7, padding:"0 2px 10px", color:"#333"}}>{body}</div>}
+          </div>
+        ))}
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>📤 用LINE分享給家人(3步驟)</div>
+        <div style={{fontSize:14, lineHeight:1.9}}>
+          ① 點下方按鈕分享/複製連結,貼到家庭LINE群組<br/>
+          ② 家人在LINE點開後,<b style={{color:"#C8102E"}}>點右下「⋯」→「用預設瀏覽器開啟」</b>(⚠️留在LINE內建瀏覽器,定位與票券功能會失效!Safari或Chrome皆可)<br/>
+          ③ Safari:點「分享⬆︎」→「加入主畫面」;Chrome:右上「⋯」→「加入主畫面」→ 桌面出現App圖示,完成!
+        </div>
+        <button style={{...S.primaryBtn, width:"100%", marginTop:10}} onClick={share}>📤 分享此App連結</button>
+      </div>
+      <div style={S.card}>
+        <div style={S.secTitle}>🔧 疑難排解</div>
+        {[
+          ["導航沒反應?","Safari會詢問位置權限,點「允許」;若錯過:iPhone設定→隱私權→定位服務→Safari→使用期間允許。LINE瀏覽器內定位常失效→改Safari。"],
+          ["票券照片存不進去?","照片過大或暫時斷線:先截圖(比拍照小)再上傳;山區無訊號時無法上傳,回到有網路處再補。"],
+          ["公告沒更新?","需要網路;點「🔄手動更新」;隧道內收不到屬正常,出隧道自動恢復。"],
+          ["加入主畫面後打不開?","需有網路首次載入;開過的頁面會快取。出發前在家先把每個分頁都點開一輪。"],
+          ["家人位置怎麼看?","本App不做定位追蹤(耗電且隱私)。用內建「尋找」App:設定→家人共享→位置共享,出發前設好。"],
+          ["Drive連結要登入?","正常!這是保護層——只有被授權的家人Google帳號打得開,撿到手機的人打不開。"],
+        ].map(([q,a],i)=>(
+          <div key={i} style={{padding:"8px 0", borderBottom:"1px solid #E8EDF3"}}>
+            <div style={{fontWeight:700, fontSize:14}}>{q}</div>
+            <div style={{fontSize:13, color:"#5A6B7E", marginTop:2}}>{a}</div>
+          </div>
+        ))}
+      </div>
+      <div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>
+        🔄 日後擴充:本App所有內容都在程式頂端的TRIP物件——下次旅行換掉該物件即是全新旅程。
+      </div>
+    </div>
+  );
+}
+
+/* ---------- styles: SBB瑞士鐵路看板美學 ---------- */
+const S = {
+  app: { fontFamily: "'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif", background: "#EEF2F6", minHeight: "100vh", maxWidth: 520, margin: "0 auto", display: "flex", flexDirection: "column" },
+  lineBanner: { background: "#C8102E", color: "#fff", padding: "10px 14px", fontSize: 13, fontWeight: 700, lineHeight: 1.5 },
+  quickBar: { display: "flex", gap: 8, padding: "10px 12px", background: "#fff", borderBottom: "1px solid #E0E7EF", position: "sticky", top: 56, zIndex: 9 },
+  quickBtn: { flex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "10px 0", border: "none", borderRadius: 12, background: "#F0F5FB", color: "#1F3864", cursor: "pointer", boxShadow: "0 1px 2px rgba(31,56,100,0.06)" },
+  header: { background: "#1F3864", color: "#fff", padding: "14px 16px 10px", position: "sticky", top: 0, zIndex: 10, borderBottom: "3px solid #C8102E" },
+  headerTitle: { fontSize: 17, fontWeight: 800, letterSpacing: 0.5 },
+  headerSub: { fontSize: 13, opacity: 0.85, marginTop: 2, fontVariantNumeric: "tabular-nums" },
+  main: { flex: 1, padding: "12px 12px 90px" },
+  nav: { position: "fixed", bottom: 0, left: 0, right: 0, maxWidth: 520, margin: "0 auto", background: "#fff", borderTop: "1px solid #D5DDE6", display: "flex", zIndex: 20 },
+  navBtn: { flex: 1, padding: "8px 0 10px", border: "none", background: "transparent", color: "#5A6B7E", cursor: "pointer" },
+  navActive: { color: "#C8102E", fontWeight: 700, borderTop: "3px solid #C8102E", marginTop: -1 },
+  card: { background: "#fff", borderRadius: 10, padding: 14, marginBottom: 12, boxShadow: "0 1px 3px rgba(31,56,100,0.08)" },
+  dayNav: { display: "flex", gap: 8, marginBottom: 10 },
+  arrowBtn: { flex: 1, padding: "10px 0", border: "1px solid #D5DDE6", borderRadius: 8, background: "#fff", fontSize: 14, cursor: "pointer" },
+  todayBtn: { flex: 1, padding: "10px 0", border: "none", borderRadius: 8, background: "#1F3864", color: "#fff", fontSize: 14, fontWeight: 700, cursor: "pointer" },
+  dayTitle: { fontSize: 20, fontWeight: 800, color: "#1F3864" },
+  hotel: { fontSize: 13, color: "#5A6B7E", marginTop: 4 },
+  warnBox: { background: "#FFF3CD", color: "#7A5C00", padding: "8px 10px", borderRadius: 8, fontSize: 13, fontWeight: 600, marginTop: 8 },
+  webcamLink: { display: "block", background: "#E7F0FA", color: "#1F3864", padding: "9px 10px", borderRadius: 8, fontSize: 14, fontWeight: 700, marginTop: 8, textDecoration: "none" },
+  timeCell: { padding: "8px 8px 8px 0", fontWeight: 800, fontSize: 14, color: "#C8102E", whiteSpace: "nowrap", verticalAlign: "top", fontVariantNumeric: "tabular-nums", width: 70 },
+  planCell: { padding: "8px 0", fontSize: 14.5, lineHeight: 1.5 },
+  secTitle: { fontSize: 16, fontWeight: 800, color: "#1F3864", marginBottom: 8 },
+  primaryBtn: { background: "#C8102E", color: "#fff", border: "none", borderRadius: 8, padding: "10px 16px", fontSize: 15, fontWeight: 700, cursor: "pointer" },
+  ghostBtn: { background: "transparent", color: "#5A6B7E", border: "1px solid #D5DDE6", borderRadius: 8, padding: "8px 12px", fontSize: 13, cursor: "pointer", marginTop: 6 },
+  input: { flex: 1, border: "1px solid #D5DDE6", borderRadius: 8, padding: "9px 10px", fontSize: 14 },
+  select: { border: "1px solid #D5DDE6", borderRadius: 8, padding: "8px", fontSize: 14, background: "#fff" },
+  msgCard: { background: "#fff", borderRadius: 10, padding: "10px 14px", marginBottom: 8, boxShadow: "0 1px 2px rgba(31,56,100,0.06)" },
+  msgWho: { fontWeight: 800, color: "#1F3864", fontSize: 14 },
+  msgTime: { fontSize: 12, color: "#8A97A6", marginLeft: 8 },
+  ticketGrid: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 12 },
+  ticketCard: { background: "#fff", borderRadius: 10, padding: 8, textAlign: "center", boxShadow: "0 1px 3px rgba(31,56,100,0.08)" },
+  ticketImg: { width: "100%", height: 120, objectFit: "cover", borderRadius: 6, cursor: "pointer", background: "#F2F5F8" },
+  delBtn: { marginTop: 4, fontSize: 11, color: "#C8102E", background: "none", border: "none", cursor: "pointer" },
+  fullscreen: { position: "fixed", inset: 0, background: "rgba(10,20,40,0.96)", zIndex: 100, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 16 },
+  bigPhrase: { background: "#fff", borderRadius: 14, padding: "28px 22px", textAlign: "center", maxWidth: 460 },
+  phraseRow: { padding: "9px 0", borderBottom: "1px solid #E8EDF3", cursor: "pointer" },
+  wpCard: { border: "1px solid #D5DDE6", borderRadius: 8, padding: "9px 11px", marginBottom: 8, cursor: "pointer" },
+  wpActive: { border: "2px solid #C8102E", background: "#FFF7F7" },
+  wrongWay: { background: "#C8102E", color: "#fff", padding: "10px", borderRadius: 8, fontWeight: 800, fontSize: 15, marginTop: 10, animation: "pulse 1s infinite" },
+  mapsBtn: { display: "inline-block", marginTop: 12, background: "#1F3864", color: "#fff", padding: "10px 18px", borderRadius: 8, fontSize: 14, fontWeight: 700, textDecoration: "none" },
+  chipBtn: { background: "#C8102E", color: "#fff", padding: "4px 10px", borderRadius: 12, fontSize: 12.5, fontWeight: 700, textDecoration: "none" },
+  callRow: { display: "flex", justifyContent: "space-between", padding: "10px 0", borderBottom: "1px solid #E8EDF3", fontSize: 15, textDecoration: "none", color: "#1F3864" },
+};

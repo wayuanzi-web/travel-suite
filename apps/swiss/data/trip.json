@@ -1,0 +1,1553 @@
+{
+ "name": "遠志家族旅遊通",
+ "tz": "Europe/Zurich",
+ "members": [
+  "遠志(爸)",
+  "妃霏(媽)",
+  "紹懷",
+  "熙妍",
+  "奶奶"
+ ],
+ "days": [
+  {
+   "d": "2026-07-24",
+   "title": "台北出發",
+   "city": "台北 Taipei → 機上",
+   "hotel": "機上過夜",
+   "plan": [
+    [
+     "19:30",
+     "🚐 機場接送:專車到府接送往桃園機場 TPE Airport"
+    ],
+    [
+     "20:30",
+     "抵桃園 Arrive Taoyuan機場 TPE Airport，登機退稅 Tax Refund & Boarding"
+    ],
+    [
+     "23:50",
+     "EK367起飛 Departure"
+    ]
+   ],
+   "tickets": [
+    "emirates"
+   ],
+   "webcam": null
+  },
+  {
+   "d": "2026-07-25",
+   "eats": [
+    "galliker",
+    "bachmann"
+   ],
+   "title": "抵達琉森",
+   "city": "蘇黎世 Zürich → 琉森 Luzern",
+   "hotel": "歐式公園飯店 Europäischer Hof +41 41 228 90 50",
+   "plan": [
+    [
+     "13:30",
+     "EK087抵蘇黎世，領行李 Baggage Claim"
+    ],
+    [
+     "14:15",
+     "IR75直達琉森(62分)"
+    ],
+    [
+     "15:30",
+     "飯店Check-in 辦入住"
+    ],
+    [
+     "16:30",
+     "舊城 Old Town:卡貝爾橋 Kapellbrücke、城牆 Musegg Wall"
+    ],
+    [
+     "18:30",
+     "晚餐 Dinner:Wirtshaus Galliker",
+     "galliker"
+    ],
+    [
+     "20:00",
+     "獅子紀念碑 Lion Monument 夜景"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": null,
+   "nav": [
+    {
+     "name": "機場火車站 Flughafen Bahnhof",
+     "lat": 47.4503,
+     "lon": 8.5618,
+     "hint": "入境後跟綠色Bahn指標下2層"
+    },
+    {
+     "name": "琉森車站 Luzern Bahnhof",
+     "lat": 47.0502,
+     "lon": 8.3103,
+     "hint": "終點站,月台走到底出正門"
+    },
+    {
+     "name": "歐式公園飯店 Europäischer Hof Europaischer Hof",
+     "lat": 47.0489,
+     "lon": 8.3094,
+     "hint": "出正門左轉Zentralstrasse,接Murbacherstrasse,平路5-8分"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-26",
+   "eats": [
+    "schiff"
+   ],
+   "title": "皮拉圖斯山 Pilatus",
+   "city": "琉森 Luzern",
+   "hotel": "歐式公園飯店 Europäischer Hof Europaischer Hof",
+   "plan": [
+    [
+     "08:00",
+     "飯店早餐 Breakfast(彈性日)"
+    ],
+    [
+     "08:45",
+     "1號巴士往Kriens"
+    ],
+    [
+     "09:30",
+     "纜車 Cable Car 上Fräkmüntegg"
+    ],
+    [
+     "10:00",
+     "★滑草橇 Toboggan2-3趟"
+    ],
+    [
+     "11:45",
+     "Dragon Ride上山頂"
+    ],
+    [
+     "12:00",
+     "山頂 Summit + 午餐 LunchBellevue"
+    ],
+    [
+     "14:15",
+     "最陡齒軌 Cogwheel 下山"
+    ],
+    [
+     "15:00",
+     "遊船 Boat 回琉森 Luzern"
+    ],
+    [
+     "18:30",
+     "晚餐 Dinner:Restaurant Schiff",
+     "schiff"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": "https://www.pilatus.ch/en/discover/webcams",
+   "nav": [
+    {
+     "name": "Kriens纜車站 Kriens Pilatus-Bahn",
+     "lat": 47.0345,
+     "lon": 8.278,
+     "hint": "巴士Kriens,Linde Pilatus站下,跟棕色指標上坡10分"
+    },
+    {
+     "name": "Alpnachstad碼頭 Alpnachstad Pier",
+     "lat": 46.9585,
+     "lon": 8.2705,
+     "hint": "齒軌 Cogwheel 下山出站,過馬路即碼頭"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-27",
+   "eats": [
+    "harderkulm",
+    "stadthaus"
+   ],
+   "title": "移動+滑翔傘",
+   "city": "琉森 Luzern → 因特拉肯 Interlaken",
+   "hotel": "Essential by Dorint +41 33 826 77 07",
+   "plan": [
+    [
+     "07:45",
+     "早餐(固定班次日!)"
+    ],
+    [
+     "08:30",
+     "退房拉行李赴站"
+    ],
+    [
+     "09:06",
+     "LIX 2918次,車廂3(已訂位)"
+    ],
+    [
+     "11:00",
+     "飯店寄放行李"
+    ],
+    [
+     "12:30",
+     "峽谷冒險(選配)"
+    ],
+    [
+     "15:00",
+     "圖恩湖遊船+鐘乳石洞"
+    ],
+    [
+     "17:00",
+     "★★滑翔傘(Skywings 17:00班)"
+    ],
+    [
+     "19:00",
+     "Harder Kulm山頂晚餐",
+     "harderkulm"
+    ]
+   ],
+   "tickets": [
+    "stp",
+    "lix"
+   ],
+   "webcam": null,
+   "nav": [
+    {
+     "name": "琉森車站 Luzern Bahnhof",
+     "lat": 47.0502,
+     "lon": 8.3103,
+     "hint": "Zentralbahn窄軌月台在大廳左側"
+    },
+    {
+     "name": "因特拉肯東站 Interlaken Ost",
+     "lat": 46.6906,
+     "lon": 7.8695,
+     "hint": "出站右轉往Rugenparkstrasse"
+    },
+    {
+     "name": "Dorint飯店",
+     "lat": 46.6832,
+     "lon": 7.852,
+     "hint": "步行10分平路"
+    },
+    {
+     "name": "滑翔傘集合(Höhematte)",
+     "lat": 46.6857,
+     "lon": 7.8601,
+     "hint": "Skywings辦公室報到,詳確認信"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-28",
+   "eats": [
+    "taverne"
+   ],
+   "title": "少女峰 Jungfraujoch+瀑布鎮",
+   "city": "因特拉肯 Interlaken",
+   "hotel": "Essential by Dorint",
+   "plan": [
+    [
+     "08:00",
+     "早餐(前晚查攝影機!)"
+    ],
+    [
+     "08:45",
+     "東站→格林德瓦Terminal"
+    ],
+    [
+     "09:45",
+     "Eiger Express上山(訂位時段)"
+    ],
+    [
+     "10:45",
+     "山頂:①Sphinx②冰宮③展區④雪地⑤Lindt⑥午餐"
+    ],
+    [
+     "14:45",
+     "下山經Wengen→瀑布鎮"
+    ],
+    [
+     "16:15",
+     "史陶巴赫+特呂梅爾巴赫瀑布"
+    ],
+    [
+     "18:15",
+     "返因特拉肯"
+    ],
+    [
+     "19:00",
+     "晚餐 Dinner:Taverne",
+     "taverne"
+    ]
+   ],
+   "tickets": [
+    "stp",
+    "eiger"
+   ],
+   "webcam": "https://www.jungfrau.ch/en-gb/live/webcams/",
+   "warn": "⚠️BOB列車前後分編:只有前段去格林德瓦,看車廂側電子牌!",
+   "nav": [
+    {
+     "name": "格林德瓦Terminal",
+     "lat": 46.6234,
+     "lon": 8.0284,
+     "hint": "倒數第二站下車!纜車站直結"
+    },
+    {
+     "name": "Lauterbrunnen瀑布鎮",
+     "lat": 46.5936,
+     "lon": 7.9081,
+     "hint": "出站沿主街直走,瀑布在正前方山壁"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-29",
+   "eats": [
+    "onkeltom"
+   ],
+   "title": "First冒險日",
+   "city": "因特拉肯 Interlaken → 格林德瓦 Grindelwald",
+   "hotel": "Bergwelt +41 33 854 88 88",
+   "plan": [
+    [
+     "07:15",
+     "早餐(⚠️早起日)"
+    ],
+    [
+     "08:00",
+     "東站辦SBB行李快遞→策馬特"
+    ],
+    [
+     "09:00",
+     "火車至格林德瓦總站"
+    ],
+    [
+     "09:45",
+     "First纜車"
+    ],
+    [
+     "10:15",
+     "Cliff Walk→Flyer→Glider"
+    ],
+    [
+     "13:30",
+     "山上午餐"
+    ],
+    [
+     "14:30",
+     "Mountain Cart下山"
+    ],
+    [
+     "17:00",
+     "Bergwelt Check-in"
+    ],
+    [
+     "19:00",
+     "晚餐 Dinner:Barry's(Onkel Tom's週三公休!)"
+    ]
+   ],
+   "tickets": [
+    "stp",
+    "first"
+   ],
+   "webcam": "https://www.jungfrau.ch/en-gb/live/webcams/",
+   "warn": "⚠️行李快遞07:00-09:00收件,07:45前到櫃台",
+   "nav": [
+    {
+     "name": "格林德瓦總站",
+     "lat": 46.6244,
+     "lon": 8.0343,
+     "hint": "坐到底站(非Terminal)"
+    },
+    {
+     "name": "First纜車站",
+     "lat": 46.626,
+     "lon": 8.0392,
+     "hint": "出站左轉主街上坡8分"
+    },
+    {
+     "name": "Bergwelt飯店",
+     "lat": 46.6252,
+     "lon": 8.0425,
+     "hint": "主街往東,上坡車道5-7分"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-30",
+   "eats": [
+    "oeschinen"
+   ],
+   "title": "厄辛湖→策馬特",
+   "city": "格林德瓦 Grindelwald → 策馬特 Zermatt",
+   "hotel": "Colosseo公寓 +41 27 966 06 50",
+   "plan": [
+    [
+     "07:45",
+     "早餐(輕裝日)"
+    ],
+    [
+     "08:30",
+     "退房,火車經Spiez"
+    ],
+    [
+     "10:30",
+     "Kandersteg纜車 Cable Car 上厄辛湖"
+    ],
+    [
+     "11:00",
+     "環湖+滑車+湖畔午餐",
+     "oeschinen"
+    ],
+    [
+     "14:15",
+     "經Visp至策馬特"
+    ],
+    [
+     "16:30",
+     "車站領快遞行李"
+    ],
+    [
+     "17:00",
+     "公寓Check-in,Coop採買"
+    ],
+    [
+     "18:45",
+     "公寓自炊(起司火鍋)"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": null,
+   "nav": [
+    {
+     "name": "Kandersteg站",
+     "lat": 46.4989,
+     "lon": 7.6718,
+     "hint": "跟棕色Oeschinensee指標步行12-15分"
+    },
+    {
+     "name": "策馬特車站 Zermatt Bahnhof",
+     "lat": 46.0245,
+     "lon": 7.7491,
+     "hint": "先在站內領行李 Baggage Claim再出站!"
+    },
+    {
+     "name": "Colosseo公寓",
+     "lat": 46.021,
+     "lon": 7.7513,
+     "hint": "上坡10-15分,行李多搭E-taxi(站前排班)"
+    }
+   ]
+  },
+  {
+   "d": "2026-07-31",
+   "eats": [
+    "whymper",
+    "walliserkanne",
+    "browncow"
+   ],
+   "title": "Gornergrat+五湖",
+   "city": "策馬特 Zermatt",
+   "hotel": "Colosseo公寓",
+   "plan": [
+    [
+     "08:00",
+     "公寓早餐"
+    ],
+    [
+     "08:45",
+     "GGB登山鐵道(站斜對面,坐右側)"
+    ],
+    [
+     "09:30",
+     "Rotenboden下車→Riffelsee倒影"
+    ],
+    [
+     "10:00",
+     "登頂觀景台"
+    ],
+    [
+     "12:00",
+     "午餐 Lunch:Brown Cow Pub(⚠️Walliserkanne僅3.8星已換)",
+     "browncow"
+    ],
+    [
+     "13:45",
+     "Sunnegga纜車"
+    ],
+    [
+     "14:15",
+     "五湖步道(長輩走一段即回)"
+    ],
+    [
+     "18:30",
+     "📅Whymper-Stube起司火鍋",
+     "whymper"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": "https://www.gornergrat.ch/en/pages/webcam.aspx"
+  },
+  {
+   "d": "2026-08-01",
+   "title": "冰川天堂🇨🇭國慶",
+   "city": "策馬特 Zermatt",
+   "hotel": "Colosseo公寓",
+   "plan": [
+    [
+     "08:00",
+     "早餐"
+    ],
+    [
+     "09:00",
+     "冰川天堂纜車(村南端)"
+    ],
+    [
+     "10:30",
+     "冰宮+Skywalk(3883m,慢行多喝水)"
+    ],
+    [
+     "13:00",
+     "返村午餐"
+    ],
+    [
+     "14:00",
+     "Gorner峽谷木棧道"
+    ],
+    [
+     "17:00",
+     "SPA或休息"
+    ],
+    [
+     "17:30",
+     "國慶日晚餐(早入座!)或自炊"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": "https://www.matterhornparadise.ch/en/Live-Info/Webcams",
+   "warn": "🇨🇭國慶日:餐廳一位難求,17:30前入座或自炊"
+  },
+  {
+   "d": "2026-08-02",
+   "eats": [
+    "chesaveglia"
+   ],
+   "title": "冰河列車 Glacier Express日",
+   "city": "策馬特 Zermatt → 聖莫里茲 St. Moritz",
+   "hotel": "Waldhaus am See +41 81 836 60 00",
+   "plan": [
+    [
+     "06:45",
+     "早餐盒(公寓提早退房已約)"
+    ],
+    [
+     "07:52",
+     "MGB往安德馬特(⚠️Brig轉車09:06-09:14只有8分)"
+    ],
+    [
+     "11:00",
+     "★冰河列車 Glacier Express900,車廂42(已訂位)"
+    ],
+    [
+     "13:25",
+     "抵庫爾:行李拉著逛老城午餐"
+    ],
+    [
+     "15:00",
+     "RhB續行聖莫里茲"
+    ],
+    [
+     "17:00",
+     "抵達,飯店接駁"
+    ],
+    [
+     "19:00",
+     "📅Chesa Veglia晚餐",
+     "chesaveglia"
+    ]
+   ],
+   "tickets": [
+    "stp",
+    "glacier"
+   ],
+   "webcam": null,
+   "warn": "⚠️全程最硬一天:Brig轉車8分鐘,5人跟緊不拍照!",
+   "nav": [
+    {
+     "name": "策馬特車站 Zermatt Bahnhof",
+     "lat": 46.0245,
+     "lon": 7.7491,
+     "hint": "07:30抵站,大行李隨行"
+    },
+    {
+     "name": "庫爾車站 Chur Bahnhof",
+     "lat": 46.853,
+     "lon": 9.529,
+     "hint": "出正門直走Bahnhofstrasse 5分入老城"
+    },
+    {
+     "name": "Waldhaus am See",
+     "lat": 46.4936,
+     "lon": 9.8455,
+     "hint": "沿湖步行5-10分或飯店接駁"
+    }
+   ]
+  },
+  {
+   "d": "2026-08-03",
+   "eats": [
+    "engiadina"
+   ],
+   "title": "聖莫里茲雙峰",
+   "city": "聖莫里茲 St. Moritz",
+   "hotel": "Waldhaus am See",
+   "plan": [
+    [
+     "08:00",
+     "飯店早餐 Breakfast"
+    ],
+    [
+     "09:30",
+     "魔女峰Diavolezza"
+    ],
+    [
+     "12:30",
+     "山頂午餐"
+    ],
+    [
+     "14:30",
+     "Muottas Muragl全景"
+    ],
+    [
+     "16:30",
+     "湖畔踏板船/精品街"
+    ],
+    [
+     "18:30",
+     "晚餐 Dinner:Engiadina恩加丁菜",
+     "engiadina"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": "https://www.engadin.ch/en/webcams/"
+  },
+  {
+   "d": "2026-08-04",
+   "eats": [
+    "hiltl",
+    "zeughaus"
+   ],
+   "title": "直達蘇黎世",
+   "city": "聖莫里茲 St. Moritz → 蘇黎世 Zürich",
+   "hotel": "Ruby Mimi +41 44 244 10 60",
+   "plan": [
+    [
+     "08:00",
+     "早餐,行李請飯店送站"
+    ],
+    [
+     "09:30",
+     "阿爾布拉遺產鐵道(車上賞景)"
+    ],
+    [
+     "11:40",
+     "庫爾轉IC直達蘇黎世"
+    ],
+    [
+     "13:00",
+     "飯店寄放行李,老城午餐Hiltl",
+     "hiltl"
+    ],
+    [
+     "14:30",
+     "Uetliberg後花園"
+    ],
+    [
+     "17:15",
+     "老城:班霍夫大道、雙教堂"
+    ],
+    [
+     "19:00",
+     "📅Zeughauskeller晚餐",
+     "zeughaus"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": null,
+   "nav": [
+    {
+     "name": "蘇黎世HB",
+     "lat": 47.3779,
+     "lon": 8.5403,
+     "hint": "認Bahnhofstrasse出口,過橋8分"
+    },
+    {
+     "name": "Ruby Mimi",
+     "lat": 47.3757,
+     "lon": 8.5432,
+     "hint": "Beatenplatz 4,老城平路"
+    }
+   ]
+  },
+  {
+   "d": "2026-08-05",
+   "eats": [
+    "sprungli",
+    "kronenhalle"
+   ],
+   "title": "萊茵瀑布+壓軸宴",
+   "city": "蘇黎世 Zürich",
+   "hotel": "Ruby Mimi",
+   "plan": [
+    [
+     "08:00",
+     "早餐"
+    ],
+    [
+     "08:45",
+     "火車往沙夫豪森"
+    ],
+    [
+     "09:45",
+     "萊茵瀑布搭船登礁岩"
+    ],
+    [
+     "12:00",
+     "史坦因鎮彩繪古鎮+午餐",
+     "rheinfels"
+    ],
+    [
+     "15:00",
+     "返蘇黎世,Sprüngli甜點",
+     "sprungli"
+    ],
+    [
+     "19:00",
+     "📅Kronenhalle百年名店壓軸",
+     "kronenhalle"
+    ]
+   ],
+   "tickets": [
+    "stp"
+   ],
+   "webcam": null
+  },
+  {
+   "d": "2026-08-06",
+   "eats": [
+    "schober"
+   ],
+   "title": "回程日",
+   "city": "蘇黎世→機上",
+   "hotel": "機上(EK086)",
+   "plan": [
+    [
+     "08:30",
+     "悠閒早餐"
+    ],
+    [
+     "10:00",
+     "退房寄行李,老城散步Café Schober"
+    ],
+    [
+     "12:00",
+     "午餐Frau Gerolds"
+    ],
+    [
+     "13:30",
+     "Lindt巧克力博物館"
+    ],
+    [
+     "17:00",
+     "赴機場:先退稅再托運!"
+    ],
+    [
+     "22:00",
+     "EK086起飛 Departure"
+    ]
+   ],
+   "tickets": [
+    "stp",
+    "emirates"
+   ],
+   "webcam": null,
+   "warn": "🔴 離境日:退稅櫃台在Check-in 1與2之間,先蓋章再托運!瑞士刀/酒必走託運動線。抵機場第一件事辦退稅,別先逛免稅店(海關有辦公時間)。食品VAT僅2.6%,退不了多少——手錶包包保養品才值得退。詳:更多→🛫離境"
+  },
+  {
+   "d": "2026-08-07",
+   "eats": [
+    "arabiantea"
+   ],
+   "title": "杜拜24小時",
+   "city": "杜拜 Dubai",
+   "hotel": "JW Marriott Marquis Dubai +971 4 414 0000",
+   "plan": [
+    [
+     "06:10",
+     "抵杜拜,飯店Check-in 辦入住(3房)"
+    ],
+    [
+     "06:30",
+     "補眠"
+    ],
+    [
+     "09:30",
+     "飯店buffet早餐"
+    ],
+    [
+     "10:30",
+     "Dubai Marina"
+    ],
+    [
+     "13:30",
+     "Dubai Frame"
+    ],
+    [
+     "14:30",
+     "哈里發塔 Burj Khalifa(已預約時段)"
+    ],
+    [
+     "16:00",
+     "Dubai Mall+噴泉"
+    ],
+    [
+     "18:30",
+     "舊城市集+晚餐 Dinner:Arabian Tea House",
+     "arabiantea"
+    ],
+    [
+     "20:00",
+     "⚠️收工回飯店:①約明晨Van②早餐盒③打包"
+    ]
+   ],
+   "tickets": [
+    "emirates",
+    "burj"
+   ],
+   "webcam": null,
+   "warn": "⚠️今晚三件事:約05:15大型車(要確認單)/早餐盒/行李打包"
+  },
+  {
+   "d": "2026-08-08",
+   "title": "返抵台北",
+   "city": "杜拜 Dubai → 台北 Taipei",
+   "hotel": "—",
+   "plan": [
+    [
+     "05:15",
+     "🚐 機場接送:大型Van到府接(前晚已約),往DXB"
+    ],
+    [
+     "05:45",
+     "DXB Terminal 3 報到 Check-in"
+    ],
+    [
+     "08:45",
+     "EK386起飛 Departure"
+    ],
+    [
+     "21:20",
+     "抵桃園 Arrive Taoyuan🏠"
+    ]
+   ],
+   "tickets": [
+    "emirates"
+   ],
+   "webcam": null,
+   "warn": "🔴 入境台灣:風乾牛肉、生乳起司、生鮮蔬果一律禁帶(會沒收開罰)。免稅額 NT$35,000。不確定就走紅線申報。詳:更多→🛫離境→🇹🇼海關"
+  }
+ ],
+ "ticketMeta": {
+  "stp": {
+   "name": "Swiss Travel Pass",
+   "note": "15天1等艙×5人"
+  },
+  "lix": {
+   "name": "LIX 2918次訂位",
+   "note": "7/27 車廂3 座位125,131-134"
+  },
+  "eiger": {
+   "name": "Eiger Express",
+   "note": "7/28 時段票"
+  },
+  "first": {
+   "name": "First Flyer/Glider",
+   "note": "7/29 時段票"
+  },
+  "glacier": {
+   "name": "冰河列車 Glacier Express900",
+   "note": "8/2 車廂42 座位33-36+51"
+  },
+  "emirates": {
+   "name": "阿聯酋機票",
+   "note": "PNR: MAK✱✱✱ + ES✱✱✱✱"
+  },
+  "burj": {
+   "name": "哈里發塔 Burj Khalifa",
+   "note": "8/7 14:30時段"
+  }
+ },
+ "lost": {
+  "rule": "走散SOP:①原地等5分鐘②回「該城市集合點」③打電話④都不通→回飯店",
+  "points": [
+   [
+    "琉森",
+    "車站大廳售票機前 Main Hall Ticket Machine"
+   ],
+   [
+    "因特拉肯",
+    "東站大廳售票機前"
+   ],
+   [
+    "格林德瓦",
+    "總站出口"
+   ],
+   [
+    "策馬特",
+    "主火車站大廳"
+   ],
+   [
+    "聖莫里茲",
+    "車站大廳"
+   ],
+   [
+    "蘇黎世",
+    "HB大廳中央天使雕像 Angel Statue下"
+   ],
+   [
+    "少女峰 Jungfraujoch山頂",
+    "Sphinx觀景台入口"
+   ],
+   [
+    "杜拜",
+    "飯店大廳"
+   ]
+  ],
+  "emergency": [
+   [
+    "歐洲緊急",
+    "112"
+   ],
+   [
+    "山難救援Rega",
+    "1414"
+   ],
+   [
+    "駐瑞士代表處急難",
+    "+41 79 345 2919"
+   ],
+   [
+    "杜拜緊急",
+    "999"
+   ],
+   [
+    "駐杜拜急難",
+    "+971 50 645 0303"
+   ]
+  ]
+ },
+ "phrases": [
+  {
+   "cat": "🛍 購物殺價",
+   "items": [
+    [
+     "多少錢?",
+     "Wie viel kostet das?",
+     "How much is this?"
+    ],
+    [
+     "太貴了,可以便宜嗎?",
+     "Zu teuer. Geht es günstiger?",
+     "Too expensive. Any discount?"
+    ],
+    [
+     "我只是看看",
+     "Ich schaue nur",
+     "Just looking, thanks"
+    ],
+    [
+     "可以刷卡嗎?",
+     "Kann ich mit Karte zahlen?",
+     "Can I pay by card?"
+    ],
+    [
+     "請幫我退稅",
+     "Tax-Free bitte",
+     "Tax refund, please"
+    ],
+    [
+     "有中文說明嗎?",
+     "Gibt es das auf Chinesisch?",
+     "Do you have it in Chinese?"
+    ]
+   ]
+  },
+  {
+   "cat": "🏨 飯店",
+   "items": [
+    [
+     "我們有訂房,姓王",
+     "Wir haben reserviert, Name Wang",
+     "We have a reservation, name Wang"
+    ],
+    [
+     "可以寄放行李嗎?",
+     "Können wir das Gepäck lassen?",
+     "Can we leave our luggage?"
+    ],
+    [
+     "WiFi密碼是什麼?",
+     "Wie lautet das WLAN-Passwort?",
+     "What is the WiFi password?"
+    ],
+    [
+     "冷氣/暖氣壞了",
+     "Die Klimaanlage funktioniert nicht",
+     "The AC/heater is not working"
+    ],
+    [
+     "請多給一條毛巾",
+     "Noch ein Handtuch bitte",
+     "One more towel, please"
+    ],
+    [
+     "幾點退房?",
+     "Wann ist Check-out?",
+     "What time is check-out?"
+    ]
+   ]
+  },
+  {
+   "cat": "🍽 餐廳用餐",
+   "items": [
+    [
+     "我們5個人,有位子嗎?",
+     "Einen Tisch für fünf, bitte",
+     "A table for five, please"
+    ],
+    [
+     "我要點菜",
+     "Ich möchte bestellen",
+     "I'd like to order"
+    ],
+    [
+     "推薦什麼?",
+     "Was empfehlen Sie?",
+     "What do you recommend?"
+    ],
+    [
+     "不要辣/堅果/豬肉",
+     "Ohne Scharf/Nüsse/Schwein",
+     "No spicy/nuts/pork"
+    ],
+    [
+     "我吃素",
+     "Ich bin Vegetarier",
+     "I'm vegetarian"
+    ],
+    [
+     "買單,謝謝",
+     "Die Rechnung, bitte",
+     "Check, please"
+    ],
+    [
+     "可以分開付嗎?",
+     "Können wir getrennt zahlen?",
+     "Can we pay separately?"
+    ],
+    [
+     "這道菜是什麼?",
+     "Was ist dieses Gericht?",
+     "What is this dish?"
+    ]
+   ]
+  },
+  {
+   "cat": "🗺 問路",
+   "items": [
+    [
+     "___怎麼走?",
+     "Wo ist ___?",
+     "Where is ___?"
+    ],
+    [
+     "走路幾分鐘?",
+     "Wie viele Minuten zu Fuß?",
+     "How many minutes on foot?"
+    ],
+    [
+     "左轉還是右轉?",
+     "Links oder rechts?",
+     "Left or right?"
+    ],
+    [
+     "可以帶我們去嗎?",
+     "Können Sie uns dorthin bringen?",
+     "Can you take us there?"
+    ],
+    [
+     "我迷路了",
+     "Ich habe mich verlaufen",
+     "I'm lost"
+    ],
+    [
+     "最近的車站在哪?",
+     "Wo ist der nächste Bahnhof?",
+     "Where is the nearest station?"
+    ]
+   ]
+  },
+  {
+   "cat": "🏥 醫療緊急",
+   "items": [
+    [
+     "他有高血壓",
+     "Er hat Bluthochdruck",
+     "He has high blood pressure"
+    ],
+    [
+     "請叫救護車",
+     "Rufen Sie bitte einen Krankenwagen",
+     "Please call an ambulance"
+    ],
+    [
+     "哪裡有藥局?",
+     "Wo ist die Apotheke?",
+     "Where is a pharmacy?"
+    ],
+    [
+     "我需要看醫生",
+     "Ich brauche einen Arzt",
+     "I need a doctor"
+    ],
+    [
+     "我走失了家人",
+     "Ich habe meine Familie verloren",
+     "I've lost my family"
+    ],
+    [
+     "頭暈/肚子痛",
+     "Mir ist schwindelig / Bauchschmerzen",
+     "Dizzy / Stomachache"
+    ],
+    [
+     "我不舒服",
+     "Mir geht es nicht gut",
+     "I don't feel well"
+    ]
+   ]
+  },
+  {
+   "cat": "🔢 實用數字",
+   "items": [
+    [
+     "一/二/三/四/五",
+     "eins/zwei/drei/vier/fünf",
+     "one/two/three/four/five"
+    ],
+    [
+     "六/七/八/九/十",
+     "sechs/sieben/acht/neun/zehn",
+     "six/seven/eight/nine/ten"
+    ],
+    [
+     "二十/五十/一百",
+     "zwanzig/fünfzig/hundert",
+     "twenty/fifty/one hundred"
+    ]
+   ]
+  },
+  {
+   "cat": "🚉 車站交通",
+   "items": [
+    [
+     "這班車去___嗎?",
+     "Geht dieser Zug nach ___?",
+     "Does this train go to ___?"
+    ],
+    [
+     "月台在哪裡?",
+     "Wo ist das Gleis?",
+     "Where is the platform?"
+    ],
+    [
+     "我有Swiss Travel Pass",
+     "Ich habe einen Swiss Travel Pass",
+     "I have a Swiss Travel Pass"
+    ],
+    [
+     "行李寄放處在哪?",
+     "Wo ist die Gepäckaufbewahrung?",
+     "Where is luggage storage?"
+    ],
+    [
+     "出口",
+     "Ausgang",
+     "Exit"
+    ],
+    [
+     "轉車",
+     "Umsteigen",
+     "Transfer/Change"
+    ]
+   ]
+  },
+  {
+   "cat": "🏨 飯店",
+   "items": [
+    [
+     "我們有訂房,姓王",
+     "Wir haben reserviert, Name Wang",
+     "We have a reservation, name Wang"
+    ],
+    [
+     "可以寄放行李嗎?",
+     "Können wir das Gepäck lassen?",
+     "Can we leave our luggage?"
+    ],
+    [
+     "早餐幾點開始?",
+     "Ab wann gibt es Frühstück?",
+     "What time does breakfast start?"
+    ],
+    [
+     "可以準備早餐盒嗎?",
+     "Können Sie ein Lunchpaket vorbereiten?",
+     "Could you prepare a breakfast box?"
+    ],
+    [
+     "請幫我叫計程車",
+     "Bitte rufen Sie ein Taxi",
+     "Please call a taxi"
+    ]
+   ]
+  },
+  {
+   "cat": "🍽️ 餐廳",
+   "items": [
+    [
+     "5位,謝謝",
+     "Fünf Personen, bitte",
+     "Table for five, please"
+    ],
+    [
+     "有英文菜單嗎?",
+     "Haben Sie eine englische Karte?",
+     "Do you have an English menu?"
+    ],
+    [
+     "不要太鹹",
+     "Nicht zu salzig, bitte",
+     "Not too salty, please"
+    ],
+    [
+     "自來水就好(免費)",
+     "Leitungswasser, bitte",
+     "Tap water, please"
+    ],
+    [
+     "買單",
+     "Die Rechnung, bitte",
+     "The bill, please"
+    ],
+    [
+     "可以刷卡嗎?",
+     "Kann ich mit Karte zahlen?",
+     "Can I pay by card?"
+    ]
+   ]
+  },
+  {
+   "cat": "🆘 緊急醫療",
+   "items": [
+    [
+     "請幫幫我",
+     "Bitte helfen Sie mir",
+     "Please help me"
+    ],
+    [
+     "需要醫生",
+     "Wir brauchen einen Arzt",
+     "We need a doctor"
+    ],
+    [
+     "藥局在哪?",
+     "Wo ist die Apotheke?",
+     "Where is the pharmacy?"
+    ],
+    [
+     "他有高血壓",
+     "Er/Sie hat Bluthochdruck",
+     "He/She has high blood pressure"
+    ],
+    [
+     "頭痛/頭暈(高山症)",
+     "Kopfschmerzen / Schwindel",
+     "Headache / Dizziness"
+    ],
+    [
+     "我走失了家人",
+     "Ich habe meine Familie verloren",
+     "I lost my family"
+    ]
+   ]
+  },
+  {
+   "cat": "🛍️ 購物識別",
+   "items": [
+    [
+     "超市",
+     "Supermarkt (Coop/Migros)",
+     "Supermarket"
+    ],
+    [
+     "麵包店",
+     "Bäckerei",
+     "Bakery"
+    ],
+    [
+     "藥局(綠十字)",
+     "Apotheke",
+     "Pharmacy"
+    ],
+    [
+     "廁所",
+     "Toilette / WC",
+     "Toilet"
+    ],
+    [
+     "免費/收費",
+     "Gratis / Kostenpflichtig",
+     "Free / Paid"
+    ],
+    [
+     "營業中/休息",
+     "Offen / Geschlossen",
+     "Open / Closed"
+    ],
+    [
+     "退稅",
+     "Steuerrückerstattung (Tax Free)",
+     "Tax refund"
+    ]
+   ]
+  }
+ ],
+ "phrasesAdv": [
+  {
+   "cat": "🍽 餐廳進階對話",
+   "items": [
+    [
+     "我預約了7點,姓Wang,5個人",
+     "Ich habe eine Reservierung um sieben Uhr, Name Wang, fünf Personen",
+     "I have a reservation at seven, name Wang, party of five"
+    ],
+    [
+     "有沒有靠窗的位子?",
+     "Haben Sie einen Tisch am Fenster?",
+     "Do you have a table by the window?"
+    ],
+    [
+     "這道菜裡有乳製品嗎?我們有人過敏",
+     "Enthält dieses Gericht Milchprodukte? Wir haben eine Allergie",
+     "Does this dish contain dairy? We have an allergy"
+    ],
+    [
+     "請問起司火鍋是幾人份?",
+     "Für wie viele Personen ist das Käsefondue?",
+     "How many people is the cheese fondue for?"
+    ],
+    [
+     "我想把剩下的打包帶走",
+     "Ich möchte den Rest einpacken lassen",
+     "I'd like to take the leftovers to go"
+    ],
+    [
+     "你們接受台灣的信用卡嗎?",
+     "Akzeptieren Sie taiwanesische Kreditkarten?",
+     "Do you accept Taiwanese credit cards?"
+    ],
+    [
+     "服務很棒,謝謝今晚的照顧",
+     "Der Service war ausgezeichnet, vielen Dank",
+     "The service was wonderful, thank you"
+    ],
+    [
+     "附近有推薦的甜點店嗎?",
+     "Können Sie ein Dessert-Café in der Nähe empfehlen?",
+     "Can you recommend a dessert place nearby?"
+    ]
+   ]
+  },
+  {
+   "cat": "🚂 火車進階對話",
+   "items": [
+    [
+     "我的Swiss Travel Pass可以搭這班車嗎?",
+     "Kann ich mit meinem Swiss Travel Pass diesen Zug nehmen?",
+     "Can I take this train with my Swiss Travel Pass?"
+    ],
+    [
+     "這班車在哪裡分成兩段?我要去格林德瓦",
+     "Wo wird dieser Zug geteilt? Ich muss nach Grindelwald",
+     "Where does this train split? I need Grindelwald"
+    ],
+    [
+     "我們5個人可以坐一起嗎?",
+     "Wir sind fünf Personen, können wir zusammen sitzen?",
+     "We're five, can we sit together?"
+    ],
+    [
+     "轉車月台在哪?我們只有8分鐘",
+     "Wo ist das Gleis zum Umsteigen? Wir haben nur acht Minuten",
+     "Where's the connecting platform? We only have eight minutes"
+    ],
+    [
+     "行李太大放不上架,哪裡有空間?",
+     "Mein Gepäck ist zu groß, wo gibt es mehr Platz?",
+     "My luggage is too big, where is there more space?"
+    ],
+    [
+     "冰河列車可以預訂午餐嗎?",
+     "Kann man im Glacier Express das Mittagessen vorbestellen?",
+     "Can I pre-order lunch on the Glacier Express?"
+    ],
+    [
+     "這張票可以中途下車嗎?",
+     "Kann ich mit diesem Ticket unterwegs aussteigen?",
+     "Can I break my journey with this ticket?"
+    ]
+   ]
+  },
+  {
+   "cat": "🏔 登山進階對話",
+   "items": [
+    [
+     "今天山上天氣如何?纜車正常運行嗎?",
+     "Wie ist das Wetter oben? Läuft die Seilbahn normal?",
+     "How's the weather up top? Is the cable car running?"
+    ],
+    [
+     "我奶奶年紀大,這條步道她走得了嗎?",
+     "Meine Großmutter ist älter, kann sie diesen Weg schaffen?",
+     "My grandmother is elderly, can she manage this trail?"
+    ],
+    [
+     "有人不舒服可能高山反應,怎麼辦?",
+     "Jemandem geht es nicht gut, vielleicht Höhenkrankheit. Was tun?",
+     "Someone feels unwell, possibly altitude sickness. What to do?"
+    ],
+    [
+     "末班纜車幾點?錯過怎麼下山?",
+     "Wann fährt die letzte Seilbahn? Was, wenn ich sie verpasse?",
+     "When's the last cable car? What if we miss it?"
+    ],
+    [
+     "哪裡是拍馬特洪峰最好的角度?",
+     "Wo ist der beste Platz für ein Matterhorn-Foto?",
+     "Where's the best spot to photograph the Matterhorn?"
+    ],
+    [
+     "五湖步道只走一半,哪裡搭纜車下山?",
+     "Ich gehe den 5-Seen-Weg nur halb, wo nehme ich die Seilbahn?",
+     "Half the Five Lakes Walk, where's the cable car back?"
+    ]
+   ]
+  },
+  {
+   "cat": "🏨 飯店進階對話",
+   "items": [
+    [
+     "明早要退房,今晚可以先結帳嗎?",
+     "Wir reisen morgen früh ab, können wir heute Abend auschecken?",
+     "Leaving early tomorrow, can we settle up tonight?"
+    ],
+    [
+     "幫我約明早5點15分大型計程車,5人加行李",
+     "Bitte ein Großraumtaxi für morgen 5:15 Uhr, fünf Personen mit Gepäck",
+     "A large taxi for 5:15 AM, five people with luggage"
+    ],
+    [
+     "可以準備早餐盒嗎?我們趕早班火車",
+     "Können Sie Frühstücksboxen vorbereiten? Wir haben einen frühen Zug",
+     "Can you prepare breakfast boxes? We have an early train"
+    ],
+    [
+     "房間熱水不夠熱,可以派人來看嗎?",
+     "Das Warmwasser ist nicht heiß genug, kann jemand nachsehen?",
+     "The hot water isn't hot enough, can someone check?"
+    ],
+    [
+     "爸爸有高血壓,最近的醫院在哪?",
+     "Mein Vater hat Bluthochdruck, wo ist das nächste Krankenhaus?",
+     "My father has high blood pressure, where's the nearest hospital?"
+    ]
+   ]
+  },
+  {
+   "cat": "🛍 購物退稅進階",
+   "items": [
+    [
+     "我買超過300瑞郎,可以退稅嗎?",
+     "Ich habe über 300 Franken ausgegeben, kann ich Tax-Free bekommen?",
+     "I spent over 300 francs, can I get tax-free?"
+    ],
+    [
+     "退稅單在哪蓋海關章?check-in前還後?",
+     "Wo bekomme ich den Zollstempel? Vor oder nach dem Check-in?",
+     "Where's the customs stamp? Before or after check-in?"
+    ],
+    [
+     "這個可以包裝成禮物嗎?",
+     "Können Sie das als Geschenk einpacken?",
+     "Can you gift-wrap this?"
+    ],
+    [
+     "有台灣旅客的折扣嗎?",
+     "Haben Sie einen Rabatt für Reisende aus Taiwan?",
+     "Any discount for travelers from Taiwan?"
+    ]
+   ]
+  },
+  {
+   "cat": "🆘 緊急狀況進階",
+   "items": [
+    [
+     "爸爸有高血壓,現在頭暈想吐,請叫救護車",
+     "Mein Vater hat Bluthochdruck, ihm ist schwindelig, bitte einen Krankenwagen",
+     "My father has high blood pressure, dizzy and nauseous, please call an ambulance"
+    ],
+    [
+     "家人走散了,一位老奶奶和小女孩,可能在車站附近",
+     "Wir haben Familie verloren, eine ältere Frau und ein Mädchen, vielleicht beim Bahnhof",
+     "We lost family, an elderly woman and a girl, maybe near the station"
+    ],
+    [
+     "護照被偷了,要報警並聯繫台灣代表處",
+     "Mein Reisepass wurde gestohlen, ich muss zur Polizei und die taiwanesische Vertretung anrufen",
+     "My passport was stolen, I need police and the Taiwanese office"
+    ],
+    [
+     "航班取消了,最近的阿聯酋櫃台在哪?",
+     "Unser Flug wurde gestrichen, wo ist der nächste Emirates-Schalter?",
+     "Our flight was cancelled, where's the nearest Emirates desk?"
+    ],
+    [
+     "有人受傷需要急救,附近有藥局嗎?",
+     "Jemand ist verletzt, gibt es eine Apotheke in der Nähe?",
+     "Someone's injured, is there a pharmacy nearby?"
+    ]
+   ]
+  }
+ ]
+}
