@@ -1,10 +1,10 @@
 {
  "app": "swiss",
- "version": "1.7",
- "dataVersion": "1.0",
+ "version": "1.7.1",
+ "dataVersion": "1.1",
  "build": "2026-08-03",
  "base": "travel-hub v1 skeleton + v3.12 restored data",
- "changes": "1.7:天氣離線狀態明確化(不再永遠顯示載入中)",
+ "changes": "1.7 天氣離線狀態明確化;1.7.1 杜拜退稅:未滿18歲限制實務化+驗證不可代辦(查核FTA/Planet)",
  "storage": "wang.swiss.*",
  "note": "st2607 未動;8/8 後才加唯讀搬遷"
 }
