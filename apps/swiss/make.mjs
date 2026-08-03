@@ -43,7 +43,10 @@ B1 = must(B1, 'const now = new Date().toISOString().slice(0,10);',
   'const now = new Intl.DateTimeFormat("sv-SE", { timeZone: TRIP.tz }).format(new Date());', "tz");
 // board tab → wx tab
 B1 = must(B1, '{tab==="board" && <Board />}', '{tab==="wx" && <Wx day={day} dayIdx={dayIdx} />}', "wxrender");
-B1 = must(B1, '["board","📌","公告"]', '["wx","🌡","天氣"]', "wxtab");
+B1 = must(B1, '["board","📌","公告"]', '["wx","🌡","天氣"],["shop","🎁","購物"]', "wxtab");
+B1 = must(B1, '{tab==="wx" && <Wx day={day} dayIdx={dayIdx} />}', '{tab==="wx" && <Wx day={day} dayIdx={dayIdx} />}\n        {tab==="shop" && <Shop dayIdx={dayIdx} />}', "shoptabrender");
+B1 = must(B1, '<div style={{fontSize:20}}>{ic}</div><div style={{fontSize:11}}>{lb}</div>',
+  '<div style={{fontSize:18}}>{ic}</div><div style={{fontSize:10}}>{lb}</div>', "navsize");
 // safe-area
 B1 = must(B1, '<div style={S.headerSub}>Day {dayIdx+1}・{day.d.slice(5).replace("-","/")}・{day.city}</div>',
   '<div style={S.headerSub}>Day {dayIdx+1}・{fmtDW(day.d)}{isToday(day.d) ? "・今天" : ""}・{day.city}</div>', "headdate");
@@ -64,9 +67,9 @@ B1 = must(B1, "export default function TravelHub()", `function shareMyLocation()
 export default function TravelHub()`, "shareloc");
 // More: 7 子頁(購物/離境/證件/工具/應變/走散/說明),橫向可捲
 C2 = must(C2, '[["docs","📁 證件"],["sos","🛡️ 應變"],["lost","🆘 走散"],["help","📱 說明"]]',
-  '[["shop","🛍購物"],["depart","🛫離境"],["docs","📁證件"],["tools","🧰工具"],["sos","🛡️應變"],["lost","🆘走散"],["help","📱說明"]]', "moretabs");
-C2 = must(C2, '{sub==="docs" && <Docs />}', '{sub==="shop" && <Shop dayIdx={dayIdx} />}\n      {sub==="depart" && <Depart />}\n      {sub==="tools" && <Tools />}\n      {sub==="docs" && <Docs />}', "morerender");
-C2 = must(C2, 'const [sub, setSub] = useState("docs");', 'const [sub, setSub] = useState("shop");', "moredefault");
+  '[["depart","🛫離境"],["docs","📁證件"],["tools","🧰工具"],["sos","🛡️應變"],["lost","🆘走散"],["help","📱說明"]]', "moretabs");
+C2 = must(C2, '{sub==="docs" && <Docs />}', '{sub==="depart" && <Depart />}\n      {sub==="tools" && <Tools />}\n      {sub==="docs" && <Docs />}', "morerender");
+C2 = must(C2, 'const [sub, setSub] = useState("docs");', 'const [sub, setSub] = useState("depart");', "moredefault");
 C2 = must(C2, '<div style={{display:"flex", gap:6, marginBottom:10}}>', '<div style={{display:"flex", gap:6, marginBottom:10, overflowX:"auto", paddingBottom:2}}>', "morescroll");
 C2 = must(C2, 'function More() {', 'function More({ dayIdx }) {', "moreprop");
 C2 = must(C2, 'style={{flex:1, padding:"9px 0", borderRadius:8, border:"1px solid #D5DDE6", fontSize:14, fontWeight:700, cursor:"pointer",',
@@ -150,7 +153,7 @@ const sz = fs.statSync(path.join(DEPLOY, "index.html")).size;
 console.log("index.html:", (sz / 1024).toFixed(0), "KB");
 
 /* ---- sw.js ---- */
-fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.5.1";
+fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.6";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(C).then(function (c) { return c.addAll(["./"]); }).then(function () { return self.skipWaiting(); }));
 });
@@ -176,7 +179,7 @@ console.log("sw.js written");
 
 /* ---- version.json ---- */
 fs.writeFileSync(path.join(DEPLOY, "version.json"), JSON.stringify({
-  app: "swiss", version: "1.5.1", dataVersion: "1.0",
+  app: "swiss", version: "1.6", dataVersion: "1.0",
   build: new Date().toISOString().slice(0, 10),
   base: "travel-hub v1 skeleton + v3.12 restored data",
   storage: "wang.swiss.*", note: "st2607 未動;8/8 後才加唯讀搬遷"

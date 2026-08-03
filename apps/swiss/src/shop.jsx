@@ -38,8 +38,238 @@ function daysToDepart() {
   return Math.ceil((new Date(DEPART_AT) - new Date()) / 86400000);
 }
 
+
+/* ---------- 我的購買清單（wang.swiss.buy） ---------- */
+const BUY_LS = "buy";
+const getBuy = () => lsGet(BUY_LS, {});
+const setBuy = (id, v) => { const b = getBuy(); if (v) b[id] = v; else delete b[id]; lsSet(BUY_LS, b); return b; };
+
+/* ---------- 交叉索引：把一個伴手禮相關的所有資料聚合起來 ---------- */
+const CITY_ZH = { zurich: "蘇黎世", zermatt: "策馬特", stmoritz: "聖莫里茲", dubai: "杜拜", luzern: "琉森", grindelwald: "格林德瓦", all: "各地都有" };
+function giftDossier(g) {
+  const { brands, top3, buyGuide, fieldGuide, flavor, stores, deadlines, itemMap } = SHOP;
+  const br = brands[g.id], t3 = top3[g.id], fg = fieldGuide[g.id];
+  const bg = Object.entries(buyGuide).filter(([k]) => k.split("_")[0] === g.id).map(([, v]) => v);
+  const fl = flavor[g.cat];
+  const dl = (deadlines.byId || {})[g.id] || (deadlines.byCat || {})[g.cat];
+  const nameKeys = [g.id, g.n.split(" ")[0], (br && br.brand) || ""].filter(Boolean).map(x => x.toLowerCase());
+  const hit = txt => { const t = String(txt || "").toLowerCase(); return nameKeys.some(k => k.length > 2 && t.includes(k)); };
+  const shops = [], avoid = [], intel = [];
+  Object.entries(stores).forEach(([ck, z]) => {
+    (z.shops || []).forEach(sp => {
+      const byMap = (itemMap[sp.id] || []).some(it => it.id.split("_")[0] === g.id);
+      if (byMap || hit(sp.brand) || hit(sp.name)) {
+        shops.push({ ...sp, city: z.name, cityKey: ck });
+        (sp.intel || []).forEach(x => intel.push({ from: sp.name, t: x }));
+        (sp.warns || []).forEach(x => avoid.push({ from: sp.name, t: x, kind: "warn" }));
+      }
+    });
+    (z.skip || []).forEach(sk => { if (hit(sk.n) || hit(sk.why)) avoid.push({ from: z.name + "・" + sk.n, t: sk.why, kind: "skip" }); });
+  });
+  return { br, t3, fg, bg, fl, dl, shops, avoid, intel };
+}
+
+/* ---------- 品項詳情（全螢幕，一頁看完） ---------- */
+function GiftDetail({ g, onClose, onBuyChange }) {
+  const d = giftDossier(g);
+  const [buy, setBuyState] = useState(() => getBuy()[g.id] || null);
+  const left = daysToDepart();
+  const urgent = d.dl && left <= d.dl.dLeft;
+  const mark = v => { const nv = buy === v ? null : v; setBuy(g.id, nv); setBuyState(nv); onBuyChange && onBuyChange(); };
+  const copy = async t => { try { await navigator.clipboard.writeText(t); alert("已複製"); } catch { prompt("複製:", t); } };
+  const Sec = ({ t, color, children }) => (
+    <div style={{ marginTop: 14 }}>
+      <div style={{ fontSize: 14, fontWeight: 800, color: color || "#1F3864", marginBottom: 6 }}>{t}</div>
+      {children}
+    </div>
+  );
+  return (
+    <div style={{ position: "fixed", inset: 0, background: "#EEF2F6", zIndex: 120, display: "flex", flexDirection: "column" }}>
+      <div style={{ background: "#1F3864", color: "#fff", padding: "calc(12px + env(safe-area-inset-top)) 14px 12px", borderBottom: "3px solid #C8102E", display: "flex", justifyContent: "space-between", alignItems: "center", gap: 10 }}>
+        <div>
+          <div style={{ fontSize: 18, fontWeight: 900 }}>{SHOP.giftCats[g.cat] ? SHOP.giftCats[g.cat].icon : "🎁"} {g.n}</div>
+          <div style={{ fontSize: 12, opacity: 0.85, marginTop: 2 }}>熱門 {g.pop}・{d.br ? d.br.price : ""}・{CITY_ZH[d.br && d.br.avail] || (d.br && d.br.avail) || ""}</div>
+        </div>
+        <button onClick={onClose} style={{ background: "rgba(255,255,255,0.15)", color: "#fff", border: "none", borderRadius: 8, padding: "8px 12px", fontSize: 14, fontWeight: 800, cursor: "pointer" }}>✕ 關閉</button>
+      </div>
+      <div style={{ flex: 1, overflowY: "auto", padding: "12px 12px calc(20px + env(safe-area-inset-bottom))" }}>
+        <div style={{ display: "flex", gap: 8 }}>
+          {[["want", "🛒 想買", "#C8102E"], ["done", "✅ 已買", "#2E7D32"]].map(([v, lb, c]) => (
+            <button key={v} onClick={() => mark(v)} style={{ flex: 1, padding: "12px 0", borderRadius: 10, fontSize: 15, fontWeight: 800, cursor: "pointer", border: buy === v ? "none" : "1px solid #D5DDE6", background: buy === v ? c : "#fff", color: buy === v ? "#fff" : "#5A6B7E" }}>{lb}</button>
+          ))}
+        </div>
+        <div style={{ ...S.card, marginTop: 10, background: urgent ? "#FFF3F3" : "#fff", border: urgent ? "1px solid #C8102E" : "none" }}>
+          <div style={{ fontSize: 14, fontWeight: 800, color: urgent ? "#C8102E" : "#1F3864" }}>🕐 {urgent ? "🔴 該買了：" : ""}{g.when}</div>
+          {d.dl && <div style={{ fontSize: 13, color: "#5A6B7E", marginTop: 2 }}>需提前 {d.dl.dLeft} 天（{d.dl.why}）・離開歐洲剩 {left} 天</div>}
+          <div style={{ fontSize: 13.5, lineHeight: 1.65, marginTop: 6 }}>{g.note}</div>
+        </div>
+
+        {d.t3 && (
+          <Sec t="✅ 買哪一款（TOP3）" color="#C8102E">
+            {d.t3.map((t, i) => (
+              <div key={i} style={{ ...S.card, padding: "11px 13px", marginBottom: 8, borderLeft: "4px solid #C8102E" }}>
+                <div style={{ fontSize: 15, fontWeight: 800 }}>TOP{i + 1} {t.n} <span style={{ color: "#2E7D32", fontSize: 13 }}>{t.price}</span></div>
+                <div style={{ fontSize: 13.5, lineHeight: 1.65, marginTop: 3 }}><MD t={t.why} /></div>
+                <div style={{ fontSize: 12.5, color: "#5A6B7E", marginTop: 3 }}>👤 適合：{t.who}</div>
+              </div>
+            ))}
+          </Sec>
+        )}
+
+        {d.avoid.length > 0 && (
+          <Sec t="🚫 不要買 / 避雷" color="#C8102E">
+            {d.avoid.map((a, i) => (
+              <div key={i} style={{ ...S.card, padding: "10px 12px", marginBottom: 8, background: "#FFF3F3", border: "1px solid #C8102E" }}>
+                <div style={{ fontSize: 12.5, fontWeight: 800, color: "#C8102E" }}>{a.kind === "skip" ? "別去這家" : "注意"}・{a.from}</div>
+                <div style={{ fontSize: 13.5, lineHeight: 1.7, marginTop: 3 }}><MD t={a.t} /></div>
+              </div>
+            ))}
+          </Sec>
+        )}
+
+        {d.br && (
+          <Sec t="💡 怎麼挑（關鍵知識）">
+            <div style={{ ...S.card, padding: "11px 13px" }}>
+              <div style={{ fontSize: 12.5, color: "#2E7D32", fontWeight: 800 }}>{(d.br.why || []).join("・")}</div>
+              <div style={{ fontSize: 13.5, lineHeight: 1.7, marginTop: 6, background: "#FFF8E5", padding: "8px 10px", borderRadius: 6 }}><MD t={d.br.howto} /></div>
+              <div style={{ fontSize: 13, lineHeight: 1.65, marginTop: 8, color: "#5A6B7E" }}><MD t={d.br.story} /></div>
+            </div>
+          </Sec>
+        )}
+
+        {d.intel.length > 0 && (
+          <Sec t={"💬 網友怎麼說（" + d.intel.length + " 則）"}>
+            <div style={{ ...S.card, padding: "11px 13px" }}>
+              {d.intel.map((x, i) => (
+                <div key={i} style={{ padding: "6px 0", borderBottom: i < d.intel.length - 1 ? "1px dashed #E8EDF3" : "none" }}>
+                  <div style={{ fontSize: 13.5, lineHeight: 1.7 }}><MD t={x.t} /></div>
+                  <div style={{ fontSize: 11.5, color: "#8A97A6", marginTop: 2 }}>— {x.from}</div>
+                </div>
+              ))}
+            </div>
+          </Sec>
+        )}
+
+        {d.shops.length > 0 && (
+          <Sec t={"🏬 去哪買（" + d.shops.length + " 家）"}>
+            {d.shops.map(sp => (
+              <div key={sp.id} style={{ ...S.card, padding: "11px 13px", marginBottom: 8 }}>
+                <div style={{ fontSize: 15, fontWeight: 800 }}>{sp.verdict ? sp.verdict + " " : ""}{sp.name}</div>
+                <div style={{ fontSize: 12.5, color: "#5A6B7E", marginTop: 2 }}>📍 {sp.city}・{sp.addr}</div>
+                <div style={{ fontSize: 12.5, color: "#5A6B7E" }}>🕐 <MD t={sp.hours} /></div>
+                <div style={{ fontSize: 12.5, color: "#5A6B7E" }}>★{sp.rating}（{sp.reviews}）・{sp.price}</div>
+                {sp.tiers && (
+                  <div style={{ marginTop: 6, fontSize: 13, lineHeight: 1.7, background: "#F7F9FC", borderRadius: 6, padding: "6px 8px" }}>
+                    {[["boss", "送長官/長輩"], ["mate", "分送同事"], ["kin", "自家人"]].map(([k, lb]) => sp.tiers[k] && (
+                      <div key={k}><b>{lb}</b>：<MD t={sp.tiers[k].i} />（{sp.tiers[k].q}・{sp.tiers[k].p}）</div>
+                    ))}
+                  </div>
+                )}
+                <div style={{ display: "flex", gap: 8, marginTop: 8 }}>
+                  <a href={"https://www.google.com/maps/dir/?api=1&destination=" + sp.lat + "," + sp.lon + "&travelmode=walking"} target="_blank" rel="noreferrer" style={{ ...S.chipBtn, flex: 1, textAlign: "center", padding: "8px 0" }}>🧭 導航</a>
+                  {sp.phone && <a href={"tel:" + sp.phone.replace(/\s/g, "")} style={{ ...S.chipBtn, flex: 1, textAlign: "center", padding: "8px 0", background: "#1F3864" }}>📞 電話</a>}
+                </div>
+                {sp.script && <button style={{ ...S.ghostBtn, width: "100%", marginTop: 6 }} onClick={() => copy(sp.script)}>📋 複製給店員看的英文</button>}
+              </div>
+            ))}
+          </Sec>
+        )}
+
+        {d.fg && (
+          <Sec t="🛒 現場怎麼買（步驟）">
+            <div style={{ ...S.card, padding: "11px 13px" }}>
+              {(d.fg.flow || []).map((f, i) => <div key={i} style={{ fontSize: 13.5, lineHeight: 1.8, padding: "3px 0" }}><MD t={f} /></div>)}
+              {(d.fg.flavors || []).length > 0 && <div style={{ fontSize: 13, fontWeight: 800, color: "#1F3864", marginTop: 8 }}>😋 口味</div>}
+              {(d.fg.flavors || []).map((fv, i) => <div key={i} style={{ fontSize: 13, padding: "3px 0" }}>・<b>{fv.n}</b> — <MD t={fv.note} /></div>)}
+            </div>
+          </Sec>
+        )}
+
+        {d.bg.map((v, i) => (
+          <Sec key={i} t={"⭐ 深度比價：" + v.name}>
+            <div style={{ ...S.card, padding: "11px 13px" }}>
+              {v.tagline && <div style={{ fontSize: 13, color: "#5A6B7E" }}>{v.tagline}</div>}
+              {v.price && <div style={{ fontSize: 14, fontWeight: 800, color: "#2E7D32", marginTop: 4 }}><MD t={v.price.list} /></div>}
+              {(v.where || []).map((w, j) => <div key={j} style={{ fontSize: 13, padding: "4px 0", borderBottom: "1px dashed #E8EDF3" }}><b>{w.s}</b> {w.p} <span style={{ color: "#C8102E" }}>{w.tag}</span></div>)}
+              {(v.list || []).map((it, j) => (
+                <div key={j} style={{ fontSize: 13, padding: "5px 0", borderBottom: "1px dashed #E8EDF3", lineHeight: 1.6 }}>
+                  <b>{it.n || it.name}</b> {it.price && <span style={{ color: "#2E7D32" }}>{it.price}</span>}
+                  {it.why && <div><MD t={it.why} /></div>}
+                  {it.note && <div style={{ color: "#5A6B7E" }}><MD t={it.note} /></div>}
+                </div>
+              ))}
+            </div>
+          </Sec>
+        ))}
+
+        {d.fl && (
+          <Sec t={d.fl.t}>
+            <div style={{ ...S.card, padding: "11px 13px" }}>
+              {d.fl.b.map((line, i) => <div key={i} style={{ fontSize: 13.5, lineHeight: 1.75, padding: "2px 0" }}><MD t={line} /></div>)}
+            </div>
+          </Sec>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- 我的購買清單 ---------- */
+function BuyList({ onOpen }) {
+  const [buy, setB] = useState(() => getBuy());
+  const refresh = () => setB(getBuy());
+  const { gifts } = SHOP;
+  const want = gifts.filter(g => buy[g.id] === "want");
+  const done = gifts.filter(g => buy[g.id] === "done");
+  const left = daysToDepart();
+  const Row = ({ g, tone }) => {
+    const dl = (SHOP.deadlines.byId || {})[g.id] || (SHOP.deadlines.byCat || {})[g.cat];
+    const urgent = tone === "want" && dl && left <= dl.dLeft;
+    return (
+      <div onClick={() => onOpen(g)} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, padding: "10px 0", borderBottom: "1px solid #F0F3F7", cursor: "pointer" }}>
+        <div>
+          <div style={{ fontSize: 15, fontWeight: 700, color: tone === "done" ? "#8A97A6" : (urgent ? "#C8102E" : "#1F3864"), textDecoration: tone === "done" ? "line-through" : "none" }}>
+            {urgent ? "🔴 " : ""}{SHOP.giftCats[g.cat] ? SHOP.giftCats[g.cat].icon : "🎁"} {g.n}
+          </div>
+          <div style={{ fontSize: 12, color: "#8A97A6" }}>{g.when}{dl ? "・需提前" + dl.dLeft + "天" : ""}</div>
+        </div>
+        <button onClick={e => { e.stopPropagation(); setBuy(g.id, tone === "want" ? "done" : null); refresh(); }}
+          style={{ border: "none", borderRadius: 8, padding: "8px 12px", fontSize: 13, fontWeight: 800, cursor: "pointer", whiteSpace: "nowrap", background: tone === "want" ? "#2E7D32" : "#EEF2F6", color: tone === "want" ? "#fff" : "#5A6B7E" }}>
+          {tone === "want" ? "✅ 買到了" : "↩︎ 還原"}
+        </button>
+      </div>
+    );
+  };
+  return (
+    <div>
+      <div style={{ ...S.card, background: "linear-gradient(135deg,#1F3864,#2E5C8A)", color: "#fff" }}>
+        <div style={{ fontSize: 13, opacity: 0.85 }}>離開歐洲還有 {left} 天</div>
+        <div style={{ fontSize: 22, fontWeight: 900 }}>待買 {want.length}・已買 {done.length}</div>
+        <div style={{ fontSize: 12.5, opacity: 0.9, marginTop: 2 }}>在「🎁全部」點任一項 →「🛒想買」即可加入</div>
+      </div>
+      {want.length > 0 && (
+        <div style={S.card}>
+          <div style={S.secTitle}>🛒 待買（點名稱看完整買法）</div>
+          {want.map(g => <Row key={g.id} g={g} tone="want" />)}
+        </div>
+      )}
+      {done.length > 0 && (
+        <div style={S.card}>
+          <div style={S.secTitle}>✅ 已買</div>
+          {done.map(g => <Row key={g.id} g={g} tone="done" />)}
+        </div>
+      )}
+      {want.length === 0 && done.length === 0 && (
+        <div style={{ ...S.card, textAlign: "center", color: "#8A97A6", fontSize: 14, padding: 20 }}>
+          清單還是空的。到「🎁全部」挑幾項按「🛒想買」，這裡就會變成你的採購作戰表。
+        </div>
+      )}
+    </div>
+  );
+}
+
 /* ---------- 採購倒數 ---------- */
-function BuyCountdown() {
+function BuyCountdown({ onOpen }) {
   const left = daysToDepart();
   const { deadlines, gifts, giftCats } = SHOP;
   const rows = [];
@@ -55,8 +285,9 @@ function BuyCountdown() {
       <div style={{ fontSize: 12.5, color: "#8A97A6", marginBottom: 8 }}>EK086 8/6(四) 22:00 蘇黎世起飛。下列品項有「最晚購買日」,逾期就買不到或帶不走。</div>
       {rows.map(r => {
         const urgent = left <= r.dLeft;
+        const gi = gifts.find(x => x.id === r.id);
         return (
-          <div key={r.id} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "8px 0", borderBottom: "1px solid #F0F3F7" }}>
+          <div key={r.id} onClick={() => gi && onOpen && onOpen(gi)} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "8px 0", borderBottom: "1px solid #F0F3F7", cursor: "pointer" }}>
             <div>
               <div style={{ fontSize: 14.5, fontWeight: 700, color: urgent ? "#C8102E" : "#1F3864" }}>{urgent ? "🔴 " : ""}{r.n}</div>
               <div style={{ fontSize: 12.5, color: "#5A6B7E" }}>{r.why}・只在 {r.where.map(w => CITY[w] || w).join("/")}</div>
@@ -73,15 +304,14 @@ function BuyCountdown() {
 }
 
 /* ---------- 48 項伴手禮 ---------- */
-function GiftList() {
+function GiftList({ onOpen }) {
   const { gifts, giftCats, top3, brands } = SHOP;
   const [cat, setCat] = useState("all");
-  const [sel, setSel] = useState(null);
   const [q, setQ] = useState("");
+  const [buyMap, setBuyMap] = useState(() => getBuy());
   const cats = ["all", ...Object.keys(giftCats).filter(c => gifts.some(g => g.cat === c))];
   let list = gifts.filter(g => (cat === "all" || g.cat === cat) && (!q || g.n.includes(q) || (g.note || "").includes(q)));
   list = [...list].sort((a, b) => (b.pop || 0) - (a.pop || 0));
-  const detail = sel && { t3: top3[sel.id], br: brands[sel.id] };
   return (
     <div>
       <div style={S.card}>
@@ -104,26 +334,11 @@ function GiftList() {
           <div style={{ fontSize: 13, color: "#5A6B7E", marginTop: 3 }}>{g.note}</div>
           <div style={{ display: "flex", gap: 8, alignItems: "center", marginTop: 6, flexWrap: "wrap" }}>
             <span style={{ fontSize: 12, background: "#EEF2F6", color: "#5A6B7E", borderRadius: 10, padding: "3px 9px", fontWeight: 700 }}>🕐 {g.when}</span>
-            {(top3[g.id] || brands[g.id]) && <button onClick={() => setSel(sel && sel.id === g.id ? null : g)} style={{ ...S.chipBtn, border: "none", cursor: "pointer", background: "#1F3864" }}>{sel && sel.id === g.id ? "收起" : "買什麼款?"}</button>}
+            <button onClick={() => onOpen(g)} style={{ ...S.chipBtn, border: "none", cursor: "pointer", background: "#1F3864" }}>📖 完整買法</button>
+            <button onClick={() => { setBuy(g.id, buyMap[g.id] === "want" ? null : "want"); setBuyMap({ ...getBuy() }); }}
+              style={{ ...S.chipBtn, border: "none", cursor: "pointer", background: buyMap[g.id] === "want" ? "#2E7D32" : "#EEF2F6", color: buyMap[g.id] === "want" ? "#fff" : "#5A6B7E" }}>
+              {buyMap[g.id] === "want" ? "✅ 已加入" : "🛒 想買"}</button>
           </div>
-          {sel && sel.id === g.id && (
-            <div style={{ marginTop: 8, background: "#FBFDFF", border: "1px solid #E0E7EF", borderRadius: 8, padding: "10px 12px" }}>
-              {detail.br && (
-                <>
-                  <div style={{ fontSize: 12.5, color: "#2E7D32", fontWeight: 800 }}>{(detail.br.why || []).join("・")}・{detail.br.price}</div>
-                  <div style={{ fontSize: 13, lineHeight: 1.65, marginTop: 4 }}><MD t={detail.br.story} /></div>
-                  <div style={{ fontSize: 13, lineHeight: 1.65, marginTop: 6, background: "#FFF8E5", padding: "6px 8px", borderRadius: 6 }}><MD t={detail.br.howto} /></div>
-                </>
-              )}
-              {detail.t3 && detail.t3.map((t, i) => (
-                <div key={i} style={{ marginTop: 8, borderTop: "1px dashed #E8EDF3", paddingTop: 6 }}>
-                  <div style={{ fontSize: 14, fontWeight: 800, color: "#C8102E" }}>TOP{i + 1} {t.n} <span style={{ color: "#2E7D32", fontSize: 12.5 }}>{t.price}</span></div>
-                  <div style={{ fontSize: 13, lineHeight: 1.6 }}><MD t={t.why} /></div>
-                  <div style={{ fontSize: 12.5, color: "#5A6B7E" }}>👤 {t.who}</div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       ))}
       {list.length === 0 && <div style={{ ...S.card, color: "#8A97A6", textAlign: "center" }}>沒有符合的品項</div>}
@@ -255,8 +470,9 @@ function BuyGuides() {
 }
 
 function Shop({ dayIdx }) {
-  const [sub, setSub] = useState("count");
-  const tabs = [["count", "⏳倒數"], ["gift", "🎁清單"], ["store", "🏬店家"], ["how", "📖怎麼選"]];
+  const [sub, setSub] = useState("mine");
+  const [detail, setDetail] = useState(null);
+  const tabs = [["mine", "🛒我的清單"], ["gift", "🎁全部"], ["count", "⏳倒數"], ["store", "🏬店家"], ["how", "📖怎麼選"]];
   return (
     <div>
       <div style={{ display: "flex", gap: 6, marginBottom: 10, overflowX: "auto" }}>
@@ -264,8 +480,10 @@ function Shop({ dayIdx }) {
           <button key={k} onClick={() => setSub(k)} style={{ flex: "1 0 auto", padding: "9px 12px", borderRadius: 8, border: "1px solid #D5DDE6", fontSize: 13, fontWeight: 700, cursor: "pointer", whiteSpace: "nowrap", background: sub === k ? "#C8102E" : "#fff", color: sub === k ? "#fff" : "#5A6B7E" }}>{lb}</button>
         ))}
       </div>
-      {sub === "count" && <BuyCountdown />}
-      {sub === "gift" && <GiftList />}
+      {detail && <GiftDetail g={detail} onClose={() => setDetail(null)} />}
+      {sub === "mine" && <BuyList onOpen={setDetail} />}
+      {sub === "count" && <BuyCountdown onOpen={setDetail} />}
+      {sub === "gift" && <GiftList onOpen={setDetail} />}
       {sub === "store" && <StoreList dayIdx={dayIdx} />}
       {sub === "how" && <BuyGuides />}
     </div>

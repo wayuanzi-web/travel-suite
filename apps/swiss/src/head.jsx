@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
    鐵則:原始碼與 index.html 同倉 commit;localStorage 一律 wang.swiss.*;
         絕不讀寫舊版 hub* keys(8/8 前家人旅途資料所在)
    ========================================================================== */
-export const APP_VERSION = "swiss 1.5.1 · build 2026-08-03";
+export const APP_VERSION = "swiss 1.6 · build 2026-08-03";
 
 import TRIP from "../data/trip.json";
 import NAVSTEP from "../data/navstep.json";
