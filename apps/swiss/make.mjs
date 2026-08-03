@@ -153,7 +153,7 @@ const sz = fs.statSync(path.join(DEPLOY, "index.html")).size;
 console.log("index.html:", (sz / 1024).toFixed(0), "KB");
 
 /* ---- sw.js ---- */
-fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.6";
+fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.7";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(C).then(function (c) { return c.addAll(["./"]); }).then(function () { return self.skipWaiting(); }));
 });
@@ -179,9 +179,10 @@ console.log("sw.js written");
 
 /* ---- version.json ---- */
 fs.writeFileSync(path.join(DEPLOY, "version.json"), JSON.stringify({
-  app: "swiss", version: "1.6", dataVersion: "1.0",
+  app: "swiss", version: "1.7", dataVersion: "1.0",
   build: new Date().toISOString().slice(0, 10),
   base: "travel-hub v1 skeleton + v3.12 restored data",
+  changes: "1.7:天氣離線狀態明確化(不再永遠顯示載入中)",
   storage: "wang.swiss.*", note: "st2607 未動;8/8 後才加唯讀搬遷"
 }, null, 1));
 console.log("DONE");

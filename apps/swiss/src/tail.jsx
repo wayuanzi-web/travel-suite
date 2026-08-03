@@ -45,6 +45,7 @@ function Wx({ day, dayIdx }) {
   const [cw, setCw] = useState(null); const [mw, setMw] = useState(null);
   const [nw, setNw] = useState(null); const [nmw, setNmw] = useState(null);
   const [mtx, setMtx] = useState(null); const [err, setErr] = useState(false);
+  const [done, setDone] = useState(false); // 抓取流程已跑完(不論成功失敗)
   useEffect(() => {
     let live = true;
     (async () => {
@@ -65,7 +66,8 @@ function Wx({ day, dayIdx }) {
           rows.push({ dt, ...m3, w });
         }
         if (live) setMtx(rows);
-      } catch { if (live) setErr(true); }
+        if (live) setDone(true);
+      } catch { if (live) { setErr(true); setDone(true); } }
     })();
     return () => { live = false; };
   }, [day.d]);
@@ -79,6 +81,11 @@ function Wx({ day, dayIdx }) {
             <div style={{ fontSize: 15, fontWeight: 800 }}>{cw.city}:<WxLine w={cw} /></div>
             <WxBadge w={cw} date={day.d} />
             <div style={{ fontSize: 13.5, color: "#333", marginTop: 4 }}>{wxWear(cw.lo, cw.hi, false)}</div>
+          </div>
+        ) : done ? (
+          <div style={{ fontSize: 13.5, color: "#7A5C00", background: "#FFF8E5", borderRadius: 8, padding: "9px 11px", lineHeight: 1.7 }}>
+            🌡 <b>天氣取不到</b>(沒網路,多半在隧道、山區或飛機上)。<b style={{ color: "#C8102E" }}>請勿依此判斷穿著</b>——
+            改看下方「上山前一晚 2 分鐘 SOP」;有訊號時回到這頁會自動重抓。
           </div>
         ) : <div style={{ fontSize: 13, color: "#8A97A6" }}>載入天氣中…(需網路;沒網路請看下方離線SOP)</div>}
         {mw && (
@@ -107,6 +114,11 @@ function Wx({ day, dayIdx }) {
         <div style={S.secTitle}>⛰ 高山日總覽(要不要對調,看這裡)</div>
         <div style={{ fontSize: 11.5, color: "#8A97A6", marginBottom: 6 }}>🟢真實預報(14天內)・🟠去年同日參考(超過14天)</div>
         {!mtx && <div style={{ fontSize: 13, color: "#8A97A6" }}>載入中…</div>}
+        {mtx && mtx.every(r => !r.w) && (
+          <div style={{ fontSize: 13, color: "#7A5C00", background: "#FFF8E5", borderRadius: 8, padding: "8px 10px", marginBottom: 6 }}>
+            目前沒網路,全部顯示「—」。有訊號時重開此頁即可比較各高山日。
+          </div>
+        )}
         {mtx && mtx.map(r => (
           <div key={r.dt} style={{ display: "flex", justifyContent: "space-between", gap: 8, padding: "7px 0", borderBottom: "1px solid #E8EDF3", fontSize: 13.5, background: r.dt === day.d ? "#FFF7F7" : "transparent" }}>
             <div><b style={{ color: "#C8102E", fontVariantNumeric: "tabular-nums" }}>{fmtMD(r.dt)}</b> {r.name}</div>

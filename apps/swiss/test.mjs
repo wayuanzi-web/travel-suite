@@ -100,5 +100,52 @@ const ok = (c, n) => { c ? (pass++, console.log("  ✓ " + n)) : (fail++, consol
   ok(!/localStorage\.setItem\(\s*["']hub/.test(html), "bundle:全檔零寫入 hub 鍵");
   ok(fs.readFileSync("/home/claude/travel-suite/swiss/sw.js","utf8").includes("wang-swiss-v" + VER), "sw.js:快取版本同步");
 }
+// --- 4: 天氣離線/連線狀態(1.7 新增回歸) ---
+{
+  // 4a 離線:必須明確告知取不到,不可永遠停在「載入天氣中」
+  const dom = new JSDOM(html, {
+    runScripts: "dangerously", url: "https://example.test/travel-suite/swiss/", pretendToBeVisual: true,
+    beforeParse(w) {
+      w.localStorage.setItem("wang.swiss.gate", "1"); w.localStorage.setItem("wang.swiss.user", "遠志");
+      w.SpeechSynthesisUtterance = function (t) { this.text = t; }; w.speechSynthesis = { speak() {}, cancel() {} };
+      w.alert = () => {}; w.confirm = () => true; w.prompt = () => "x"; w.navigator.geolocation = undefined;
+      w.fetch = () => Promise.reject(new Error("offline"));
+    },
+  });
+  await wait(300);
+  const doc = dom.window.document;
+  click(doc, "\u{1F321}"); await wait(1200);
+  const t = doc.getElementById("root").textContent;
+  ok(t.includes("天氣取不到"), "天氣離線:明確告知取不到");
+  ok(!t.includes("載入天氣中"), "天氣離線:不再永遠顯示載入中");
+  ok(t.includes("請勿依此判斷穿著"), "天氣離線:警告勿據此穿著");
+  ok(!/undefined|NaN/.test(t), "天氣離線:無 undefined/NaN");
+  dom.window.close();
+}
+{
+  // 4b 連線:假 API 回 9~22 度,必須正常顯示且不誤報失敗
+  const dom = new JSDOM(html, {
+    runScripts: "dangerously", url: "https://example.test/travel-suite/swiss/", pretendToBeVisual: true,
+    beforeParse(w) {
+      w.localStorage.setItem("wang.swiss.gate", "1"); w.localStorage.setItem("wang.swiss.user", "遠志");
+      w.SpeechSynthesisUtterance = function (t) { this.text = t; }; w.speechSynthesis = { speak() {}, cancel() {} };
+      w.alert = () => {}; w.confirm = () => true; w.prompt = () => "x"; w.navigator.geolocation = undefined;
+      w.fetch = (u) => {
+        const f = String(u).includes("/v1/forecast");
+        return Promise.resolve({ json: async () => ({ daily: {
+          time: ["2026-08-03"], temperature_2m_max: [f ? 22 : 19], temperature_2m_min: [f ? 9 : 7],
+          precipitation_probability_max: [f ? 10 : null], precipitation_sum: [f ? null : 3], weathercode: [0] } }) });
+      };
+    },
+  });
+  await wait(300);
+  const doc = dom.window.document;
+  click(doc, "\u{1F321}"); await wait(1200);
+  const t = doc.getElementById("root").textContent;
+  ok(t.includes("9\u00B0~22\u00B0C"), "天氣連線:溫度正確");
+  ok(!t.includes("天氣取不到"), "天氣連線:未誤報取不到");
+  ok(!t.includes("\u76EE\u524D\u6C92\u7DB2\u8DEF"), "天氣連線:高山總覽未誤報離線");
+  dom.window.close();
+}
 console.log("\n結果: " + pass + " 通過 / " + fail + " 失敗");
 process.exit(fail ? 1 : 0);
