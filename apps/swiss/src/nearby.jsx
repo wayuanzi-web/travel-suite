@@ -24,6 +24,15 @@ const hasGKey = () => !!getGKey();
 const nb = {
   dist,                                   // 沿用 v1 haversine(公尺)
   walkMin: m => Math.max(1, Math.round(m / 80)),
+  // 1.7.4:原本一律用步行 80m/分換算,128km 會算出「步行~1600分」(走26小時)這種
+  // 憑空捏造又危險的建議。改為依距離給合理的移動方式,超出市區範圍就不再給分鐘數。
+  travel(m) {
+    if (m == null) return null;
+    if (m <= 1500) return { txt: `步行~${Math.max(1, Math.round(m / 80))}分`, far: false };
+    if (m <= 6000) return { txt: `電車/公車~${Math.max(3, Math.round(m / 400))}分`, far: false };
+    if (m <= 30000) return { txt: "需搭車", far: true };
+    return { txt: "尚未抵達此區", far: true };
+  },
   fmt: m => m > 1000 ? (m / 1000).toFixed(1) + " km" : Math.round(m) + " m",
   withDist(list, pos) {
     return list.map(p => ({ ...p, d: (pos && p.lat != null) ? dist(pos, p) : null }));
@@ -90,7 +99,9 @@ function NearbyCard({ p, isDXB }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 6 }}>
         <div style={{ fontWeight: 800, fontSize: 15.5 }}>{p.n}{p.en && p.en !== p.n && <span style={{ fontSize: 12, color: "#8A97A6", fontWeight: 400 }}> {p.en}</span>}</div>
         <div style={{ fontSize: 14, fontWeight: 800, color: "#C8102E", whiteSpace: "nowrap" }}>
-          {p.d != null ? <>{nb.fmt(p.d)}<span style={{ fontSize: 11.5, color: "#8A97A6", fontWeight: 400 }}> 步行~{nb.walkMin(p.d)}分</span></>
+          {p.d != null ? (() => { const tv = nb.travel(p.d); return (
+              <>{nb.fmt(p.d)}<span style={{ fontSize: 11.5, color: tv.far ? "#8A97A6" : "#5A6B7E", fontWeight: 400 }}> {tv.txt}</span></>
+            ); })()
             : <span style={{ fontSize: 11.5, color: "#8A97A6", fontWeight: 600 }}>同城・未定位</span>}
         </div>
       </div>

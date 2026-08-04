@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
    鐵則:原始碼與 index.html 同倉 commit;localStorage 一律 wang.swiss.*;
         絕不讀寫舊版 hub* keys(8/8 前家人旅途資料所在)
    ========================================================================== */
-export const APP_VERSION = "swiss 1.7.3 · build 2026-08-03";
+export const APP_VERSION = "swiss 1.7.4 · build 2026-08-03";
 
 import TRIP from "../data/trip.json";
 import NAVSTEP from "../data/navstep.json";
@@ -611,16 +611,16 @@ function Backups({ dayIdx }) {
           <Toggle on={fCheap} set={setFCheap} label="$$以下" />
         </div>
         <div style={{fontSize:12, color:"#8A97A6", marginTop:6}}>
-          {pos ? "📍依你目前位置排序(直線距離,步行約80m/分)" : "📍未定位:依市中心排序;允許位置權限可看即時距離"}
+          {pos ? (list.length && list[0].d > 30000 ? "📍 你還沒到這一區(最近的也有 "+(list[0].d/1000).toFixed(0)+" km)——距離僅供參考,抵達後會自動更新" : "📍依你目前位置排序(直線距離;1.5km 內才給步行時間)") : "📍未定位:依市中心排序;允許位置權限可看即時距離"}
         </div>
       </div>
       {list.map((p,i)=>{
-        const walkMin = Math.round(p.d/80);
+        const tv = p.d<=1500 ? "步行~"+Math.max(1,Math.round(p.d/80))+"分" : p.d<=6000 ? "電車/公車~"+Math.max(3,Math.round(p.d/400))+"分" : p.d<=30000 ? "需搭車" : "尚未抵達此區";
         return (
         <div key={i} style={{...S.card, padding:"11px 13px", marginBottom:8}}>
           <div style={{display:"flex", justifyContent:"space-between", alignItems:"flex-start", gap:6}}>
             <div style={{fontWeight:800, fontSize:15.5}}>{p.n}</div>
-            <div style={{fontSize:14, fontWeight:800, color:"#C8102E", whiteSpace:"nowrap"}}>{fmtDist(p.d)}<span style={{fontSize:11.5, color:"#8A97A6", fontWeight:400}}> 步行~{walkMin}分</span></div>
+            <div style={{fontSize:14, fontWeight:800, color:"#C8102E", whiteSpace:"nowrap"}}>{fmtDist(p.d)}<span style={{fontSize:11.5, color:"#8A97A6", fontWeight:400}}> {tv}</span></div>
           </div>
           <div style={{fontSize:13, marginTop:3}}>
             <span style={{color:"#E8A400", fontWeight:800}}>★{p.r}</span>
@@ -2044,6 +2044,15 @@ const hasGKey = () => !!getGKey();
 const nb = {
   dist,                                   // 沿用 v1 haversine(公尺)
   walkMin: m => Math.max(1, Math.round(m / 80)),
+  // 1.7.4:原本一律用步行 80m/分換算,128km 會算出「步行~1600分」(走26小時)這種
+  // 憑空捏造又危險的建議。改為依距離給合理的移動方式,超出市區範圍就不再給分鐘數。
+  travel(m) {
+    if (m == null) return null;
+    if (m <= 1500) return { txt: `步行~${Math.max(1, Math.round(m / 80))}分`, far: false };
+    if (m <= 6000) return { txt: `電車/公車~${Math.max(3, Math.round(m / 400))}分`, far: false };
+    if (m <= 30000) return { txt: "需搭車", far: true };
+    return { txt: "尚未抵達此區", far: true };
+  },
   fmt: m => m > 1000 ? (m / 1000).toFixed(1) + " km" : Math.round(m) + " m",
   withDist(list, pos) {
     return list.map(p => ({ ...p, d: (pos && p.lat != null) ? dist(pos, p) : null }));
@@ -2110,7 +2119,9 @@ function NearbyCard({ p, isDXB }) {
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: 6 }}>
         <div style={{ fontWeight: 800, fontSize: 15.5 }}>{p.n}{p.en && p.en !== p.n && <span style={{ fontSize: 12, color: "#8A97A6", fontWeight: 400 }}> {p.en}</span>}</div>
         <div style={{ fontSize: 14, fontWeight: 800, color: "#C8102E", whiteSpace: "nowrap" }}>
-          {p.d != null ? <>{nb.fmt(p.d)}<span style={{ fontSize: 11.5, color: "#8A97A6", fontWeight: 400 }}> 步行~{nb.walkMin(p.d)}分</span></>
+          {p.d != null ? (() => { const tv = nb.travel(p.d); return (
+              <>{nb.fmt(p.d)}<span style={{ fontSize: 11.5, color: tv.far ? "#8A97A6" : "#5A6B7E", fontWeight: 400 }}> {tv.txt}</span></>
+            ); })()
             : <span style={{ fontSize: 11.5, color: "#8A97A6", fontWeight: 600 }}>同城・未定位</span>}
         </div>
       </div>

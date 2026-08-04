@@ -34,6 +34,16 @@ B2 = must(B2, '{items.length===0 && <div style={{color:"#8A97A6", fontSize:14, p
 C1 = must(C1, '<div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>\n        💡 用法:出站後點目標',
   '<NavStepsLibrary day={day} />\n      <div style={{...S.card, fontSize:13, color:"#5A6B7E"}}>\n        💡 用法:出站後點目標', "navlib");
 
+// 備選餐廳:距離遠時不再捏造步行分鐘數(1.7.4)
+// 原本一律 p.d/80,人在聖莫里茲看蘇黎世餐廳會顯示「128.0 km 步行~1600分」(走26小時)。
+C1 = must(C1, 'const walkMin = Math.round(p.d/80);',
+  'const tv = p.d<=1500 ? "步行~"+Math.max(1,Math.round(p.d/80))+"分" : p.d<=6000 ? "電車/公車~"+Math.max(3,Math.round(p.d/400))+"分" : p.d<=30000 ? "需搭車" : "尚未抵達此區";', "bkwalk");
+C1 = must(C1, '<span style={{fontSize:11.5, color:"#8A97A6", fontWeight:400}}> 步行~{walkMin}分</span>',
+  '<span style={{fontSize:11.5, color:"#8A97A6", fontWeight:400}}> {tv}</span>', "bkwalktxt");
+// 人還沒到該區時,明講距離只是參考,避免以為排序有意義
+C1 = must(C1, '{pos ? "📍依你目前位置排序(直線距離,步行約80m/分)" : "📍未定位:依市中心排序;允許位置權限可看即時距離"}',
+  '{pos ? (list.length && list[0].d > 30000 ? "📍 你還沒到這一區(最近的也有 "+(list[0].d/1000).toFixed(0)+" km)——距離僅供參考,抵達後會自動更新" : "📍依你目前位置排序(直線距離;1.5km 內才給步行時間)") : "📍未定位:依市中心排序;允許位置權限可看即時距離"}', "bkfarnote");
+
 // storage namespace: hub: → wang.swiss:
 B1 = must(B1, '"hub:"+k', '"wang.swiss:"+k', "ns");
 // remove board loaders (Board is replaced by Wx)
@@ -153,7 +163,7 @@ const sz = fs.statSync(path.join(DEPLOY, "index.html")).size;
 console.log("index.html:", (sz / 1024).toFixed(0), "KB");
 
 /* ---- sw.js ---- */
-fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.7.3";
+fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.7.4";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(C).then(function (c) { return c.addAll(["./"]); }).then(function () { return self.skipWaiting(); }));
 });
@@ -179,7 +189,7 @@ console.log("sw.js written");
 
 /* ---- version.json ---- */
 fs.writeFileSync(path.join(DEPLOY, "version.json"), JSON.stringify({
-  app: "swiss", version: "1.7.3", dataVersion: "1.1",
+  app: "swiss", version: "1.7.4", dataVersion: "1.1",
   build: new Date().toISOString().slice(0, 10),
   base: "travel-hub v1 skeleton + v3.12 restored data",
   changes: "1.7 天氣離線狀態明確化;1.7.1 杜拜退稅:未滿18歲限制實務化+驗證不可代辦(查核FTA/Planet)",
