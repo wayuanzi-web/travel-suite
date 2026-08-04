@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
    鐵則:原始碼與 index.html 同倉 commit;localStorage 一律 wang.swiss.*;
         絕不讀寫舊版 hub* keys(8/8 前家人旅途資料所在)
    ========================================================================== */
-export const APP_VERSION = "swiss 1.7.2 · build 2026-08-03";
+export const APP_VERSION = "swiss 1.7.3 · build 2026-08-03";
 
 import TRIP from "../data/trip.json";
 import NAVSTEP from "../data/navstep.json";
@@ -49,7 +49,38 @@ function stepFor(text) {
   return k ? { key: k, steps: NAVSTEP[k].split("→") } : null;
 }
 
-/* ---------- 逐步指令面板 ---------- */
+/* ---------- 逐步指令:就地展開(1.7.3)
+   原本點「怎麼走?」會跳出蓋住整個畫面的彈窗,一次只能看一則,
+   看完要關掉才能看下一則,也看不到它在當日流程中的前後脈絡。
+   改為在該列底下直接展開,可同時開多則對照(v3.12 的做法),
+   但保留新版的「編號 + 點一下打勾」優點。 ---------- */
+function StepInline({ st }) {
+  const [open, setOpen] = useState(false);
+  const [done, setDone] = useState({});
+  return (
+    <>
+      <button onClick={() => setOpen(!open)}
+        style={{ ...S.chipBtn, border: "none", cursor: "pointer", marginLeft: 6, background: open ? "#0F2340" : "#1F3864" }}>
+        {open ? "✕ 收起" : "🧭怎麼走?"}
+      </button>
+      {open && (
+        <div style={{ marginTop: 6, background: "#F7F9FC", borderLeft: "3px solid #1F3864", borderRadius: 8, padding: "8px 10px" }}>
+          {st.steps.map((s, i) => (
+            <div key={i} onClick={() => setDone(d => ({ ...d, [i]: !d[i] }))}
+              style={{ display: "flex", gap: 8, padding: "6px 2px", borderBottom: i < st.steps.length - 1 ? "1px dashed #E1E8F0" : "none", cursor: "pointer", opacity: done[i] ? 0.45 : 1 }}>
+              <div style={{ minWidth: 22, height: 22, borderRadius: 11, background: done[i] ? "#2E7D32" : "#C8102E", color: "#fff", fontWeight: 800, fontSize: 12, display: "flex", alignItems: "center", justifyContent: "center" }}>{done[i] ? "✓" : i + 1}</div>
+              <div style={{ fontSize: 14, lineHeight: 1.55, textDecoration: done[i] ? "line-through" : "none" }}>{s}</div>
+            </div>
+          ))}
+          <button onClick={() => setOpen(false)}
+            style={{ marginTop: 7, border: "none", background: "#D5DDE6", borderRadius: 6, padding: "5px 12px", fontSize: 12, fontWeight: 700, cursor: "pointer", color: "#333" }}>✕ 關閉導航</button>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ---------- 逐步指令面板(導航分頁的指令庫仍用彈窗) ---------- */
 function StepSheet({ title, steps, onClose }) {
   const [done, setDone] = useState({});
   return (
@@ -77,7 +108,6 @@ function Itinerary({ dayIdx, setDayIdx }) {
   const theme = DAY_THEME[dayIdx] || DAY_THEME[0];
   const [showGuide, setShowGuide] = useState(false);
   const [showSights, setShowSights] = useState(false);
-  const [sheet, setSheet] = useState(null);
   const [dir, setDir] = useState("right");
   const [toast, setToast] = useState("");
   const touch = useRef(null);
@@ -101,15 +131,14 @@ function Itinerary({ dayIdx, setDayIdx }) {
     <div key={dayIdx} onTouchStart={onTS} onTouchEnd={onTE}
       style={{ background: theme.bg, margin: "-12px -12px -90px", padding: "12px 12px 90px", minHeight: "calc(100vh - 190px)", animation: (dir === "left" ? "slideInLeft" : "slideIn") + " 0.4s ease-out" }}>
       {toast && <div style={{ position: "fixed", top: "45%", left: "50%", transform: "translateX(-50%)", background: "rgba(20,35,70,0.9)", color: "#fff", padding: "8px 18px", borderRadius: 20, fontSize: 16, fontWeight: 800, zIndex: 60, fontVariantNumeric: "tabular-nums" }}>{toast}</div>}
-      {sheet && <StepSheet title={sheet.key} steps={sheet.steps} onClose={() => setSheet(null)} />}
       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
         <div style={{ fontSize: 13.5, fontWeight: 800, color: theme.accent }}>{theme.tag}</div>
         <div style={{ fontSize: 11, color: "#8A97A6" }}>← 左右滑動換日 →</div>
       </div>
       <div style={S.dayNav}>
-        <button style={S.arrowBtn} disabled={dayIdx === 0} onClick={() => goto(dayIdx - 1, "left")}>◀ 前一天</button>
+        <button style={S.arrowBtn} disabled={dayIdx === 0} onClick={() => goto(dayIdx - 1, "left")}>◀ {dayIdx > 0 ? fmtDW(TRIP.days[dayIdx - 1].d) : "前一天"}</button>
         <button style={{ ...S.todayBtn, background: theme.accent }} onClick={() => goto(todayIdx(), "right")}>{fmtDW(day.d)}{isToday(day.d) ? "(今天)" : ""}</button>
-        <button style={S.arrowBtn} disabled={dayIdx === TRIP.days.length - 1} onClick={() => goto(dayIdx + 1, "right")}>後一天 ▶</button>
+        <button style={S.arrowBtn} disabled={dayIdx === TRIP.days.length - 1} onClick={() => goto(dayIdx + 1, "right")}>{dayIdx < TRIP.days.length - 1 ? fmtDW(TRIP.days[dayIdx + 1].d) : "後一天"} ▶</button>
       </div>
       {!isToday(day.d) && todayIdx() !== dayIdx && <button onClick={() => goto(todayIdx(), "right")} style={{ width: "100%", border: "none", background: "#FFF3CD", color: "#7A5C00", borderRadius: 8, padding: "8px", fontSize: 13, fontWeight: 700, marginBottom: 8, cursor: "pointer" }}>你看的是 {fmtDW(day.d)} — 點此回到今天({fmtDW(TRIP.days[todayIdx()].d)})</button>}
       <div style={S.card}>
@@ -126,7 +155,7 @@ function Itinerary({ dayIdx, setDayIdx }) {
                   <td style={S.timeCell}>{t}</td>
                   <td style={S.planCell}>
                     {a}
-                    {st && <button onClick={() => setSheet(st)} style={{ ...S.chipBtn, border: "none", cursor: "pointer", marginLeft: 6, background: "#1F3864" }}>🧭怎麼走?</button>}
+                    {st && <StepInline st={st} />}
                     {(() => {
                       // v1.7.2:還原 v3.12 做法——顯示「全部」命中的亮點(原本 find 只取第一個,
                       // 例如 8/7 Dubai Mall 會漏掉「世界最大音樂噴泉」),並改回黃色藥丸標籤

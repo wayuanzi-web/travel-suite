@@ -153,7 +153,7 @@ const sz = fs.statSync(path.join(DEPLOY, "index.html")).size;
 console.log("index.html:", (sz / 1024).toFixed(0), "KB");
 
 /* ---- sw.js ---- */
-fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.7.2";
+fs.writeFileSync(path.join(DEPLOY, "sw.js"), `var C = "wang-swiss-v1.7.3";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(C).then(function (c) { return c.addAll(["./"]); }).then(function () { return self.skipWaiting(); }));
 });
@@ -179,7 +179,7 @@ console.log("sw.js written");
 
 /* ---- version.json ---- */
 fs.writeFileSync(path.join(DEPLOY, "version.json"), JSON.stringify({
-  app: "swiss", version: "1.7.2", dataVersion: "1.1",
+  app: "swiss", version: "1.7.3", dataVersion: "1.1",
   build: new Date().toISOString().slice(0, 10),
   base: "travel-hub v1 skeleton + v3.12 restored data",
   changes: "1.7 天氣離線狀態明確化;1.7.1 杜拜退稅:未滿18歲限制實務化+驗證不可代辦(查核FTA/Planet)",

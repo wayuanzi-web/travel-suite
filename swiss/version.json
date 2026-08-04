@@ -1,6 +1,6 @@
 {
  "app": "swiss",
- "version": "1.7.2",
+ "version": "1.7.3",
  "dataVersion": "1.1",
  "build": "2026-08-04",
  "base": "travel-hub v1 skeleton + v3.12 restored data",

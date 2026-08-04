@@ -36,6 +36,7 @@ await wait(150);
 const doc = dom.window.document, W = dom.window;
 const clickEl = el => el.dispatchEvent(new W.MouseEvent("click", { bubbles: true }));
 const byText = t => [...doc.querySelectorAll("button")].find(b => b.textContent.trim().startsWith(t));
+const navBtn = arrow => [...doc.querySelectorAll("button")].filter(b => b.textContent.includes(arrow) && !b.disabled).pop();
 const rootText = () => doc.getElementById("root").textContent;
 const boundaryTripped = () => rootText().includes("App 發生錯誤");
 const checkLinks = where => {
@@ -47,8 +48,8 @@ const checkLinks = where => {
 };
 
 /* 16 天逐日走訪 */
-const back = byText("◀"); // 先回到 Day 1
-for (let i = 0; i < 20 && !byText("◀").disabled; i++) { clickEl(byText("◀")); await wait(15); }
+// 先回到 Day 1
+for (let i = 0; i < 20; i++) { const b = navBtn("◀"); if (!b) break; clickEl(b); await wait(15); }
 for (let i = 0; i < 16; i++) {
   const t = rootText();
   if (!t.includes(TRIPJ.days[i].title)) issues.push(`Day${i + 1} 標題未渲染(期望「${TRIPJ.days[i].title}」)`);
@@ -57,14 +58,29 @@ for (let i = 0; i < 16; i++) {
   const gd = byText("🛡️"); if (gd) { clickEl(gd); await wait(20); }
   // 第一個怎麼走
   const st = [...doc.querySelectorAll("button")].find(b => b.textContent.includes("🧭怎麼走?"));
-  if (st) { clickEl(st); await wait(25); const cl = byText("關閉"); if (cl) clickEl(cl); else issues.push(`Day${i + 1} StepSheet 未開啟`); await wait(15); }
+  // 1.7.3:逐步指令改為「就地展開」而非彈窗。驗證:展開後應出現第1步內容與關閉鈕,
+  // 且關閉後內容消失(確認 toggle 正常,不會殘留擋住行程表)。
+  if (st) {
+    const closeBtn = () => [...doc.querySelectorAll("button")].find(b => b.textContent.includes("關閉導航"));
+    if (closeBtn()) issues.push(`Day${i + 1} 逐步指令未點就已展開`);
+    clickEl(st); await wait(25);
+    const cl = closeBtn();
+    if (!cl) issues.push(`Day${i + 1} 逐步指令未就地展開`);
+    else {
+      // 展開後應有編號步驟(至少一個圓形序號「1」)
+      if (!/1/.test(cl.parentElement.textContent)) issues.push(`Day${i + 1} 逐步指令展開後無步驟`);
+      clickEl(cl); await wait(20);
+      if (closeBtn()) issues.push(`Day${i + 1} 逐步指令關閉後仍殘留`);
+    }
+    await wait(15);
+  }
   // PlaceChip 應渲染數 = plan 帶鍵數 + eats 數
   const expChips = (TRIPJ.days[i].plan || []).filter(p => p[2]).length + (TRIPJ.days[i].eats || []).length;
   const gotChips = [...doc.querySelectorAll("a")].filter(a => a.textContent === "🧭導航").length;
   if (gotChips !== expChips) issues.push(`Day${i + 1} 餐廳卡數量 ${gotChips}≠期望 ${expChips}`);
   checkLinks(`Day${i + 1}`);
   if (boundaryTripped()) { issues.push(`Day${i + 1} 觸發錯誤邊界`); break; }
-  const nx = byText("後一天"); if (i < 15) { clickEl(nx); await wait(20); }
+  if (i < 15) { const nx = navBtn("▶"); if (nx) clickEl(nx); await wait(20); }
 }
 /* 各分頁連結 */
 for (const [ic, name] of [["🌡", "天氣"], ["🍽️", "餐廳"], ["🎫", "票券"], ["🗣️", "會話"], ["🧭", "導航"], ["☰", "更多"]]) {

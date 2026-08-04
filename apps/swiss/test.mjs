@@ -23,6 +23,13 @@ function boot({ gate, seedOld }) {
     },
   });
 }
+// 1.7.3:換日按鈕改為顯示前後日期(如「8/5(三) ▶」),箭頭不在開頭,
+// 故改用「包含箭頭且未 disabled」來選,不受日期文字變動影響。
+const navBtn = (doc, arrow) => {
+  const b = [...doc.querySelectorAll("button")].filter(e => e.textContent.includes(arrow) && !e.disabled).pop();
+  if (!b) throw new Error("找不到換日鈕: " + arrow);
+  b.dispatchEvent(new doc.defaultView.MouseEvent("click", { bubbles: true }));
+};
 const click = (doc, txt) => {
   const el = [...doc.querySelectorAll("button,div,a,span,option")].find(e => e.childElementCount === 0 && e.textContent.trim().startsWith(txt))
     || [...doc.querySelectorAll("button,div")].find(e => e.textContent.trim().startsWith(txt));
@@ -65,7 +72,7 @@ const ok = (c, n) => { c ? (pass++, console.log("  ✓ " + n)) : (fail++, consol
     ok(root().includes(TRIP_DAYS[idx].city.split(" ")[0].split("→")[0]), "行程:主題標籤城市相符");
     // 明確走到 Day13 驗證斷鍵餐廳卡,不再依賴「今天+2」
     const step = 12 - idx;
-    for (let i = 0; i < Math.abs(step); i++) { click(doc, step > 0 ? "後一天" : "前一天"); await wait(60); }
+    for (let i = 0; i < Math.abs(step); i++) { navBtn(doc, step > 0 ? "▶" : "◀"); await wait(60); }
     ok(root().includes("Day 13"), "導到 Day13");
     ok(root().includes("Rheinfels"), "Day13:斷鍵餐廳卡修復(Rheinfels)");
   }
