@@ -8,7 +8,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
    鐵則:原始碼與 index.html 同倉 commit;localStorage 一律 wang.swiss.*;
         絕不讀寫舊版 hub* keys(8/8 前家人旅途資料所在)
    ========================================================================== */
-export const APP_VERSION = "swiss 1.7.1 · build 2026-08-03";
+export const APP_VERSION = "swiss 1.7.2 · build 2026-08-03";
 
 import TRIP from "../data/trip.json";
 import NAVSTEP from "../data/navstep.json";
@@ -127,7 +127,19 @@ function Itinerary({ dayIdx, setDayIdx }) {
                   <td style={S.planCell}>
                     {a}
                     {st && <button onClick={() => setSheet(st)} style={{ ...S.chipBtn, border: "none", cursor: "pointer", marginLeft: 6, background: "#1F3864" }}>🧭怎麼走?</button>}
-                    {(() => { const h = HL_KEYS.find(k => a.includes(k)); return h ? <div style={{ fontSize: 12, color: "#C8102E", fontWeight: 700, marginTop: 2 }}>{HIGHLIGHT[h]}</div> : null; })()}
+                    {(() => {
+                      // v1.7.2:還原 v3.12 做法——顯示「全部」命中的亮點(原本 find 只取第一個,
+                      // 例如 8/7 Dubai Mall 會漏掉「世界最大音樂噴泉」),並改回黃色藥丸標籤
+                      // (原本紅色純文字在整列文字裡不夠顯眼,與行程內文混在一起)。
+                      const hits = [...new Set(HL_KEYS.filter(k => a.includes(k)).map(k => HIGHLIGHT[k]))];
+                      return hits.length ? (
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 4, marginTop: 3 }}>
+                          {hits.map((h, j) => (
+                            <span key={j} style={{ fontSize: 11.5, background: "#FFF8E5", color: "#8A6D1F", borderRadius: 6, padding: "2px 7px", fontWeight: 700, whiteSpace: "nowrap" }}>{h}</span>
+                          ))}
+                        </div>
+                      ) : null;
+                    })()}
                     {pk && <PlaceChip id={pk} />}
                   </td>
                 </tr>

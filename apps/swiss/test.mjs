@@ -2,6 +2,8 @@ import fs from "fs";
 import { JSDOM } from "jsdom";
 const html = fs.readFileSync("/home/claude/travel-suite/swiss/index.html", "utf8");
 const VER = JSON.parse(fs.readFileSync("/home/claude/travel-suite/swiss/version.json", "utf8")).version;
+const TRIP_JSON = JSON.parse(fs.readFileSync("/home/claude/travel-suite/apps/swiss/data/trip.json", "utf8"));
+const TRIP_DAYS = TRIP_JSON.days, TRIP_TZ = TRIP_JSON.tz || "Europe/Zurich";
 function boot({ gate, seedOld }) {
   return new JSDOM(html, {
     runScripts: "dangerously", url: "https://example.test/travel-suite/swiss/", pretendToBeVisual: true,
@@ -52,11 +54,21 @@ const ok = (c, n) => { c ? (pass++, console.log("  ✓ " + n)) : (fail++, consol
   const root = () => doc.getElementById("root").textContent;
   ok(root().includes("(今天)"), "行程:今天標示");
   ok(root().includes("・今天・"), "頁首:今天+日期");
-  ok(root().includes("8/3(一)"), "頁首:星期顯示");
+  // 1.7.2:改為日期無關——原本寫死「8/3(一)」「Day 11 聖莫里茲」,
+  // 隔天就會全部誤報(8/4 當天實際發生過 3 項假警報)。
+  ok(/\d{1,2}\/\d{1,2}\([一二三四五六日]\)/.test(root()), "頁首:星期顯示(格式)");
   ok(root().includes("左右滑動換日"), "行程:滑動提示");
-  ok(root().includes("Day 11 聖莫里茲"), "行程:每日主題標籤");
-  click(doc, "後一天"); await wait(50); click(doc, "後一天"); await wait(50);
-  ok(root().includes("Rheinfels"), "Day13:斷鍵餐廳卡修復(Rheinfels)");
+  {
+    const todayStr = new Intl.DateTimeFormat("sv-SE", { timeZone: TRIP_TZ }).format(new Date());
+    let idx = TRIP_DAYS.findIndex(d => d.d === todayStr); if (idx < 0) idx = 0;
+    ok(root().includes("Day " + (idx + 1)), "行程:每日主題標籤(當天)");
+    ok(root().includes(TRIP_DAYS[idx].city.split(" ")[0].split("→")[0]), "行程:主題標籤城市相符");
+    // 明確走到 Day13 驗證斷鍵餐廳卡,不再依賴「今天+2」
+    const step = 12 - idx;
+    for (let i = 0; i < Math.abs(step); i++) { click(doc, step > 0 ? "後一天" : "前一天"); await wait(60); }
+    ok(root().includes("Day 13"), "導到 Day13");
+    ok(root().includes("Rheinfels"), "Day13:斷鍵餐廳卡修復(Rheinfels)");
+  }
   ok(root().includes("你看的是"), "非今天:回到今天提示");
   click(doc, "你看的是"); await wait(50);
   ok(root().includes("(今天)"), "回到今天正常");

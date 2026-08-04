@@ -1,4 +1,4 @@
-var C = "wang-swiss-v1.7.1";
+var C = "wang-swiss-v1.7.2";
 self.addEventListener("install", function (e) {
   e.waitUntil(caches.open(C).then(function (c) { return c.addAll(["./"]); }).then(function () { return self.skipWaiting(); }));
 });
