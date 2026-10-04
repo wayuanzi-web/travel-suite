@@ -1,0 +1,182 @@
+{
+ "galliker": {
+  "n": "Wirtshaus Galliker",
+  "r": 4.3,
+  "ct": 297,
+  "lat": 47.05095,
+  "lon": 8.3008,
+  "pid": "ChIJOUEQRXX7j0cRqMZCd6BhTOc",
+  "note": "週日一公休;7/25(六)OK"
+ },
+ "schiff": {
+  "n": "Restaurant Schiff",
+  "r": 4.3,
+  "ct": 1737,
+  "lat": 47.05167,
+  "lon": 8.30529,
+  "pid": "ChIJ58X9CJ_7j0cRIutsTtrm_PM",
+  "note": "每日營業,河畔座熱門"
+ },
+ "bachmann": {
+  "n": "Bachmann烘焙(車站店)",
+  "r": 4,
+  "ct": 503,
+  "lat": 47.0503,
+  "lon": 8.30931,
+  "pid": "ChIJT_OzY6L7j0cRfezOVvkoXKs",
+  "note": "05:45起,買早餐好用"
+ },
+ "harderkulm": {
+  "n": "Harder Kulm山頂餐廳",
+  "r": 4.6,
+  "ct": 8530,
+  "lat": 46.69738,
+  "lon": 7.85178,
+  "pid": "ChIJ85Cdrbukj0cRMTlaqhD6rCI",
+  "note": "評論:景觀無敵,餐點普通——衝景色去"
+ },
+ "taverne": {
+  "n": "Restaurant Taverne",
+  "r": 4.5,
+  "ct": 1210,
+  "lat": 46.68854,
+  "lon": 7.86342,
+  "pid": "ChIJi0-RVJ6kj0cRAAsaqfctbMw",
+  "note": "建議訂位"
+ },
+ "stadthaus": {
+  "n": "Restaurant Stadthaus(備選)",
+  "r": 4.3,
+  "ct": 1339,
+  "lat": 46.68694,
+  "lon": 7.84967,
+  "pid": "ChIJt2kTNJGkj0cRuIedAnvuPSw",
+  "note": "Unterseen老城區"
+ },
+ "onkeltom": {
+  "n": "Onkel Tom's披薩",
+  "r": 4.2,
+  "ct": 1099,
+  "lat": 46.62435,
+  "lon": 8.04337,
+  "pid": "ChIJOcSSC1SZj0cR5NvpmUOSkGQ",
+  "note": "⚠️週三四公休!7/29(三)不開→改Barry's"
+ },
+ "whymper": {
+  "n": "Whymper-Stube",
+  "r": 4.4,
+  "ct": 1137,
+  "lat": 46.02031,
+  "lon": 7.74615,
+  "pid": "ChIJ2_CCMdk1j0cR2c3DOnUoFH0",
+  "note": "📅務必訂位,評論一致推起司/肉鍋"
+ },
+ "walliserkanne": {
+  "n": "Walliserkanne",
+  "r": 3.8,
+  "ct": 2330,
+  "lat": 46.02184,
+  "lon": 7.74693,
+  "pid": "ChIJt3tPy9g1j0cRfj66-rJIkZ4",
+  "note": "⚠️星等偏低(觀光店),可改Brown Cow"
+ },
+ "browncow": {
+  "n": "Brown Cow Pub",
+  "r": 4.4,
+  "ct": 1367,
+  "lat": 46.02081,
+  "lon": 7.74656,
+  "pid": "ChIJHwtPK9k1j0cRj9UFpAwoOg8",
+  "note": "漢堡評價佳,美式輕鬆"
+ },
+ "chesaveglia": {
+  "n": "Chesa Veglia(Pizzeria Heuboden)",
+  "r": 4.4,
+  "ct": 318,
+  "lat": 46.49806,
+  "lon": 9.84028,
+  "pid": "ChIJP0KwBcB9g0cRuxtuii8c9Ng",
+  "note": "📅18:30開,價位高,氣氛滿分"
+ },
+ "engiadina": {
+  "n": "Restaurant Engiadina",
+  "r": 4.5,
+  "ct": 712,
+  "lat": 46.49793,
+  "lon": 9.84916,
+  "pid": "ChIJoc5eebh9g0cRr3ZFpP9aYcY",
+  "note": "評論:像義大利奶奶的家,CP高"
+ },
+ "oeschinen": {
+  "n": "Berghotel Oeschinensee",
+  "r": 4.5,
+  "ct": 1662,
+  "lat": 46.49756,
+  "lon": 7.71401,
+  "pid": "ChIJq4seL34Gj0cRfPeRezx9Gj8",
+  "note": "自助式,湖景第一排,11:30-17:00"
+ },
+ "zeughaus": {
+  "n": "Zeughauskeller",
+  "r": 4.5,
+  "ct": 14460,
+  "lat": 47.37042,
+  "lon": 8.53997,
+  "pid": "ChIJX7fB6wAKkEcRhpTedk8sztg",
+  "note": "1.4萬則好評;無訂位排隊約10分,共桌文化"
+ },
+ "kronenhalle": {
+  "n": "Kronenhalle",
+  "r": 4.6,
+  "ct": 2426,
+  "lat": 47.36762,
+  "lon": 8.54581,
+  "pid": "ChIJxye0aaugmkcRti36D04xmFo",
+  "note": "📅務必訂位;藝術真跡+招牌小牛肉絲"
+ },
+ "hiltl": {
+  "n": "Haus Hiltl",
+  "r": 4.6,
+  "ct": 10084,
+  "lat": 47.3733,
+  "lon": 8.53668,
+  "pid": "ChIJtwgunwYKkEcRhBQ0vi_9kHo",
+  "note": "1898年全球最老素食,秤重自助"
+ },
+ "sprungli": {
+  "n": "Sprüngli本店",
+  "r": 4.4,
+  "ct": 4877,
+  "lat": 47.36951,
+  "lon": 8.53916,
+  "pid": "ChIJNQjv9gAKkEcRtWzpHgCaijI",
+  "note": "週日公休;8/5(三)OK;熱可可+馬卡龍"
+ },
+ "schober": {
+  "n": "Café 1842(Schober老店)",
+  "r": 4.3,
+  "ct": 2538,
+  "lat": 47.37149,
+  "lon": 8.54433,
+  "pid": "ChIJ_cDNKaqgmkcRdF1mxGt04iE",
+  "note": "蘇黎世最老咖啡館,熱可可名物"
+ },
+ "arabiantea": {
+  "n": "Arabian Tea House(Al Fahidi)",
+  "r": 4.8,
+  "ct": 19873,
+  "lat": 25.26331,
+  "lon": 55.29974,
+  "pid": "ChIJsSfTxjlDXz4RDIGbnFqsAlo",
+  "note": "星4.8近2萬評!老宅庭院,Luqaimat甜點必點"
+ },
+ "rheinfels": {
+  "n": "Rheinfels",
+  "r": 4.5,
+  "ct": 457,
+  "lat": 47.65883,
+  "lon": 8.85919,
+  "pid": "ChIJUY4SycqImkcRjtvjEfOkzPg",
+  "note": "河畔大魚桌邊分切"
+ }
+}

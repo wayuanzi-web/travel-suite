@@ -1,0 +1,10 @@
+{
+ "app": "swiss",
+ "version": "1.7.8",
+ "dataVersion": "1.1",
+ "build": "2026-10-06",
+ "base": "travel-hub v1 skeleton + v3.12 restored data",
+ "changes": "1.7.8 票券頁加上雲端硬碟的通票資料夾連結;1.7.7 名稱改為「家族旅遊通」、公開頁面不放可識別個人的資料、加上 noindex",
+ "storage": "wang.swiss.*",
+ "note": "舊版 st2607 已封存;舊資料用「工具→舊版資料帶入」複製過來(只複製不刪)"
+}

@@ -1,0 +1,82 @@
+[
+ {
+  "bg": "#F5F7FA",
+  "accent": "#546E7A",
+  "tag": "✈️ Day 1 出發"
+ },
+ {
+  "bg": "#E8F5E9",
+  "accent": "#2E7D32",
+  "tag": "🏞 Day 2 抵瑞士→琉森"
+ },
+ {
+  "bg": "#DCEDC8",
+  "accent": "#558B2F",
+  "tag": "⛰ Day 3 皮拉圖斯"
+ },
+ {
+  "bg": "#E1F5FE",
+  "accent": "#0277BD",
+  "tag": "🚂 Day 4 前往因特拉肯"
+ },
+ {
+  "bg": "#BBDEFB",
+  "accent": "#1565C0",
+  "tag": "🏔 Day 5 少女峰"
+ },
+ {
+  "bg": "#C8E6C9",
+  "accent": "#388E3C",
+  "tag": "🎢 Day 6 First刺激日"
+ },
+ {
+  "bg": "#B2DFDB",
+  "accent": "#00695C",
+  "tag": "🏞 Day 7 厄辛湖→策馬特"
+ },
+ {
+  "bg": "#ECEFF1",
+  "accent": "#455A64",
+  "tag": "⛰ Day 8 馬特洪峰觀景"
+ },
+ {
+  "bg": "#CFD8DC",
+  "accent": "#37474F",
+  "tag": "❄️ Day 9 冰川天堂"
+ },
+ {
+  "bg": "#B3E5FC",
+  "accent": "#0288D1",
+  "tag": "🚂 Day 10 冰河列車"
+ },
+ {
+  "bg": "#E3F2FD",
+  "accent": "#1565C0",
+  "tag": "💎 Day 11 聖莫里茲"
+ },
+ {
+  "bg": "#D1C4E9",
+  "accent": "#5E35B1",
+  "tag": "🚂 Day 12 阿爾布拉→蘇黎世"
+ },
+ {
+  "bg": "#EFEBE9",
+  "accent": "#5D4037",
+  "tag": "🌊 Day 13 萊茵瀑布"
+ },
+ {
+  "bg": "#FFCCBC",
+  "accent": "#D84315",
+  "tag": "✈️ Day 14 蘇黎世→機上"
+ },
+ {
+  "bg": "#FFF3E0",
+  "accent": "#E65100",
+  "tag": "🕌 Day 15 杜拜"
+ },
+ {
+  "bg": "#FFE0B2",
+  "accent": "#EF6C00",
+  "tag": "🏠 Day 16 回家"
+ }
+]

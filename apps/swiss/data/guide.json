@@ -1,0 +1,139 @@
+{
+ "1": {
+  "transit": [
+   "機場火車站在地下2層,跟綠色Bahn指標;推行李找Lift電梯",
+   "IR75直達琉森62分,免買票出示STP",
+   "琉森=終點站,月台走到底出正門;出門左轉Zentralstrasse接Murbacherstrasse,平路5-8分"
+  ],
+  "foodBak": "備選:河畔Rathaus Brauerei自釀啤酒餐廳;甜點Bachmann車站店(05:45開)",
+  "wc": "機場入境大廳 Arrival Hall免費;火車上免費"
+ },
+ "2": {
+  "transit": [
+   "1號巴士往Kriens,在Linde Pilatus站下,棕色指標上坡10分",
+   "下山齒軌坐面山側長輩不暈;Alpnachstad出站過馬路即碼頭",
+   "遊船STP免費,船上有免費廁所"
+  ],
+  "foodBak": "山頂備選:Steinbockbar香腸堡CHF12-18;自帶三明治野餐最省",
+  "wx": "滑軌雨天停駛→改交通博物館(全室內)+湖遊船"
+ },
+ "3": {
+  "transit": [
+   "⚠️09:06已訂位班次不可錯過!08:45前抵站",
+   "LIX找車廂3(月台柱有編組圖先站對位置)",
+   "因特拉肯東站出站右轉,平路10分到飯店;先寄行李再玩"
+  ],
+  "foodBak": "午餐備選:My Little Thai(長輩吃米食);Coop野餐Höhematte草坪",
+  "wx": "滑翔傘天候不佳→業者主動改期,備援7/28傍晚;峽谷活動小雨照開"
+ },
+ "4": {
+  "transit": [
+   "⚠️BOB前後分編:只有前段去格林德瓦!看車廂側電子牌",
+   "在Grindelwald Terminal下車(倒數第2站,纜車直結)",
+   "下山Kleine Scheidegg換月台搭WAB往Lauterbrunnen(對面月台1-2分)",
+   "瀑布鎮出站沿主街直走;特呂梅爾巴赫搭Post巴士10分"
+  ],
+  "foodBak": "山頂僅Aletsch/Bollywood兩選擇,背包帶零食;⚠️Airtime咖啡週二休→改車站旁",
+  "wx": "⭐黃金法則:山頂攝影機白牆就別上(票貴)!改瀑布鎮全日(洞內瀑布雨天照玩),少女峰 Jungfraujoch挪隔日早上"
+ },
+ "5": {
+  "transit": [
+   "⚠️SBB行李快遞07:00-09:00收件,07:45前到東站櫃台(售票中心內Gepäck)",
+   "這次BOB坐到底站Grindelwald總站(非Terminal!)",
+   "出站左轉主街上坡8分到First纜車",
+   "Bergwelt飯店:主街往東上坡車道5-7分"
+  ],
+  "foodBak": "⚠️Onkel Toms週三休→Barry's;備選C&M咖啡(艾格峰景)",
+  "wx": "Flyer/Glider強風停駛→改冰河峽谷(有遮蔽)+Pfingstegg;行李快遞不受天氣影響照辦"
+ },
+ "6": {
+  "transit": [
+   "三段轉車:格林德瓦→Interlaken Ost→Spiez→Kandersteg,每段車上先上廁所",
+   "Kandersteg出站跟棕色Oeschinensee指標步行12-15分",
+   "湖畔還要步行15-20分緩下坡(長輩可搭付費接駁小車CHF8)",
+   "策馬特:先在站內領快遞行李再出站!公寓上坡,搭E-taxi(站前排班CHF15-25)"
+  ],
+  "foodBak": "厄辛湖餐廳僅到17:00;晚餐自炊,懶得煮:Stefanie's可麗餅外帶",
+  "wx": "天氣差直接跳過厄辛湖,直達策馬特"
+ },
+ "7": {
+  "transit": [
+   "GGB站在主火車站斜對面過馬路1分",
+   "上山坐右側看馬特洪峰 Matterhorn;車上無廁所(33分),上車前解決",
+   "Rotenboden下車步行10分緩下坡至Riffelsee"
+  ],
+  "foodBak": "⚠️Walliserkanne僅3.8星→改Brown Cow;晚餐Whymper務必訂位,沒訂到→自炊",
+  "wx": "攝影機看不到馬特洪峰 Matterhorn尖頂→改馬特洪峰 Matterhorn博物館+SPA;半遮照上(雲繞峰更美)"
+ },
+ "8": {
+  "transit": [
+   "冰川天堂纜車站在村南端,公寓步行15-20分或村內電動巴士綠線",
+   "三段纜車連續轉乘跟指標即可;山頂有電梯直達觀景台",
+   "⚠️3883m:長輩慢行多喝水"
+  ],
+  "foodBak": "🇨🇭國慶日餐廳爆滿:17:30前入座或自炊清冰箱最穩",
+  "wx": "3883m常在雲海之上,山下陰天先看攝影機再決定;真不行→Gorner峽谷(有遮蔽段)"
+ },
+ "9": {
+  "transit": [
+   "⚠️全程最硬!07:30抵站,大行李隨行",
+   "Brig轉車只有8分(09:06-09:14):下車先看藍色看板找Andermatt方向,5人跟緊不拍照",
+   "錯過Brig→下一班1小時後仍趕得上11:00(有緩衝別大意)",
+   "庫爾:行李直接拉去老城(步行5分),不用寄物",
+   "車廂42號在車身門邊;行李放車廂端行李架"
+  ],
+  "foodBak": "車上僅含2份主餐(已Email加訂3份);庫爾備選:站旁Migros自助(帶行李方便)",
+  "wx": "冰河列車 Glacier Express全程車內,雨天照走,訂位完全不可改"
+ },
+ "10": {
+  "transit": [
+   "Diavolezza方向:巴士/火車往Bernina約30分",
+   "Muottas Muragl傍晚有末班注意時間"
+  ],
+  "foodBak": "山頂備選:下山Pontresina村內;自帶野餐",
+  "wx": "整天雨→Segantini美術館+湖畔撐傘散步"
+ },
+ "11": {
+  "transit": [
+   "行李請飯店送站(前晚約定);聖莫里茲站小而單純",
+   "庫爾轉IC有電梯,推行李找Lift",
+   "蘇黎世HB出口多:認Bahnhofstrasse方向,過橋8分平路"
+  ],
+  "foodBak": "Hiltl秤重自助小心秤爆預算;Zeughauskeller沒訂位排隊約10分(共桌文化)",
+  "wx": "移動日不受影響;Uetliberg雨天改FIFA博物館或Lindt提前"
+ },
+ "12": {
+  "transit": [
+   "沙夫豪森火車45分;萊茵瀑布遊船現場買票約CHF20",
+   "史坦因鎮轉車25分"
+  ],
+  "foodBak": "Sprüngli週日休(8/5週三OK);Kronenhalle沒訂到→Bindella義式老店",
+  "wx": "雨天水量更大更壯觀照去(帶雨衣);史坦因鎮改快閃"
+ },
+ "13": {
+  "transit": [
+   "蘇黎世HB→機場列車10-15分一班,車程10-12分",
+   "⚠️退稅櫃台在Check-in 1與2之間:先蓋章再托運!18:30前抵機場留緩衝"
+  ],
+  "foodBak": "機場Marché市集餐廳;貴賓室",
+  "wx": "Lindt本來就室內,雨天最佳"
+ },
+ "14": {
+  "transit": [
+   "06:10抵杜拜,Terminal 3出關;3間房2間相連",
+   "杜拜地鐵紅線Business Bay站距飯店步行約10分(炎熱建議計程車)",
+   "⚠️今晚三件事:①櫃台預約明晨05:15大型車Van要確認單②早餐盒③打包"
+  ],
+  "foodBak": "備選:Dubai Mall美食街看噴泉;Al Ustad烤肉老店",
+  "wx": "全室內動線(商場+塔),不受天氣影響;戶外正午極熱避開"
+ },
+ "15": {
+  "transit": [
+   "05:15上車,Business Bay→DXB約15km,清晨15-20分,AED50-70可刷卡",
+   "跟司機說DXB Terminal 3, Emirates",
+   "05:45抵=起飛 Departure前3小時,出境安檢常需1.5-2小時"
+  ],
+  "foodBak": "飯店早餐 Breakfast盒(前晚索取);機場出境後Costa/McD",
+  "wc": "杜拜機場、商場廁所全部免費"
+ }
+}
